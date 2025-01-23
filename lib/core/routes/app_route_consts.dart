@@ -1,0 +1,6 @@
+class AppRouteConsts{
+  static String onboarding = 'onboarding';
+  static String getStarted = 'get-started';
+  static String login = 'login';
+  static String signUp = 'sign-up';
+}
