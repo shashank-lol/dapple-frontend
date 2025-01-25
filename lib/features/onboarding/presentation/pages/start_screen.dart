@@ -1,12 +1,12 @@
-import 'package:dapple/core/logo/app_logo.dart';
-import 'package:dapple/core/logo/dapple_text.dart';
 import 'package:dapple/core/routes/app_route_consts.dart';
-import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/onboarding/onboarding_bloc.dart';
 import 'package:dapple/features/onboarding/presentation/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/widgets/logo/app_logo.dart';
+import '../../../../core/widgets/logo/dapple_text.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -88,7 +88,9 @@ class StartScreen extends StatelessWidget {
               AuthButton(
                 buttonText: 'I Already have an account'.toUpperCase(),
                 isPrimary: false,
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).pushNamed(AppRouteConsts.login);
+                },
               ),
             ],
           ),

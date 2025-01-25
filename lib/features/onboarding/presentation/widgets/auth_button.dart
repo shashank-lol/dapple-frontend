@@ -14,15 +14,10 @@ class AuthButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: (){
         onTap();
-        debugPrint("Called");
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: isPrimary? AppPalette.primaryColor : Colors.white,
         minimumSize: Size(140, 48),
-        // border: Border.all(
-        //   color: AppPalette.primaryColor,
-        //   width: 2
-        // )
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),

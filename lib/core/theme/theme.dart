@@ -21,13 +21,38 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppPalette.primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         shadowColor: Colors.grey.shade50,
-        elevation: 2
-      )
+        elevation: 2,
+      ),
     ),
-    textTheme: AppFonts().textTheme
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      contentTextStyle: GoogleFonts.inter(
+        fontSize: 14,
+        color: AppPalette.blackColor,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppPalette.primaryLightColor,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppPalette.primaryLightColor),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppPalette.primaryColor, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      hintStyle:GoogleFonts.inter(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: AppPalette.blackColor.withValues(alpha: 0.3),
+      ),
+    ),
+    textTheme: AppFonts().textTheme,
   );
 }

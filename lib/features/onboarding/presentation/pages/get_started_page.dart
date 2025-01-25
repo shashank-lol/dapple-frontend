@@ -7,7 +7,6 @@ import 'package:dapple/features/onboarding/presentation/widgets/progress_bar.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../bloc/option/option_bloc.dart';
 
@@ -24,16 +23,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
   void showErrorSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          "Please select an option",
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            color: AppPalette.blackColor,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        behavior: SnackBarBehavior.floating,
+        content: Text("Please select an option"),
         margin: EdgeInsets.symmetric(horizontal: 18, vertical: 100),
       ),
     );
@@ -41,7 +31,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceWidth = MediaQuery.of(context).size.width;
     final radius = Radius.circular(12);
     final res = context.read<OnboardingBloc>().state as OnboardingSelected;
     final questions = res.questions;
@@ -98,11 +87,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                           padding: const EdgeInsets.all(12.0),
                           child: Text(
                             questions[widget.index].question,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              color: AppPalette.blackColor,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                       ),
@@ -134,7 +119,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                         widget.index++;
                       });
                     } else {
-                      GoRouter.of(context).pushNamed(AppRouteConsts.signUp);
+                      GoRouter.of(context).pushNamed(AppRouteConsts.signUp, extra: true);
                     }
                   },
                 ),

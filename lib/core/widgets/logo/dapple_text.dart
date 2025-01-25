@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../theme/app_palette.dart';
+import '../../theme/app_palette.dart';
 
 class DappleText extends StatelessWidget {
   const DappleText({super.key});
@@ -12,7 +12,7 @@ class DappleText extends StatelessWidget {
       children: [
         Text(
           'Dapple',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.montserrat(
             fontSize: 20,
             fontWeight: FontWeight.w700,
             color: AppPalette.blackColor,

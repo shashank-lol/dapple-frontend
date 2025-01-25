@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../theme/app_palette.dart';
+import '../../theme/app_palette.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key});

@@ -8,7 +8,9 @@ import 'core/routes/app_route_config.dart';
 import 'features/onboarding/domain/usecases/get_onboarding_questions.dart';
 import 'features/onboarding/presentation/bloc/onboarding/onboarding_bloc.dart';
 
-void main() {
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(
     MultiBlocProvider(
       providers: [
