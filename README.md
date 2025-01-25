@@ -1,6 +1,6 @@
 # dapple
 
-A new Flutter project.
+Google solutions challange
 
 ## Getting Started
 
