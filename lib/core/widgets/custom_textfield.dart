@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import '../theme/app_palette.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({super.key, required this.hintText, this.keyboardType});
+  const CustomTextField({super.key, required this.hintText, this.keyboardType, required this.controller});
 
   final String hintText;
   final TextInputType? keyboardType;
+  final TextEditingController controller;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -39,6 +40,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
         context,
       ).textTheme.labelSmall!.copyWith(color: AppPalette.blackColor),
       obscureText: isPassword && !isVisible,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '${widget.hintText} cannot be empty';
+        }
+        return null;
+      },
+      controller: widget.controller,
     );
   }
 }
