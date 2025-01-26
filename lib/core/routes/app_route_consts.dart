@@ -3,4 +3,5 @@ class AppRouteConsts{
   static String getStarted = 'get-started';
   static String login = 'login';
   static String signUp = 'sign-up';
+  static String mainlayout = 'main-layout';
 }

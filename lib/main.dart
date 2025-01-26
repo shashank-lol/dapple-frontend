@@ -10,14 +10,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'core/routes/app_route_config.dart';
 import 'features/onboarding/domain/usecases/get_onboarding_questions.dart';
 import 'features/onboarding/presentation/bloc/onboarding/onboarding_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final FirebaseAuth _auth = FirebaseAuth.instance;
