@@ -8,6 +8,10 @@ class AppPalette{
   static const primaryColor = Color(0xFF6A5AE0);
   static const blackColor = Color(0xFF1A1A1A);
   static const primaryLightColor = Color(0xFFEFEEFC);
+  static const white = Color(0xFFFFFFFF);
+  static const transparent = Color(0x00000000);
+  static const grey =Color(0xFFCCCCCC);
+
 
   static BoxShadow primaryShadow = BoxShadow(
     color: Colors.grey.withValues(alpha: 0.2),

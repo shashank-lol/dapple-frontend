@@ -1,5 +1,6 @@
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
+import 'package:dapple/features/main_layout/main_layout_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,6 +33,11 @@ class AppRouter {
         path: '/login',
         name: AppRouteConsts.login,
         builder: (context, state) => AuthPage(isNewUser: false),
+      ),
+      GoRoute(
+        path: '/main-layout',
+        name: AppRouteConsts.mainlayout,
+        builder: (context, state) => MainLayoutPage(),
       ),
     ],
   );
