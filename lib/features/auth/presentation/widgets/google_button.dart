@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../bloc/auth_bloc.dart';
+
 class GoogleButton extends StatelessWidget {
-  const GoogleButton({super.key});
+  const GoogleButton(this.isSignUp,{super.key});
+
+  final bool isSignUp;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-
+        BlocProvider.of<AuthBloc>(context).add(AuthLogInWithGoogle(isSignUp));
       },
       style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
       child: Padding(

@@ -26,3 +26,11 @@ final class AuthLogInWithEmail extends AuthEvent {
     required this.password,
   });
 }
+
+final class AuthLogInWithGoogle extends AuthEvent {
+  final bool isSignUp;
+
+  AuthLogInWithGoogle(this.isSignUp);
+}
+
+final class AuthCurrentUser extends AuthEvent{}

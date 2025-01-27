@@ -1,5 +1,6 @@
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/theme/app_palette.dart';
+import 'package:dapple/core/utils/show_snackbar.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/onboarding/onboarding_bloc.dart';
 import 'package:dapple/features/onboarding/presentation/widgets/auth_button.dart';
 import 'package:dapple/features/onboarding/presentation/widgets/options_button.dart';
@@ -20,14 +21,6 @@ class GetStartedPage extends StatefulWidget {
 }
 
 class _GetStartedPageState extends State<GetStartedPage> {
-  void showErrorSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Please select an option"),
-        margin: EdgeInsets.symmetric(horizontal: 18, vertical: 100),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +104,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                   isPrimary: true,
                   onTap: () {
                     if (selectedOptions[widget.index].isEmpty) {
-                      showErrorSnackBar();
+                      showSnackBar(context, "Please select an option");
                       return;
                     }
                     if (widget.index < questions.length - 1) {

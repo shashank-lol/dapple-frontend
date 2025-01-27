@@ -1,52 +1,45 @@
 import 'package:dapple/core/theme/theme.dart';
-import 'package:dapple/features/auth/data/remote/auth_data_source.dart';
-import 'package:dapple/features/auth/data/repository/auth_repo_impl.dart';
-import 'package:dapple/features/auth/domain/usecases/user_log_in_email.dart';
-import 'package:dapple/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:dapple/features/onboarding/data/local/onboarding_questions.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/option/option_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dapple/init_dependencies.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'core/cubits/app_user/app_user_cubit.dart';
 import 'core/routes/app_route_config.dart';
-import 'features/onboarding/domain/usecases/get_onboarding_questions.dart';
 import 'features/onboarding/presentation/bloc/onboarding/onboarding_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  // await dotenv.load(fileName: ".env");
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  await initDependencies();
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => OnboardingBloc(
-            getOnboardingQuestions: GetOnboardingQuestions(
-              OnboardingQuestionsImpl(),
-            ),
-          ),
-        ),
-        BlocProvider(create: (context) => OptionBloc()),
-        BlocProvider(
-            create: (context) => AuthBloc(
-                userLogInWithEmail: UserLogInWithEmail(
-                    AuthRepoImpl(AuthDataSourceImpl(_auth))),
-                userSignUp: UserSignUp(
-                    AuthRepoImpl(AuthDataSourceImpl(_auth)))))
+        BlocProvider(create: (context) => serviceLocator<AppUserCubit>()),
+        BlocProvider(create: (context) => serviceLocator<OnboardingBloc>()),
+        BlocProvider(create: (context) => serviceLocator<OptionBloc>()),
+        BlocProvider(create: (context) => serviceLocator<AuthBloc>())
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(AuthCurrentUser());
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

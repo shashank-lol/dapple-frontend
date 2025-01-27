@@ -1,21 +1,14 @@
 import 'package:dapple/core/error/failure.dart';
 import 'package:dapple/core/usecase/usecase.dart';
+import 'package:dapple/core/entities/user.dart';
 import 'package:dapple/features/auth/domain/repository/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 
-class GoogleSignIn implements UseCase<String, GoogleSignInParams> {
+class LoginWithGoogle implements UseCase<User, bool> {
     final AuthRepository authRepository;
-    const GoogleSignIn(this.authRepository);
+    const LoginWithGoogle(this.authRepository);
   @override
-  Future<Either<Failure,String>> call(GoogleSignInParams params) async {
-    return await authRepository.loginWithGoogle(userCredential: params.userCredential);
+  Future<Either<Failure,User>> call(bool isSignUp) async {
+    return await authRepository.loginWithGoogle(isSignUp: isSignUp);
   }
-}
-
-class GoogleSignInParams {
-  final Future<UserCredential?> userCredential;
-  GoogleSignInParams({
-    required this.userCredential,
-  });
 }
