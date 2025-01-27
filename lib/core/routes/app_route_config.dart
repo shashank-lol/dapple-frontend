@@ -9,7 +9,7 @@ import '../../features/onboarding/presentation/pages/get_started_page.dart';
 class AppRouter {
   GoRouter router = GoRouter(
     // initialLocation: '/sign-up',
-    initialLocation: '/main-layout',
+    initialLocation: '/onboarding',
     routes: <RouteBase>[
       GoRoute(
         name: AppRouteConsts.onboarding,

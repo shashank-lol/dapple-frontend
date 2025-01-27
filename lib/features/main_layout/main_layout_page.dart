@@ -21,6 +21,7 @@ class MainLayoutPage extends StatelessWidget {
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
+      navBarHeight: 70,
       padding: const EdgeInsets.only(top: 8),
       backgroundColor: AppPalette.white,
       animationSettings: const NavBarAnimationSettings(
