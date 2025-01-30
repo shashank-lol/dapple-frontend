@@ -1,6 +1,9 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/routes/app_route_consts.dart';
 
 class LearningCard extends StatelessWidget {
   const LearningCard({super.key, this.isRecommended = true});
@@ -67,7 +70,9 @@ class LearningCard extends StatelessWidget {
                           const SizedBox(height: 24),
                           // const Spacer(),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              GoRouter.of(context).pushNamed(AppRouteConsts.lesson);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               foregroundColor: AppPalette.primaryColor,
