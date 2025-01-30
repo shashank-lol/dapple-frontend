@@ -1,47 +1,68 @@
-import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/features/home/presentation/data/levelstatus.dart';
-import 'package:dapple/features/home/presentation/widgets/circular_button.dart';
 import 'package:dapple/features/home/presentation/widgets/level_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+
+import '../widgets/xp_icon.dart';
 
 class LessonsPage extends StatelessWidget {
-  const LessonsPage({super.key});
+  const LessonsPage(
+      {super.key, required this.lessonname, required this.currentlevel});
 
-  final String greeting = "Let's Play";
-  final String name = "Be the first!";
+  final String lessonname;
+  final int currentlevel;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: AppPalette.bgColor,
-        actions: [
-          CircularButton(icon: CupertinoIcons.heart_fill, action: () {}),
-          CircularButton(icon: Icons.person, action: () {}),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: ListView(
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              greeting,
-              style: Theme.of(context).textTheme.bodyLarge,
+            GestureDetector(
+              onTap: (){
+                GoRouter.of(context).pop();
+              },
+              child: SvgPicture.asset(
+                "assets/buttons/back.svg",
+                height: 18,
+              ),
             ),
-            Text(name,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall!
-                    .copyWith(color: Colors.grey)),
-            LevelWidget(level: 1, heading: 'Travel newbie', status: LevelStatus.completed,),
-            LevelWidget(level: 2, heading: 'continuing', status: LevelStatus.current),
-            LevelWidget(level: 3, heading: 'Locked', status: LevelStatus.locked),
-
+            const SizedBox(width: 8),
+            Text(lessonname, style: Theme.of(context).textTheme.bodyMedium),
+            const Spacer(),
+            XpIcon(),
+            // const SizedBox(width: 8,)
           ],
         ),
       ),
+      body: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 18),
+          child: ListView.builder(
+            itemCount: 10, // Number of items
+            itemBuilder: (context, index) {
+              return LevelWidget(
+                heading: 'Travel newbie',
+                status: getLevelStatus(currentlevel, index),
+                currentlevel: currentlevel,
+                description:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting',
+                level: index+1,
+              );
+            },
+          )),
     );
+  }
+
+  LevelStatus getLevelStatus(int currentLevel, int index) {
+    index++;
+    return index < currentLevel
+        ? LevelStatus.completed
+        : index == currentLevel
+            ? LevelStatus.current
+            : LevelStatus.locked;
   }
 }

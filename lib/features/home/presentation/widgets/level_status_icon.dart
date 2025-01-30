@@ -1,40 +1,47 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../data/levelstatus.dart';
 
 class LevelStatusIcon extends StatelessWidget {
-  const LevelStatusIcon({super.key, required this.status});
+  const LevelStatusIcon(
+      {super.key, required this.status, required this.levelnumber});
 
   final LevelStatus status;
-
-  // Function to get the icon based on the LevelStatus
-  IconData getStatusIconData(LevelStatus status) {
-    if (status == LevelStatus.current) {
-      return Icons.play_circle_fill; // Icon for current level
-    } else if (status == LevelStatus.completed) {
-      return Icons.check_circle; // Icon for completed level
-    } else if (status == LevelStatus.locked) {
-      return Icons.lock; // Icon for locked level
-    } else {
-      return Icons.error; // Default error icon
-    }
-  }
+  final int levelnumber;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 40,
         width: 40,
+        height: 40,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: AppPalette.white,
-            width: 1,
-          ),
-          color: AppPalette.transparent,
-        ),
-        child: Icon(getStatusIconData(status),color: AppPalette.white,));
+            color: status == LevelStatus.completed
+                ? AppPalette.primaryColor
+                : Colors.white,
+            shape: BoxShape.rectangle, // Makes it round
+            borderRadius: BorderRadius.circular(15)),
+        alignment: Alignment.center,
+        child: status == LevelStatus.locked
+            ? Text(
+                '$levelnumber',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
+              )
+            : status == LevelStatus.current
+                ? SvgPicture.asset(
+                    'assets/buttons/current_level.svg', // Path to your SVG
+                    width: 20,
+                    height: 20, // Optional: Change color
+                  )
+                : SvgPicture.asset(
+                    'assets/buttons/completed_level.svg', // Path to your SVG
+                    width: 20,
+                    height: 20, // Optional: Change color
+                  ));
   }
 }

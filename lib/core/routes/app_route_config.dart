@@ -3,6 +3,7 @@ import 'package:dapple/core/routes/stream_to_listenable.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
+import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,6 +54,11 @@ class AppRouter {
         path: '/main-layout',
         name: AppRouteConsts.mainlayout,
         builder: (context, state) => MainLayoutPage(),
+      ),
+      GoRoute(
+        path: '/lesson',
+        name: AppRouteConsts.lesson,
+        builder: (context, state) => LessonsPage(lessonname: 'Social Communication', currentlevel: 2,),
       ),
     ],
   );

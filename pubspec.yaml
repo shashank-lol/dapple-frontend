@@ -79,6 +79,7 @@ flutter:
     - assets/features/
     - assets/dapple-girl/
     - assets/navbar_icons/
+    - assets/buttons/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
