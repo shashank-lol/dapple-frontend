@@ -37,7 +37,7 @@ class UserDataSourceImpl implements UserDataSource {
           levelNo != null &&
           sectionNo != null && courseName != null) {
         return UserModel(
-            firstName: firstName, xp: xp, level: levelNo, section: sectionNo, courseName: courseName);
+            firstName: firstName, xp: xp, level: levelNo, section: sectionNo, courseName: courseName, enrolledCourses: []);
       }
     } catch (e) {
       debugPrint(e.toString());

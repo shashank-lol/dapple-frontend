@@ -5,7 +5,8 @@ class UserModel extends User{
     required super.level,
     required super.section,
     required super.xp,
-    required super.courseName
+    required super.courseName,
+    required super.enrolledCourses
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -15,8 +16,16 @@ class UserModel extends User{
       section: json['lastCompletedSection']['section'],
       xp: json['xp'],
       courseName: json['lastCompletedSection']['courseName'],
+      //cast to list of string
+      enrolledCourses: json['courses'].map<String>((course) => course.toString()).toList(),
     );
   }
+
+  @override
+  String toString() {
+    return 'UserModel{}';
+  }
+
   // empty usermodel
   factory UserModel.empty() {
     return UserModel(
@@ -25,6 +34,7 @@ class UserModel extends User{
       section: "0",
       courseName: '0',
       xp: 0,
+      enrolledCourses: []
     );
   }
 

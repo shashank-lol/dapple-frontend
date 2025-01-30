@@ -13,17 +13,17 @@ import '../../features/onboarding/presentation/pages/get_started_page.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    // initialLocation: '/onboarding',
-    initialLocation: '/main-layout',
+    initialLocation: '/onboarding',
+    // initialLocation: '/main-layout',
     refreshListenable: StreamToListenable([serviceLocator<AuthBloc>().stream]),
     redirect: (context, state){
       final isAuthenticated = context.read<AuthBloc>().state is AuthSuccess;
-      // if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
-      //   return '/onboarding';
-      // }
-      // else if(isAuthenticated && state.matchedLocation.contains('/onboarding')){
-      //   return '/main-layout';
-      // }
+      if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
+        return '/onboarding';
+      }
+      else if(isAuthenticated && state.matchedLocation.contains('/onboarding')){
+        return '/main-layout';
+      }
       return null;
     },
     routes: <RouteBase>[

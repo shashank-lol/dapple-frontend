@@ -34,6 +34,10 @@ class AppFonts {
       color: AppPalette.blackColor,
       fontWeight: FontWeight.w500,
       fontSize: 20,
-    )
+    ),
+    titleSmall: GoogleFonts.rubik(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: AppPalette.blackColor),
   );
 }

@@ -105,6 +105,8 @@ class AuthDataSourceImpl implements AuthDataSource {
                 json["lastCompletedSection"]["section"],
                 json["lastCompletedSection"]["courseName"]);
 
+            print(UserModel.fromJson(json));
+
             return UserModel.fromJson(json);
           } else {
             throw ServerException(json["error"]);
@@ -276,7 +278,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         String lastName = name.split(" ")[1];
         await firebaseAuth.currentUser?.getIdToken(true).then((idToken) async {
           // Send token to your backend via HTTPS
-          int ageNum = ages[age];
+          print(idToken);
           final response =
               await http.post(Uri.parse("$serverUrl/auth/register"),
                   headers: {
@@ -290,7 +292,7 @@ class AuthDataSourceImpl implements AuthDataSource {
                       'email': user?.email ?? "",
                       'firebaseToken': idToken!,
                       'courses': selectedCourses,
-                      'age': ageNum,
+                      'age': age,
                     },
                   ));
           var json = jsonDecode(response.body);
@@ -302,7 +304,7 @@ class AuthDataSourceImpl implements AuthDataSource {
                 json["lastCompletedSection"]["level"],
                 json["lastCompletedSection"]["section"],
                 json["lastCompletedSection"]["courseName"]);
-
+            print(UserModel.fromJson(json));
             return UserModel.fromJson(json);
           } else {
             throw ServerException(json["error"]);
