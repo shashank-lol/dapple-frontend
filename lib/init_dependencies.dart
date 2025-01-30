@@ -20,6 +20,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'features/auth/domain/usecases/current_user.dart';
+import 'features/auth/domain/usecases/google_sign_up.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -70,6 +71,9 @@ void _initAuth() {
     ..registerFactory(() => LoginWithGoogle(
           serviceLocator(),
         ))
+    ..registerFactory(() => SignUpWithGoogle(
+          serviceLocator(),
+        ))
     ..registerFactory(() => CurrentUser(
           serviceLocator(),
         ))
@@ -78,6 +82,7 @@ void _initAuth() {
           userSignUp: serviceLocator(),
           userLogInWithEmail: serviceLocator(),
           loginWithGoogle: serviceLocator(),
+          signUpWithGoogle: serviceLocator(),
           currentUser: serviceLocator(),
           appUserCubit: serviceLocator(),
         ));

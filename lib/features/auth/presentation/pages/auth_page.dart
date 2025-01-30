@@ -3,6 +3,7 @@ import 'package:dapple/core/widgets/custom_button.dart';
 import 'package:dapple/core/widgets/custom_textfield.dart';
 import 'package:dapple/core/widgets/loader.dart';
 import 'package:dapple/features/auth/presentation/widgets/google_button.dart';
+import 'package:dapple/features/onboarding/presentation/bloc/option/option_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -120,6 +121,17 @@ class _AuthPageState extends State<AuthPage> {
                             SizedBox(height: 36),
                             CustomButton(
                               onTap: () {
+                                final optionBloc = BlocProvider.of<OptionBloc>(
+                                  context,
+                                );
+                                final List<int> selectedCoursesInd = optionBloc
+                                    .state.selectedOptions[0];
+                                final int age = optionBloc.state.selectedOptions[1]
+                                    .isNotEmpty
+                                    ? optionBloc.state.selectedOptions[1][0]
+                                    : 0;
+                                debugPrint(age.toString());
+                                debugPrint(selectedCoursesInd.toString());
                                 if (formKey.currentState!.validate()) {
                                   if (widget.isNewUser) {
                                     BlocProvider.of<AuthBloc>(context).add(
@@ -131,6 +143,8 @@ class _AuthPageState extends State<AuthPage> {
                                         email: emailController.text.trim(),
                                         password:
                                             passwordController.text.trim(),
+                                        courses: selectedCoursesInd,
+                                        age: age,
                                       ),
                                     );
                                   } else {

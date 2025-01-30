@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:dapple/core/entities/user.dart' as user;
 
+import '../../../../core/entities/questions.dart';
+
 class AuthRepoImpl implements AuthRepository {
   final AuthDataSource authDataSource;
   final UserDataSource userDataSource;
@@ -53,7 +55,8 @@ class AuthRepoImpl implements AuthRepository {
       {required String firstName,
       required String lastName,
       required String email,
-      required String password}) async {
+      required String password,
+      required List<int> selectedCourses, required int age}) async {
     final error = validateEmailAndPassword(email, password);
     if (error != null) {
       return left(Failure(error));
@@ -63,7 +66,9 @@ class AuthRepoImpl implements AuthRepository {
           firstName: firstName,
           lastName: lastName,
           email: email,
-          password: password);
+          password: password,
+          selectedCourses: selectedCourses,
+          age: age);
       return right(result);
     } on ServerException catch (e) {
       return left(Failure(e.message));
@@ -71,9 +76,9 @@ class AuthRepoImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, user.User>> loginWithGoogle({required bool isSignUp}) async {
+  Future<Either<Failure, user.User>> loginWithGoogle() async {
     try {
-      final result = await authDataSource.loginWithGoogle(isSignUp: isSignUp);
+      final result = await authDataSource.loginWithGoogle();
       return right(result);
     } on ServerException catch (e) {
       return left(Failure(e.message));
@@ -82,6 +87,8 @@ class AuthRepoImpl implements AuthRepository {
     }
   }
 
+
+
   @override
   Either<Failure, user.User> currentUser() {
     final user = userDataSource.getCurrentUser();
@@ -89,6 +96,20 @@ class AuthRepoImpl implements AuthRepository {
       return right(user);
     } else {
       return left(Failure("No user found"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, user.User>> signUpWithGoogle({required List<int> selectedCourses, required int age}) async {
+    List<String> courses = [];
+    for (var element in selectedCourses) {
+      courses.add(options[element]);
+    }
+    try {
+      final result = await authDataSource.signUpWithGoogle(selectedCourses: courses, age: ages[age]);
+      return right(result);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
     }
   }
 }

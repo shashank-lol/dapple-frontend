@@ -8,6 +8,8 @@ abstract interface class AuthRepository {
     required String lastName,
     required String email,
     required String password,
+    required List<int> selectedCourses,
+    required int age,
   });
 
   Future<Either<Failure, User>> loginWithEmail({
@@ -15,9 +17,12 @@ abstract interface class AuthRepository {
     required String password,
   });
 
-  Future<Either<Failure, User>> loginWithGoogle({
-    required bool isSignUp,
-});
+  Future<Either<Failure, User>> loginWithGoogle();
+
+  Future<Either<Failure, User>> signUpWithGoogle({
+    required List<int> selectedCourses,
+    required int age,
+  });
 
   Either<Failure,User> currentUser();
 

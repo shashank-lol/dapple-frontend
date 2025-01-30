@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
-import '../Profile/presentation/pages/profilepage.dart';
-import '../home/presentation/pages/homepage.dart';
+import '../../features/Profile/presentation/pages/profilepage.dart';
+import '../../features/home/presentation/pages/homepage.dart';
 
 class MainLayoutPage extends StatelessWidget {
   MainLayoutPage({super.key});
@@ -37,7 +37,7 @@ class MainLayoutPage extends StatelessWidget {
 }
 
 List<Widget> _buildScreens() {
-  return [Homepage(), CommunityPage(),Profilepage(),GoalPage()];
+  return [HomePage(), CommunityPage(),Profilepage(),GoalPage()];
 }
 
 List<PersistentBottomNavBarItem> _navBarsItems() {

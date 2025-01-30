@@ -5,7 +5,7 @@ part 'option_event.dart';
 part 'option_state.dart';
 
 class OptionBloc extends Bloc<OptionEvent, OptionState> {
-  OptionBloc() : super(OptionInitial(selectedOptions: [[],[],[],[],[]])) {
+  OptionBloc() : super(OptionInitial(selectedOptions: [[],[]])) {
     on<SelectOption>((event, emit) {
       final optionIndex = event.optionIndex;
       final questionIndex = event.questionIndex;

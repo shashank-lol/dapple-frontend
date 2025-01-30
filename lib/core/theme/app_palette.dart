@@ -11,6 +11,7 @@ class AppPalette{
   static const white = Color(0xFFFFFFFF);
   static const transparent = Color(0x00000000);
   static const grey =Color(0xFFCCCCCC);
+  static const secondaryColor = Color(0xFFF06100);
 
 
   static BoxShadow primaryShadow = BoxShadow(
@@ -18,5 +19,11 @@ class AppPalette{
     spreadRadius: 1,
     blurRadius: 7,
     offset: Offset(0, 3),
+  );
+
+  static LinearGradient primaryGradient = LinearGradient(
+    colors: [Color(0xFF8B7EE7), Color(0xFF6A5AE0)],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
   );
 }

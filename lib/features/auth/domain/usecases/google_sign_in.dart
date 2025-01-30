@@ -8,7 +8,7 @@ class LoginWithGoogle implements UseCase<User, bool> {
     final AuthRepository authRepository;
     const LoginWithGoogle(this.authRepository);
   @override
-  Future<Either<Failure,User>> call(bool isSignUp) async {
-    return await authRepository.loginWithGoogle(isSignUp: isSignUp);
+  Future<Either<Failure,User>> call(p) async {
+    return await authRepository.loginWithGoogle();
   }
 }

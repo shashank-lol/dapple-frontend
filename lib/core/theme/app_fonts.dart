@@ -11,10 +11,10 @@ class AppFonts {
       color: AppPalette.blackColor,
     ),
     bodySmall: GoogleFonts.inter(fontSize: 12, color: Colors.grey, height: 1.6),
-    bodyMedium: GoogleFonts.montserrat(
-      fontSize: 14,
+    bodyMedium: GoogleFonts.rubik(
+      fontSize: 16,
       color: AppPalette.blackColor,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
     ),
     bodyLarge: GoogleFonts.montserrat(
       fontSize: 24,
@@ -30,5 +30,10 @@ class AppFonts {
       fontWeight: FontWeight.bold,
       fontSize: 12,
     ),
+    titleMedium: GoogleFonts.rubik(
+      color: AppPalette.blackColor,
+      fontWeight: FontWeight.w500,
+      fontSize: 20,
+    )
   );
 }

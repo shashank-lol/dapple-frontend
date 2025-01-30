@@ -74,11 +74,10 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/dapple-girl/hi.png
-    - assets/dapple-girl/stand.png
-    - assets/dapple-girl/sitting.png
-    - assets/auth-bg.png
-    - assets/G__logo.svg
+    - assets/
+    - assets/avatar/
+    - assets/features/
+    - assets/dapple-girl/
     - assets/navbar_icons/
     - .env
 

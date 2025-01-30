@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 abstract interface class UserDataSource {
   Future<void> saveUserDetails(
-      String token, String firstName, int xp, int levelNo, int sectionNo);
+      String token, String firstName, int xp, String levelNo, String sectionNo, String courseName);
 
   UserModel? getCurrentUser();
 }
@@ -15,12 +15,13 @@ class UserDataSourceImpl implements UserDataSource {
 
   @override
   Future<void> saveUserDetails(String token, String firstName, int xp,
-      int levelNo, int sectionNo) async {
+      String levelNo, String sectionNo, String courseName) async {
     await sharedPref.setString("token", token);
     await sharedPref.setString("userFirstName", firstName);
     await sharedPref.setInt("userXp", xp);
-    await sharedPref.setInt("userLevel", levelNo);
-    await sharedPref.setInt("userSection", sectionNo);
+    await sharedPref.setString("userLevel", levelNo);
+    await sharedPref.setString("userSection", sectionNo);
+    await sharedPref.setString("courseName", courseName);
   }
 
   @override
@@ -28,14 +29,15 @@ class UserDataSourceImpl implements UserDataSource {
     try {
       String? firstName = sharedPref.getString("userFirstName");
       int? xp = sharedPref.getInt("userXp");
-      int? levelNo = sharedPref.getInt("userLevel");
-      int? sectionNo = sharedPref.getInt("userSection");
+      String? levelNo = sharedPref.getString("userLevel");
+      String? sectionNo = sharedPref.getString("userSection");
+      String? courseName = sharedPref.getString("courseName");
       if (firstName != null &&
           xp != null &&
           levelNo != null &&
-          sectionNo != null) {
+          sectionNo != null && courseName != null) {
         return UserModel(
-            firstName: firstName, xp: xp, level: levelNo, section: sectionNo);
+            firstName: firstName, xp: xp, level: levelNo, section: sectionNo, courseName: courseName);
       }
     } catch (e) {
       debugPrint(e.toString());

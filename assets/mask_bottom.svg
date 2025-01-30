@@ -1,0 +1,15 @@
+<svg width="327" height="173" viewBox="0 0 327 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_211_861" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="327" height="173">
+<rect width="327" height="173" fill="url(#paint0_linear_211_861)"/>
+</mask>
+<g mask="url(#mask0_211_861)">
+<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M12.9844 212.563C33.7382 212.563 50.5625 195.738 50.5625 174.985C50.5625 154.231 33.7382 137.406 12.9844 137.406C-7.76945 137.406 -24.5938 154.231 -24.5938 174.985C-24.5938 195.738 -7.76945 212.563 12.9844 212.563Z" fill="white"/>
+<path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M14 241C49.8985 241 79 211.899 79 176C79 140.101 49.8985 111 14 111C-21.8985 111 -51 140.101 -51 176C-51 211.899 -21.8985 241 14 241Z" stroke="white" stroke-width="0.749235"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_211_861" x1="163.5" y1="0" x2="163.5" y2="173" gradientUnits="userSpaceOnUse">
+<stop stop-color="#6A5AE0"/>
+<stop offset="1" stop-color="#3A317A"/>
+</linearGradient>
+</defs>
+</svg>

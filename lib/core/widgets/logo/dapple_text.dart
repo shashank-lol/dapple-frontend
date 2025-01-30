@@ -12,7 +12,7 @@ class DappleText extends StatelessWidget {
       children: [
         Text(
           'Dapple',
-          style: GoogleFonts.montserrat(
+          style: GoogleFonts.rubik(
             fontSize: 20,
             fontWeight: FontWeight.w700,
             color: AppPalette.blackColor,

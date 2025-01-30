@@ -15,6 +15,8 @@ class UserSignUp implements UseCase<User, UserSignUpParams> {
       lastName: params.lastName,
       email: params.email,
       password: params.password,
+      selectedCourses: params.selectedCourses,
+      age: params.age
     );
   }
 }
@@ -24,11 +26,15 @@ class UserSignUpParams {
   final String lastName;
   final String email;
   final String password;
+  final List<int> selectedCourses;
+  final int age;
 
   UserSignUpParams({
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.password,
+    required this.selectedCourses,
+    required this.age
   });
 }

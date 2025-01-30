@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../onboarding/presentation/bloc/option/option_bloc.dart';
 import '../bloc/auth_bloc.dart';
 
 class GoogleButton extends StatelessWidget {
@@ -13,7 +14,28 @@ class GoogleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        BlocProvider.of<AuthBloc>(context).add(AuthLogInWithGoogle(isSignUp));
+        if(!isSignUp) {
+          BlocProvider.of<AuthBloc>(context).add(AuthLogInWithGoogle());
+        }
+        else {
+          final optionBloc = BlocProvider.of<OptionBloc>(
+            context,
+          );
+          final List<int> selectedCoursesInd = optionBloc
+              .state.selectedOptions[0];
+          final int age = optionBloc.state.selectedOptions[1]
+              .isNotEmpty
+              ? optionBloc.state.selectedOptions[1][0]
+              : 0;
+
+          BlocProvider.of<AuthBloc>(context).add(
+            AuthSignUpWithGoogle(
+              courses: selectedCoursesInd,
+              age: age,
+            ),
+          );
+
+        }
       },
       style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
       child: Padding(

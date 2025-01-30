@@ -10,7 +10,8 @@ class OptionsButton extends StatefulWidget {
     required this.optionText,
     this.icon,
     required this.questionIndex,
-    required this.optionIndex, required this.maxSelection,
+    required this.optionIndex,
+    required this.maxSelection,
   });
 
   final String optionText;
@@ -33,10 +34,12 @@ class _OptionsButtonState extends State<OptionsButton> {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: ElevatedButton.icon(
         onPressed: () {
-          if(optionBloc.state.selectedOptions[widget.questionIndex].length >= widget.maxSelection && !isSelected){
+          if (optionBloc.state.selectedOptions[widget.questionIndex].length >=
+                  widget.maxSelection &&
+              !isSelected) {
             return;
           }
-          if(!isSelected){
+          if (!isSelected) {
             optionBloc.add(
               SelectOption(
                 questionIndex: widget.questionIndex,
@@ -57,14 +60,12 @@ class _OptionsButtonState extends State<OptionsButton> {
         },
         style: ElevatedButton.styleFrom(
           minimumSize: Size(double.infinity, 60),
-          foregroundColor:
-              !isSelected
-                  ? AppPalette.primaryColor.withValues(alpha: 0.2)
-                  : Colors.white,
-          backgroundColor:
-              isSelected
-                  ? AppPalette.primaryColor.withValues(alpha: 0.2)
-                  : Colors.white,
+          foregroundColor: !isSelected
+              ? AppPalette.primaryColor.withValues(alpha: 0.2)
+              : Colors.white,
+          backgroundColor: isSelected
+              ? AppPalette.primaryColor.withValues(alpha: 0.2)
+              : Colors.white,
           shape: ContinuousRectangleBorder(
             side: BorderSide(
               color: AppPalette.primaryColor.withValues(alpha: 0.2),
@@ -78,7 +79,7 @@ class _OptionsButtonState extends State<OptionsButton> {
         icon: Icon(widget.icon),
         label: Text(
           widget.optionText,
-          style: GoogleFonts.montserrat(
+          style: GoogleFonts.rubik(
             color: AppPalette.primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 14,

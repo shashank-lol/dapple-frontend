@@ -1,47 +1,62 @@
-import 'package:dapple/core/theme/app_palette.dart';
-import 'package:dapple/features/home/presentation/data/levelstatus.dart';
-import 'package:dapple/features/home/presentation/widgets/circular_button.dart';
-import 'package:dapple/features/home/presentation/widgets/level_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dapple/features/home/presentation/widgets/features_icon.dart';
+import 'package:dapple/features/home/presentation/widgets/learning_card.dart';
+import 'package:dapple/features/home/presentation/widgets/xp_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
-
-  final String greeting = "Let's Play";
-  final String name = "Be the first!";
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String name = "John";
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: AppPalette.bgColor,
-        actions: [
-          CircularButton(icon: CupertinoIcons.heart_fill, action: () {}),
-          CircularButton(icon: Icons.person, action: () {}),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: ListView(
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              greeting,
-              style: Theme.of(context).textTheme.bodyLarge,
+            SvgPicture.asset(
+              "assets/avatar/1.svg",
+              height: 36,
             ),
-            Text(name,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall!
-                    .copyWith(color: Colors.grey)),
-            LevelWidget(level: 1, heading: 'Travel newbie', status: LevelStatus.completed,),
-            LevelWidget(level: 2, heading: 'continuing', status: LevelStatus.current),
-            LevelWidget(level: 3, heading: 'Locked', status: LevelStatus.locked),
-
+            const SizedBox(width: 8),
+            Text("Hi $name!", style: Theme.of(context).textTheme.bodyMedium),
+            const Spacer(),
+            XpIcon(),
+            // const SizedBox(width: 8,)
           ],
         ),
       ),
+      body: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 18,
+              ),
+              LearningCard(),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                "Features",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FeaturesIcon(),
+                  FeaturesIcon(),
+                  FeaturesIcon(),
+                  FeaturesIcon(),
+                ],
+              )
+            ],
+          )),
     );
   }
 }
