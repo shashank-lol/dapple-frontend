@@ -1,9 +1,11 @@
 import 'package:dapple/features/home/presentation/data/levelstatus.dart';
 import 'package:dapple/features/home/presentation/widgets/level_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/cubits/app_user/app_user_cubit.dart';
 import '../widgets/xp_icon.dart';
 
 class LessonsPage extends StatelessWidget {
@@ -15,6 +17,7 @@ class LessonsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -34,7 +37,7 @@ class LessonsPage extends StatelessWidget {
             const SizedBox(width: 8),
             Text(lessonname, style: Theme.of(context).textTheme.bodyMedium),
             const Spacer(),
-            XpIcon(),
+            XpIcon(userCubit.xp),
             // const SizedBox(width: 8,)
           ],
         ),

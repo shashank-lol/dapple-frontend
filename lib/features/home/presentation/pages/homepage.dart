@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String name = "John";
     final userProvider = context.read<AppUserCubit>().state as AppUserLoggedIn;
     print(userProvider.user.enrolledCourses.toString());
     return Scaffold(
@@ -26,70 +25,72 @@ class HomePage extends StatelessWidget {
               height: 36,
             ),
             const SizedBox(width: 8),
-            Text("Hi $name!", style: Theme.of(context).textTheme.bodyMedium),
+            Text("Hi ${userProvider.user.firstName}!",
+                style: Theme.of(context).textTheme.bodyMedium),
             const Spacer(),
-            XpIcon(),
+            XpIcon(userProvider.user.xp),
             // const SizedBox(width: 8,)
           ],
         ),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
-            minimum: EdgeInsets.symmetric(horizontal: 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 18,
+          minimum: EdgeInsets.symmetric(horizontal: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 18,
+              ),
+              LearningCard(),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                "Features",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FeaturesIcon("assets/features/chat.png"),
+                  FeaturesIcon("assets/features/focus.png"),
+                  FeaturesIcon("assets/features/task.png"),
+                  FeaturesIcon("assets/features/eye.png"),
+                ],
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                "Popular Courses",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              GridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.62,
                 ),
-                LearningCard(),
-                const SizedBox(
-                  height: 18,
-                ),
-                Text(
-                  "Features",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    FeaturesIcon("assets/features/chat.png"),
-                    FeaturesIcon("assets/features/focus.png"),
-                    FeaturesIcon("assets/features/task.png"),
-                    FeaturesIcon("assets/features/eye.png"),
-                  ],
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Text(
-                  "Popular Courses",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 0.62,
-                  ),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    for (var course in userProvider.user.enrolledCourses!)
-                      CourseCard(
-                        name: course,
-                      )
-                  ],
-                ),
-              ],
-            )),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  for (var course in userProvider.user.enrolledCourses!)
+                    CourseCard(
+                      name: course,
+                    )
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

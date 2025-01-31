@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class XpIcon extends StatelessWidget {
-  const XpIcon({super.key});
+  const XpIcon(this.xp,{super.key});
+
+  final int xp;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class XpIcon extends StatelessWidget {
         height: 36,
       ),
       const SizedBox(width: 8),
-      Text("100\nXP",
+      Text("$xp\nXP",
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme

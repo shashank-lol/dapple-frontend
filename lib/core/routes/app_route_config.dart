@@ -1,6 +1,6 @@
+import 'package:dapple/core/cubits/app_user/app_user_cubit.dart';
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/routes/stream_to_listenable.dart';
-import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
@@ -15,9 +15,9 @@ class AppRouter {
   GoRouter router = GoRouter(
     initialLocation: '/onboarding',
     // initialLocation: '/main-layout',
-    refreshListenable: StreamToListenable([serviceLocator<AuthBloc>().stream]),
+    refreshListenable: StreamToListenable([serviceLocator<AppUserCubit>().stream]),
     redirect: (context, state){
-      final isAuthenticated = context.read<AuthBloc>().state is AuthSuccess;
+      final isAuthenticated = context.read<AppUserCubit>().state is AppUserLoggedIn;
       if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
         return '/onboarding';
       }

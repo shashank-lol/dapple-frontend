@@ -26,7 +26,7 @@ abstract interface class AuthDataSource {
 
   Future<UserModel> loginWithGoogle();
 
-  Future<String> test();
+  Future<UserModel> test();
 
   Future<UserModel> signUpWithGoogle(
       {required List<String> selectedCourses, required int age});
@@ -42,17 +42,31 @@ class AuthDataSourceImpl implements AuthDataSource {
   final serverUrl = dotenv.env['BACKEND_URL'];
 
   @override
-  Future<String> test() async {
-    final serverUrl = dotenv.env['BACKEND_URL'];
-    final response = await http.get(
-      Uri.parse("$serverUrl/auth/hello"),
+  Future<UserModel> test() async {
+    http.Response response = await http.get(
+      Uri.parse("https://dummyjson.com/c/9f0b-4cbf-4f3e-bb9c"),
       headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
       },
     );
-    debugPrint("Test: ${response.body}");
-    return "Test";
+
+    var json = jsonDecode(response.body);
+    print(response.body.toString());
+    if (response.statusCode < 300) {
+      await userDataSource.saveUserDetails(
+          json["token"],
+          json["firstName"],
+          json["xp"],
+          json["lastCompletedSection"]["level"],
+          json["lastCompletedSection"]["section"],
+          json["lastCompletedSection"]["courseName"],
+          json["courses"].map<String>((e) => e.toString()).toList());
+
+      final user = UserModel.fromJson(json);
+      return user;
+    }
+    return UserModel.empty();
   }
 
   @override
@@ -76,10 +90,11 @@ class AuthDataSourceImpl implements AuthDataSource {
 
         debugPrint(user.toString());
 
+        late http.Response response;
+
         await firebaseAuth.currentUser?.getIdToken(true).then((idToken) async {
           // Send token to your backend via HTTPS
-
-          final response = await http.post(Uri.parse("$serverUrl/auth/login"),
+          response = await http.post(Uri.parse("$serverUrl/auth/login"),
               headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
@@ -90,28 +105,27 @@ class AuthDataSourceImpl implements AuthDataSource {
                   'firebaseToken': idToken!
                 },
               ));
-          if (response.statusCode > 300) {
-            throw ServerException("Create an account with Google first");
-          }
-          debugPrint(idToken);
-          var json = jsonDecode(response.body);
-          debugPrint(json.toString());
-          if (response.statusCode < 300) {
-            userDataSource.saveUserDetails(
-                json["token"],
-                json["firstName"],
-                json["xp"],
-                json["lastCompletedSection"]["level"],
-                json["lastCompletedSection"]["section"],
-                json["lastCompletedSection"]["courseName"]);
-
-            print(UserModel.fromJson(json));
-
-            return UserModel.fromJson(json);
-          } else {
-            throw ServerException(json["error"]);
-          }
         });
+        if (response.statusCode > 300) {
+          throw ServerException("Create an account with Google first");
+        }
+        var json = jsonDecode(response.body);
+        debugPrint(json.toString());
+        if (response.statusCode < 300) {
+          await userDataSource.saveUserDetails(
+              json["token"],
+              json["firstName"],
+              json["xp"],
+              json["lastCompletedSection"]["level"],
+              json["lastCompletedSection"]["section"],
+              json["lastCompletedSection"]["courseName"],
+              json["courses"].map((e) => e.toString()).toList());
+
+          final user = UserModel.fromJson(json);
+          return user;
+        } else {
+          throw ServerException(json["error"]);
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           throw ServerException(
@@ -144,41 +158,41 @@ class AuthDataSourceImpl implements AuthDataSource {
         throw ServerException("Wrong password provided for that user.");
       }
     }
-
+    late http.Response response;
     await firebaseAuth.currentUser?.getIdToken(true).then((idToken) async {
       // Send token to your backend via HTTPS
       debugPrint(idToken);
-      http.Response response =
-          await http.post(Uri.parse("$serverUrl/auth/login"),
-              headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-              },
-              body: jsonEncode(
-                <String, String>{'email': email, 'firebaseToken': idToken!},
-              ));
-
-      var json = jsonDecode(response.body);
-      print(json.toString());
-      if (response.statusCode < 300) {
-        userDataSource.saveUserDetails(
-            json["token"],
-            json["firstName"],
-            json["xp"],
-            json["lastCompletedSection"]["level"],
-            json["lastCompletedSection"]["section"],
-            json["lastCompletedSection"]["courseName"]);
-
-        return UserModel.fromJson(json);
-      } else {
-        throw ServerException(json["error"]);
-      }
+      response = await http.post(Uri.parse("$serverUrl/auth/login"),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: jsonEncode(
+            <String, String>{'email': email, 'firebaseToken': idToken!},
+          ));
     }).catchError((error) {
       // Handle error
       debugPrint("Error: $error");
       throw ServerException(error.toString());
     });
-    return UserModel.empty();
+
+    var json = jsonDecode(response.body);
+    print(json.toString());
+    if (response.statusCode < 300) {
+      await userDataSource.saveUserDetails(
+          json["token"],
+          json["firstName"],
+          json["xp"],
+          json["lastCompletedSection"]["level"],
+          json["lastCompletedSection"]["section"],
+          json["lastCompletedSection"]["courseName"],
+          json["courses"].map((e) => e.toString()).toList());
+
+      final user = UserModel.fromJson(json);
+      return user;
+    } else {
+      throw ServerException(json["error"]);
+    }
   }
 
   @override
@@ -205,6 +219,8 @@ class AuthDataSourceImpl implements AuthDataSource {
       throw ServerException(
           "An error occurred while creating the account.\n ${e.toString()}");
     }
+
+    late http.Response response;
     await firebaseAuth.currentUser?.getIdToken(true).then((idToken) async {
       // Send token to your backend via HTTPS
       List<String> courses = [];
@@ -222,36 +238,35 @@ class AuthDataSourceImpl implements AuthDataSource {
           'age': ageNum,
         },
       );
-      print(bod.toString());
-      http.Response response =
-          await http.post(Uri.parse("$serverUrl/auth/register"),
-              headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-              },
-              body: bod);
-
-      var json = jsonDecode(response.body);
-      print(response.body.toString());
-      if (response.statusCode < 300) {
-        userDataSource.saveUserDetails(
-            json["token"],
-            json["firstName"],
-            json["xp"],
-            json["lastCompletedSection"]["level"],
-            json["lastCompletedSection"]["section"],
-            json["lastCompletedSection"]["courseName"]);
-
-        return UserModel.fromJson(json);
-      } else {
-        throw ServerException(json["error"]);
-      }
+      response = await http.post(Uri.parse("$serverUrl/auth/register"),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: bod);
     }).catchError((error) {
       // Handle error
       debugPrint("Error: $error");
       throw ServerException(error.toString());
     });
-    return UserModel.empty();
+
+    var json = jsonDecode(response.body);
+    print(response.body.toString());
+    if (response.statusCode < 300) {
+      await userDataSource.saveUserDetails(
+          json["token"],
+          json["firstName"],
+          json["xp"],
+          json["lastCompletedSection"]["level"],
+          json["lastCompletedSection"]["section"],
+          json["lastCompletedSection"]["courseName"],
+          json["courses"].map((e) => e.toString()).toList());
+
+      final user = UserModel.fromJson(json);
+      return user;
+    } else {
+      throw ServerException(json["error"]);
+    }
   }
 
   @override
@@ -276,42 +291,45 @@ class AuthDataSourceImpl implements AuthDataSource {
         final name = user?.displayName ?? "";
         String firstName = name.split(" ")[0];
         String lastName = name.split(" ")[1];
+
+        late http.Response response;
         await firebaseAuth.currentUser?.getIdToken(true).then((idToken) async {
           // Send token to your backend via HTTPS
           print(idToken);
-          final response =
-              await http.post(Uri.parse("$serverUrl/auth/register"),
-                  headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                  },
-                  body: jsonEncode(
-                    <String, Object>{
-                      "firstName": firstName,
-                      "lastName": lastName,
-                      'email': user?.email ?? "",
-                      'firebaseToken': idToken!,
-                      'courses': selectedCourses,
-                      'age': age,
-                    },
-                  ));
-          var json = jsonDecode(response.body);
-          if (response.statusCode < 300) {
-            userDataSource.saveUserDetails(
-                json["token"],
-                json["firstName"],
-                json["xp"],
-                json["lastCompletedSection"]["level"],
-                json["lastCompletedSection"]["section"],
-                json["lastCompletedSection"]["courseName"]);
-            print(UserModel.fromJson(json));
-            return UserModel.fromJson(json);
-          } else {
-            throw ServerException(json["error"]);
-          }
+          response = await http.post(Uri.parse("$serverUrl/auth/register"),
+              headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: jsonEncode(
+                <String, Object>{
+                  "firstName": firstName,
+                  "lastName": lastName,
+                  'email': user?.email ?? "",
+                  'firebaseToken': idToken!,
+                  'courses': selectedCourses,
+                  'age': age,
+                },
+              ));
         }).catchError((error) {
           throw ServerException(error.toString());
         });
+        var json = jsonDecode(response.body);
+        if (response.statusCode < 300) {
+          await userDataSource.saveUserDetails(
+              json["token"],
+              json["firstName"],
+              json["xp"],
+              json["lastCompletedSection"]["level"],
+              json["lastCompletedSection"]["section"],
+              json["lastCompletedSection"]["courseName"],
+              json["courses"].map((e) => e.toString()).toList());
+
+          final user = UserModel.fromJson(json);
+          return user;
+        } else {
+          throw ServerException(json["error"]);
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           throw ServerException(
