@@ -87,7 +87,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 36),
+                const SizedBox(height: 12),
 
                 for (int i = 0; i < questions[widget.index].options.length; i++)
                   OptionsButton(
