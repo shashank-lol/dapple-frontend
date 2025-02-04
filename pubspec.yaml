@@ -80,6 +80,7 @@ flutter:
     - assets/dapple-girl/
     - assets/navbar_icons/
     - assets/buttons/
+    - assets/icons/
     - assets/courses_thumbnail/
     - .env
 
