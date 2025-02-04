@@ -1,5 +1,4 @@
 import 'package:dapple/features/home/presentation/data/levelstatus.dart';
-import 'package:dapple/features/home/presentation/widgets/level_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,21 +41,7 @@ class LessonsPage extends StatelessWidget {
           ],
         ),
       ),
-      body: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 18),
-          child: ListView.builder(
-            itemCount: 10, // Number of items
-            itemBuilder: (context, index) {
-              return LevelWidget(
-                heading: 'Travel newbie',
-                status: getLevelStatus(currentlevel, index),
-                currentlevel: currentlevel,
-                description:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting',
-                level: index+1,
-              );
-            },
-          )),
+
     );
   }
 

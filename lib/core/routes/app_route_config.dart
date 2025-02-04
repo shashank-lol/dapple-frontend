@@ -6,26 +6,25 @@ import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
 import 'package:dapple/init_dependencies.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/onboarding/presentation/pages/get_started_page.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    initialLocation: '/onboarding',
-    // initialLocation: '/main-layout',
+    // initialLocation: '/onboarding',
+    initialLocation: '/main-layout',
     refreshListenable: StreamToListenable([serviceLocator<AppUserCubit>().stream]),
-    redirect: (context, state){
-      final isAuthenticated = context.read<AppUserCubit>().state is AppUserLoggedIn;
-      if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
-        return '/onboarding';
-      }
-      else if(isAuthenticated && state.matchedLocation.contains('/onboarding')){
-        return '/main-layout';
-      }
-      return null;
-    },
+    // redirect: (context, state){
+    //   final isAuthenticated = context.read<AppUserCubit>().state is AppUserLoggedIn;
+    //   if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
+    //     return '/onboarding';
+    //   }
+    //   else if(isAuthenticated && state.matchedLocation.contains('/onboarding')){
+    //     return '/main-layout';
+    //   }
+    //   return null;
+    // },
     routes: <RouteBase>[
       GoRoute(
         name: AppRouteConsts.onboarding,
