@@ -1,21 +1,39 @@
+import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/features/home/presentation/new_widgets/lives_indicator.dart';
 import 'package:dapple/features/home/presentation/new_widgets/xp_indicator.dart';
 import 'package:dapple/features/home/presentation/new_widgets/learning_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/theme/app_palette.dart';
 import '../data/levelstatus.dart';
 import '../widgets/level_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  final int currentlevel = 2;
-  final int currentsection=3;
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    if (context.read<LevelsCubit>().state is LevelsInitial) {
+      context.read<LevelsCubit>().loadLevels();
+      debugPrint("initState");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // final userProvider = context.read<AppUserCubit>().state as AppUserLoggedIn;
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final name = "Parth";
+    final xp = 100;
     return Scaffold(
       backgroundColor: AppPalette.primaryColor,
       appBar: AppBar(
@@ -29,7 +47,7 @@ class HomePage extends StatelessWidget {
               height: 40,
             ),
             const SizedBox(width: 8),
-            Text("Hi Parth!",
+            Text("Hi ${name}!",
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -37,7 +55,7 @@ class HomePage extends StatelessWidget {
             const Spacer(),
             LivesIndicator(),
             const SizedBox(width: 15),
-            XpIndicator()
+            XpIndicator(xp)
 
             // const SizedBox(width: 8,)
           ],
@@ -62,10 +80,9 @@ class HomePage extends StatelessWidget {
                   topRight: Radius.circular(20), // Round top-right corner
                 ),
               ),
-              height: 60,
               width: MediaQuery.of(context).size.width,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+                padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 child: Text(
                   'Here is a personalized learning plan for you-',
                   style: Theme.of(context)
@@ -75,19 +92,61 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            for (int i = 0; i < 5; i++)
-              Container(
-                color: AppPalette.white,
-                child: LevelWidget(
-                  heading: 'Travel newbie',
-                  status: getLevelStatus(currentlevel, i),
-                  currentlevel: currentlevel,
-                  description:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting',
-                  level: i + 1,
-                  currentsection: currentsection,
-                ),
-              ),
+            BlocBuilder<LevelsCubit, LevelsState>(
+              builder: (context, state) {
+                if (state is LevelsLoading) {
+                  return Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        for (int i = 0; i < 5; i++)
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            direction: ShimmerDirection.ttb,
+                            period: Duration(milliseconds: 800),
+                            child: Container(
+                              margin: EdgeInsets.all(18),
+                              height: deviceHeight / 5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: AppPalette.white,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                } else if (state is LevelsLoaded) {
+                  final levels = state.levelAndSection.levels;
+                  final sections = state.levelAndSection.sections;
+                  return Column(
+                    children: [
+                      for (int i = 0; i < levels.length; i++)
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppPalette.white,
+                          ),
+                          child: LevelWidget(
+                            heading: levels[i].name,
+                            status: getLevelStatus(
+                                state.levelAndSection.completedLevels + 1, i),
+                            currentLevel:
+                                state.levelAndSection.completedLevels + 1,
+                            description: levels[i].description,
+                            level: i + 1,
+                            currentSection:
+                                state.levelAndSection.completedSections + 1,
+                            sections: sections,
+                          ),
+                        ),
+                    ],
+                  );
+                }
+                return Container();
+              },
+            ),
           ],
         ),
       )),

@@ -1,5 +1,6 @@
 import 'package:dapple/core/theme/theme.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/option/option_bloc.dart';
 import 'package:dapple/init_dependencies.dart';
 
@@ -18,7 +19,8 @@ void main() async {
         BlocProvider(create: (context) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (context) => serviceLocator<OnboardingBloc>()),
         BlocProvider(create: (context) => serviceLocator<OptionBloc>()),
-        BlocProvider(create: (context) => serviceLocator<AuthBloc>())
+        BlocProvider(create: (context) => serviceLocator<AuthBloc>()),
+        BlocProvider(create: (context) => serviceLocator<LevelsCubit>())
       ],
       child: const MyApp(),
     ),

@@ -7,6 +7,10 @@ import 'package:dapple/features/auth/domain/usecases/google_sign_in.dart';
 import 'package:dapple/features/auth/domain/usecases/user_log_in_email.dart';
 import 'package:dapple/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:dapple/features/home/data/remote/level_data_source.dart';
+import 'package:dapple/features/home/data/repository/level_repo_impl.dart';
+import 'package:dapple/features/home/domain/repository/level_repository.dart';
+import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/features/onboarding/data/local/onboarding_questions.dart';
 import 'package:dapple/features/onboarding/domain/usecases/get_onboarding_questions.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/onboarding/onboarding_bloc.dart';
@@ -21,6 +25,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'features/auth/domain/usecases/current_user.dart';
 import 'features/auth/domain/usecases/google_sign_up.dart';
+import 'features/home/data/local/level_local_data_source.dart';
+import 'features/home/domain/usecases/get_all_levels.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -40,9 +46,21 @@ Future<void> initDependencies() async {
       .registerLazySingleton<EncryptedSharedPreferences>(() => sharedPref);
 
   serviceLocator.registerLazySingleton<AppUserCubit>(() => AppUserCubit());
+  _initHome();
 
   _initAuth();
   _initOnboarding();
+}
+
+void _initHome() {
+  serviceLocator.registerFactory<LevelDataSource>(() => LevelDataSourceImpl());
+  serviceLocator
+      .registerFactory<LevelLocalDataSource>(() => LevelLocalDataSourceImpl());
+  serviceLocator.registerFactory<LevelRepository>(
+      () => LevelRepoImpl(serviceLocator(), serviceLocator()));
+  serviceLocator.registerFactory(() => GetAllLevels(serviceLocator()));
+  serviceLocator.registerLazySingleton<LevelsCubit>(
+      () => LevelsCubit(getAllLevels: serviceLocator()));
 }
 
 void _initAuth() {

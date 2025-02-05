@@ -1,5 +1,3 @@
-import 'package:dapple/core/theme/app_palette.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -18,9 +16,7 @@ class LevelStatusIcon extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-            color: status == LevelStatus.completed
-                ? AppPalette.primaryColor
-                : Colors.white,
+            color: Colors.white,
             shape: BoxShape.rectangle, // Makes it round
             borderRadius: BorderRadius.circular(15)),
         alignment: Alignment.center,
@@ -39,9 +35,9 @@ class LevelStatusIcon extends StatelessWidget {
                     height: 20, // Optional: Change color
                   )
                 : SvgPicture.asset(
-                    'assets/buttons/completed_level.svg', // Path to your SVG
-                    width: 20,
-                    height: 20, // Optional: Change color
+                    'assets/icons/tick.svg', // Path to your SVG
+                    width: 30,
+                    height: 30, // Optional: Change color
                   ));
   }
 }

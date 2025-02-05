@@ -2,7 +2,9 @@ import 'package:dapple/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 
 class XpIndicator extends StatelessWidget {
-  const XpIndicator({super.key});
+  const XpIndicator(this.xp,{super.key, });
+
+  final int xp;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class XpIndicator extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text("50",
+        Text("$xp",
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme

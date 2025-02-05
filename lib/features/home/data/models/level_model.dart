@@ -11,8 +11,8 @@ class LevelModel extends Level{
 
   factory LevelModel.fromJson(Map<String, dynamic> json) {
     return LevelModel(
-      id: json['id'],
-      name: json['name'],
+      id: json['levelId'],
+      name: json['levelName'],
       description: json['description'],
       imageUrl: json['imageUrl'],
       sections: json['sections'].map<String>((e) => e.toString()).toList(),

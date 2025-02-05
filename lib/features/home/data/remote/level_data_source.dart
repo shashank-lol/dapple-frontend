@@ -1,28 +1,30 @@
 import 'dart:convert';
 
 import 'package:dapple/core/routes/headers.dart';
+import 'package:dapple/features/home/data/models/level_section_wrapper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../../../core/error/exceptions.dart';
-import '../../domain/entities/level.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/level_model.dart';
 
 abstract interface class LevelDataSource {
-  Future<List<Level>> getAllLevels();
+  Future<LevelSectionWrapper> getAllLevels();
 }
 
 class LevelDataSourceImpl implements LevelDataSource {
   final serverUrl = dotenv.env['BACKEND_URL'];
+  final testUrl = "https://dummyjson.com/c/5153-86a3-4081-aef";
   @override
-  Future<List<Level>> getAllLevels() async {
+  Future<LevelSectionWrapper> getAllLevels() async {
     try {
       http.Response response = await http.get(headers: headers,
-          Uri.parse('$serverUrl/levels'));
+          Uri.parse(testUrl));
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        return (json as List).map((e) => LevelModel.fromJson(e)).toList();
+        debugPrint(json.toString());
+        return LevelSectionWrapper.fromJson(json);
       } else {
         throw ServerException(json["error"]);
       }

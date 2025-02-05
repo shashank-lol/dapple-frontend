@@ -2,21 +2,26 @@ import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/features/home/presentation/data/levelstatus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SectionTile extends StatelessWidget {
   const SectionTile(
-      {super.key, required this.status, required this.currentsection});
+      {super.key, required this.status, required this.title, required this.xp, required this.sectionNo});
 
   final LevelStatus status;
-  final int currentsection;
+  final String title;
+  final int xp;
+  final int sectionNo;
 
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
     return ListTile(
-      horizontalTitleGap: 25,
+      horizontalTitleGap: 20,
+      minTileHeight: deviceHeight/12,
       leading: Container(
-        width: 50, // Diameter of the circle
-        height: 50,
+        width: 40, // Diameter of the circle
+        height: 40,
         decoration: BoxDecoration(
           color: status == LevelStatus.locked
               ? AppPalette.icon_bgcolor_off
@@ -30,24 +35,25 @@ class SectionTile extends StatelessWidget {
                   height: 30,
                 )
               : Text(
-                  '$currentsection',
-                  style: TextStyle(color: AppPalette.white,
-                  fontSize: 16),
+                  '$sectionNo',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
         ),
       ), // Icon at start
       title: Text(
-        "What to Speak?",
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w500,
+        title,
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
             color: status == LevelStatus.locked
                 ? AppPalette.section_title_color_off
                 : AppPalette.section_title_color_on),
       ),
       subtitle: Text(
-        "20 XP",
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w400,
+        "$xp XP",
+        style: GoogleFonts.rubik(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
             color: AppPalette.section_subtitle_color_off),
       ),
     );
