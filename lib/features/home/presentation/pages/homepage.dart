@@ -1,6 +1,6 @@
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
-import 'package:dapple/features/home/presentation/new_widgets/lives_indicator.dart';
-import 'package:dapple/features/home/presentation/new_widgets/xp_indicator.dart';
+import 'package:dapple/core/widgets/lives_indicator.dart';
+import 'package:dapple/core/widgets/xp_indicator.dart';
 import 'package:dapple/features/home/presentation/new_widgets/learning_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(22.0),
+              padding: const EdgeInsets.all(18.0),
               child: LearningCard(),
             ),
             SizedBox(

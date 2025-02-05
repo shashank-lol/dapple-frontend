@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/theme/app_palette.dart';
+import '../theme/app_palette.dart';
 
 class LivesIndicator extends StatelessWidget {
   const LivesIndicator({super.key});

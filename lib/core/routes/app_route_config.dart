@@ -5,9 +5,11 @@ import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
+import 'package:dapple/features/question/presentation/pages/start_page.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/home/domain/entities/section.dart';
 import '../../features/onboarding/presentation/pages/get_started_page.dart';
 
 class AppRouter {
@@ -59,6 +61,9 @@ class AppRouter {
         name: AppRouteConsts.lesson,
         builder: (context, state) => LessonsPage(lessonname: 'Social Communication', currentlevel: 2,),
       ),
+      GoRoute(path: '/section', name: AppRouteConsts.section, builder: (context, state) {
+        return StartPage(state.extra as Section);
+      }),
     ],
   );
 }

@@ -5,4 +5,5 @@ class AppRouteConsts{
   static String signUp = 'sign-up';
   static String mainlayout = 'main-layout';
   static String lesson = 'lesson-page';
+  static String section = 'section';
 }

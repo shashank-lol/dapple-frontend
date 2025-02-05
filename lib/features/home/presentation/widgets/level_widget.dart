@@ -1,9 +1,11 @@
+import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/features/home/domain/entities/section.dart';
 import 'package:dapple/features/home/presentation/data/levelstatus.dart';
 import 'package:dapple/features/home/presentation/new_widgets/section_tile.dart';
 import 'package:dapple/features/home/presentation/widgets/level_status_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LevelWidget extends StatefulWidget {
   const LevelWidget(
@@ -111,12 +113,25 @@ class _LevelWidgetState extends State<LevelWidget> {
                   child: Column(
                     children: [
                       for (int i = 0; i < widget.sections.length; i++)
-                        SectionTile(
-                          status: getSectionStatus(
-                              widget.currentLevel, widget.currentSection, i),
-                          title: widget.sections[i].title,
-                          xp: widget.sections[i].sectionXp,
-                          sectionNo: i + 1,
+                        GestureDetector(
+                          onTap: () {
+                            if (getSectionStatus(widget.currentLevel,
+                                    widget.currentSection, i) !=
+                                LevelStatus.locked) {
+                              GoRouter.of(context).pushNamed(
+                                  AppRouteConsts.section,
+                                  extra: Section(
+                                      title: widget.sections[i].title,
+                                      sectionXp: widget.sections[i].sectionXp));
+                            }
+                          },
+                          child: SectionTile(
+                            status: getSectionStatus(
+                                widget.currentLevel, widget.currentSection, i),
+                            title: widget.sections[i].title,
+                            xp: widget.sections[i].sectionXp,
+                            sectionNo: i + 1,
+                          ),
                         ),
                     ],
                   ),
