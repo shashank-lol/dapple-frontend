@@ -24,6 +24,10 @@ class AppPalette{
   static const icon_bgcolor_on = Color(0xFF6A5AE0);
   static const icon_bgcolor_off = Color(0xFFCFD6DC);
 
+  //learning screen
+  static const progressbarcolor =Color(0xFFB9B2F0);
+  static const learningtextcolor = Color(0xFF191919);
+
 
 
 

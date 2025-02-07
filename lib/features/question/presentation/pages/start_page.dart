@@ -1,7 +1,9 @@
 import 'package:dapple/core/widgets/primary_button.dart';
 import 'package:dapple/features/home/domain/entities/section.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/app_route_consts.dart';
 import '../../../../core/theme/app_palette.dart';
 
 class StartPage extends StatelessWidget {
@@ -60,7 +62,10 @@ class StartPage extends StatelessWidget {
               ),
               const Spacer(),
               PrimaryButton(
-                  onTap: () {},
+                  onTap: () {
+                    GoRouter.of(context).pushNamed(
+                        AppRouteConsts.learn,);
+                  },
                   text: "Start +${section.sectionXp} XP",
                   primaryColor: AppPalette.primaryColor,
                   bgColor: Colors.white),
