@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({super.key, required this.onTap, required this.text, required this.primaryColor, required this.bgColor});
+  const PrimaryButton(
+      {super.key,
+      required this.onTap,
+      required this.text,
+      required this.primaryColor,
+      required this.bgColor});
 
   final void Function() onTap;
   final String text;
@@ -15,11 +20,14 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
+            backgroundColor: bgColor,
             padding: EdgeInsets.symmetric(vertical: 14)),
         child: Text(
           text.toUpperCase(),
-          style: Theme.of(context).textTheme.labelMedium,
+          style: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(color: primaryColor),
         ),
       ),
     );

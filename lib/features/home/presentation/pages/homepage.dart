@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               height: 40,
             ),
             const SizedBox(width: 8),
-            Text("Hi ${name}!",
+            Text("Hi $name!",
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                       for (int i = 0; i < levels.length; i++)
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
+                            // borderRadius: BorderRadius.circular(8),
                             color: AppPalette.white,
                           ),
                           child: LevelWidget(
