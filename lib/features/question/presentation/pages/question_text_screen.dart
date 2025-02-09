@@ -1,12 +1,10 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/custom_text_rubik.dart';
 import 'package:dapple/core/widgets/section_template_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class QuestionTextScreen extends StatefulWidget {
   const QuestionTextScreen({super.key});

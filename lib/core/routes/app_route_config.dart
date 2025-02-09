@@ -1,7 +1,6 @@
 import 'package:dapple/core/cubits/app_user/app_user_cubit.dart';
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/routes/stream_to_listenable.dart';
-import 'package:dapple/core/widgets/section_template_screen.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
