@@ -1,3 +1,4 @@
+import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/core/widgets/lives_indicator.dart';
 import 'package:dapple/core/widgets/xp_indicator.dart';
@@ -5,8 +6,8 @@ import 'package:dapple/features/home/presentation/new_widgets/learning_card.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../core/theme/app_palette.dart';
 import '../data/levelstatus.dart';
 import '../widgets/level_widget.dart';
@@ -67,7 +68,12 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(18.0),
-              child: LearningCard(),
+              child: GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context)
+                        .pushNamed(AppRouteConsts.question_text_screen);
+                  },
+                  child: LearningCard()),
             ),
             SizedBox(
               height: 8,

@@ -7,5 +7,6 @@ class AppRouteConsts{
   static String lesson = 'lesson-page';
   static String section = 'section';
   static String learn = 'learning-screen';
+  static String question_text_screen = 'question-text-screen';
 
 }
