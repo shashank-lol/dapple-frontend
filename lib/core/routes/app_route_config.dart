@@ -5,8 +5,9 @@ import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
-import 'package:dapple/features/question/presentation/pages/learningscreen.dart';
-import 'package:dapple/features/question/presentation/pages/question_text_screen.dart';
+import 'package:dapple/features/question/presentation/pages/learning_screen.dart';
+import 'package:dapple/features/question/presentation/pages/objective_question_screen.dart';
+import 'package:dapple/features/question/presentation/pages/subjective_question_screen.dart';
 import 'package:dapple/features/question/presentation/pages/start_page.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
@@ -80,10 +81,16 @@ class AppRouter {
             return Learningscreen();
           }),
       GoRoute(
-          path: '/questiontextscreen',
-          name: AppRouteConsts.question_text_screen,
+          path: '/subjectiveQuestion',
+          name: AppRouteConsts.subjectiveQuestionScreen,
           builder: (context, state) {
-            return QuestionTextScreen();
+            return SubjectiveQuestionScreen();
+          }),
+      GoRoute(
+          path: '/objectiveQuestion',
+          name: AppRouteConsts.objectiveQuestionScreen,
+          builder: (context, state) {
+            return ObjectiveQuestionScreen();
           }),
     ],
   );

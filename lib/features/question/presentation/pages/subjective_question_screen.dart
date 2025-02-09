@@ -1,19 +1,19 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/custom_text_rubik.dart';
-import 'package:dapple/core/widgets/section_template_screen.dart';
+import 'package:dapple/core/widgets/question_template_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-class QuestionTextScreen extends StatefulWidget {
-  const QuestionTextScreen({super.key});
+class SubjectiveQuestionScreen extends StatefulWidget {
+  const SubjectiveQuestionScreen({super.key});
 
   @override
-  State<QuestionTextScreen> createState() => _QuestionTextScreenState();
+  State<SubjectiveQuestionScreen> createState() => _SubjectiveQuestionScreenState();
 }
 
-class _QuestionTextScreenState extends State<QuestionTextScreen> {
+class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _words = '';
@@ -49,7 +49,7 @@ class _QuestionTextScreenState extends State<QuestionTextScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SectionTemplateScreen(
+    return QuestionTemplateScreen(
         widgetTop: Padding(
           padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
           child: Text(

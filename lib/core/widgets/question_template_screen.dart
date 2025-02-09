@@ -3,8 +3,8 @@ import 'package:dapple/core/widgets/section_progress_bar.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_palette.dart';
 
-class SectionTemplateScreen extends StatelessWidget {
-  const SectionTemplateScreen(
+class QuestionTemplateScreen extends StatelessWidget {
+  const QuestionTemplateScreen(
       {super.key, required this.widgetTop, required this.widgetBottom});
 
   final Widget widgetTop;
