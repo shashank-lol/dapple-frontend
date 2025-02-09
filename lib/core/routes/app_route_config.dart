@@ -6,6 +6,7 @@ import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
 import 'package:dapple/features/question/presentation/pages/learningscreen.dart';
+import 'package:dapple/features/question/presentation/pages/question_text_screen.dart';
 import 'package:dapple/features/question/presentation/pages/start_page.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
@@ -77,6 +78,12 @@ class AppRouter {
           name: AppRouteConsts.learn,
           builder: (context, state) {
             return Learningscreen();
+          }),
+      GoRoute(
+          path: '/questiontextscreen',
+          name: AppRouteConsts.question_text_screen,
+          builder: (context, state) {
+            return QuestionTextScreen();
           }),
     ],
   );

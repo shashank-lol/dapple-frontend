@@ -1,9 +1,6 @@
-import 'package:dapple/core/widgets/lives_indicator.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dapple/core/widgets/section_progress_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/primary_button.dart';
 
@@ -39,32 +36,7 @@ class Learningscreen extends StatelessWidget {
           ),
           Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 36, 18, 18),
-                child: Row(
-                  children: [
-                    SvgPicture.asset('assets/section/cross.svg'),
-                    Spacer(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 3 / 5,
-                      child: LinearProgressIndicator(
-                        value: 0.5,
-                        // 50% progress
-                        backgroundColor: AppPalette.progressbarcolor,
-                        // Background color
-                        color: Colors.white,
-                        // Progress color
-                        minHeight: 8,
-                        // Thickness of the bar
-                        borderRadius:
-                            BorderRadius.circular(4), // Rounded corners
-                      ),
-                    ),
-                    Spacer(),
-                    LivesIndicator(),
-                  ],
-                ),
-              ),
+              SectionProgressBar(),
               Spacer(),
               Container(
                 // Adjust width as needed
@@ -73,7 +45,10 @@ class Learningscreen extends StatelessWidget {
                     5, // Adjust height as needed
                 decoration: BoxDecoration(
                   color: Colors.white, // White background
-                  borderRadius: BorderRadius.circular(20), // Border radius 20
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                  ), // Border radius 20
                   image: DecorationImage(
                     image: AssetImage("assets/section/image_bg_white.png"),
                     // Your background image
