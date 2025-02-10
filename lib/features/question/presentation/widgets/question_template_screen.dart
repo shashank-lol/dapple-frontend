@@ -1,20 +1,26 @@
 import 'package:dapple/core/widgets/primary_button.dart';
 import 'package:dapple/core/widgets/section_progress_bar.dart';
 import 'package:flutter/material.dart';
-import '../theme/app_palette.dart';
+import '../../../../core/theme/app_palette.dart';
 
-class SectionTemplateScreen extends StatelessWidget {
-  const SectionTemplateScreen(
-      {super.key, required this.widgetTop, required this.widgetBottom});
+class QuestionTemplateScreen extends StatelessWidget {
+  const QuestionTemplateScreen(
+      {super.key,
+      required this.widgetTop,
+      required this.widgetBottom,
+      required this.onTap,
+      required this.resizeToAvoidBottomInset});
 
   final Widget widgetTop;
   final Widget widgetBottom;
+  final void Function() onTap;
+  final bool resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: Stack(
         children: [
           ShaderMask(
@@ -59,6 +65,7 @@ class SectionTemplateScreen extends StatelessWidget {
                   minimum: EdgeInsets.all(24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       widgetBottom,
                       Spacer(),
@@ -66,7 +73,7 @@ class SectionTemplateScreen extends StatelessWidget {
                         height: 8,
                       ),
                       PrimaryButton(
-                          onTap: () {},
+                          onTap: onTap,
                           text: "Continue",
                           primaryColor: AppPalette.white,
                           bgColor: AppPalette.primaryColor),

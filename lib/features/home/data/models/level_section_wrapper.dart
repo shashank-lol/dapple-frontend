@@ -6,7 +6,6 @@ class LevelSectionWrapper {
   final List<SectionModel> sections;
   final int completedLevels;
   final int completedSections;
-
   LevelSectionWrapper({
     required this.levels,
     required this.sections,

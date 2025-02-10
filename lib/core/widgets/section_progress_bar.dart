@@ -12,7 +12,11 @@ class SectionProgressBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(18, 36, 18, 18),
       child: Row(
         children: [
-          SvgPicture.asset('assets/section/cross.svg'),
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: SvgPicture.asset('assets/section/cross.svg')),
           SizedBox(
             width: 10,
           ),
