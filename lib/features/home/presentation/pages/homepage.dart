@@ -54,7 +54,9 @@ class _HomePageState extends State<HomePage> {
                     .bodyMedium
                     ?.copyWith(color: AppPalette.white)),
             const Spacer(),
-            LivesIndicator(),
+            LivesIndicator(
+              lightTheme: true,
+            ),
             const SizedBox(width: 15),
             XpIndicator(xp)
 
@@ -71,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               child: GestureDetector(
                   onTap: () {
                     GoRouter.of(context)
-                        .pushNamed(AppRouteConsts.audioQuestionScreen);
+                        .pushNamed(AppRouteConsts.answerReportScreen);
                   },
                   child: LearningCard()),
             ),

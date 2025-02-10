@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../theme/app_palette.dart';
-import 'lives_indicator.dart';
+import '../../../../core/theme/app_palette.dart';
+import '../../../../core/widgets/lives_indicator.dart';
 
 class SectionProgressBar extends StatelessWidget {
-  const SectionProgressBar({super.key});
+  const SectionProgressBar({super.key, required this.lightThemeBarEnabled});
+
+  final bool lightThemeBarEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,14 @@ class SectionProgressBar extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: SvgPicture.asset('assets/section/cross.svg')),
+              child: SvgPicture.asset(
+                'assets/section/cross.svg',
+                colorFilter: ColorFilter.mode(
+                    lightThemeBarEnabled
+                        ? AppPalette.white
+                        : AppPalette.blackColor,
+                    BlendMode.srcIn),
+              )),
           SizedBox(
             width: 10,
           ),
@@ -24,9 +33,11 @@ class SectionProgressBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: 0.5,
               // 50% progress
-              backgroundColor: AppPalette.progressbarcolor,
+              backgroundColor: AppPalette.progressBarColor,
               // Background color
-              color: Colors.white,
+              color: lightThemeBarEnabled
+                  ? AppPalette.white
+                  : AppPalette.primaryColor,
               // Progress color
               minHeight: 8,
               // Thickness of the bar
@@ -36,7 +47,9 @@ class SectionProgressBar extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          LivesIndicator(),
+          LivesIndicator(
+            lightTheme: lightThemeBarEnabled,
+          ),
         ],
       ),
     );

@@ -15,24 +15,18 @@ class AppPalette{
 
   //daily problem colors
   static const lightPinkColor = Color(0xFFFFE0E6);
-  static const lightgreyColor = Color(0xFF333333);
+  static const lightGreyColor = Color(0xFF333333);
 
   //section block colors
-  static const section_title_color_on = Color(0xFF0D0B26);
-  static const section_title_color_off = Color(0xFFABB7C2);
-  static const section_subtitle_color_off = Color(0xFFABB7C2);
-  static const icon_bgcolor_on = Color(0xFF6A5AE0);
-  static const icon_bgcolor_off = Color(0xFFCFD6DC);
+  static const sectionTitleColorOn = Color(0xFF0D0B26);
+  static const sectionTitleColorOff = Color(0xFFABB7C2);
+  static const sectionSubtitleColorOff = Color(0xFFABB7C2);
+  static const iconBgColorOn = Color(0xFF6A5AE0);
+  static const iconBgColorOff = Color(0xFFCFD6DC);
 
   //learning screen
-  static const progressbarcolor =Color(0xFFB9B2F0);
-  static const learningtextcolor = Color(0xFF191919);
-
-
-
-
-
-
+  static const progressBarColor =Color(0xFFB9B2F0);
+  static const learningTextColor = Color(0xFF191919);
 
 
   static BoxShadow primaryShadow = BoxShadow(

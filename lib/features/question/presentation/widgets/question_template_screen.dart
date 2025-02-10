@@ -1,5 +1,5 @@
 import 'package:dapple/core/widgets/primary_button.dart';
-import 'package:dapple/core/widgets/section_progress_bar.dart';
+import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_palette.dart';
 
@@ -45,7 +45,7 @@ class QuestionTemplateScreen extends StatelessWidget {
               )),
           Column(
             children: [
-              SectionProgressBar(),
+              SectionProgressBar(lightThemeBarEnabled: true, ),
               Spacer(),
               widgetTop,
               Spacer(),

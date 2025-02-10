@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextRubik extends StatelessWidget {
@@ -20,8 +19,8 @@ class CustomTextRubik extends StatelessWidget {
       text,
       style: Theme.of(context)
           .textTheme
-          .labelMedium
-          ?.copyWith(color: color, fontSize: size, fontWeight: weight),
+          .titleMedium
+          !.copyWith(color: color, fontSize: size, fontWeight: weight),
     );
   }
 }

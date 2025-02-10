@@ -1,4 +1,4 @@
-import 'package:dapple/core/widgets/section_progress_bar.dart';
+import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,7 +38,7 @@ class Learningscreen extends StatelessWidget {
           ),
           Column(
             children: [
-              SectionProgressBar(),
+              SectionProgressBar(lightThemeBarEnabled: true,),
               Spacer(),
               Container(
                 // Adjust width as needed
@@ -65,7 +65,7 @@ class Learningscreen extends StatelessWidget {
                       Text(
                         'Title',
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: AppPalette.learningtextcolor,
+                              color: AppPalette.learningTextColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 24,
                             ),
@@ -78,7 +78,7 @@ class Learningscreen extends StatelessWidget {
                             style: GoogleFonts.rubik(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: AppPalette.learningtextcolor),
+                                color: AppPalette.learningTextColor),
                           ),
                         ),
                       ),

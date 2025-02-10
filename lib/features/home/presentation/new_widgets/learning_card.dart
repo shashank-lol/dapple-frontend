@@ -25,7 +25,7 @@ class LearningCard extends StatelessWidget {
                     opacity: 0.8,
                     child: Text("YOUR DAILY GOAL",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: AppPalette.lightgreyColor,
+                              color: AppPalette.lightGreyColor,
                               fontSize: 14,
                             )),
                   ),
@@ -51,7 +51,7 @@ class LearningCard extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                      color: AppPalette.lightgreyColor,
+                                      color: AppPalette.lightGreyColor,
                                       fontSize: 16,
                                     )),
                             SizedBox(
@@ -68,7 +68,7 @@ class LearningCard extends StatelessWidget {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                          color: AppPalette.lightgreyColor,
+                                          color: AppPalette.lightGreyColor,
                                           fontSize: 12,
                                         )),
                               ),

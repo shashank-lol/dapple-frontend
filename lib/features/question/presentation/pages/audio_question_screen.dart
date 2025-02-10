@@ -206,8 +206,6 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
                             ),
                         child: SvgPicture.asset(
                           'assets/section/retry.svg',
-                          height: 25,
-                          width: 25,
                         )),
                     Spacer(),
                   ],

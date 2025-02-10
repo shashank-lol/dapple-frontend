@@ -26,8 +26,8 @@ class PrimaryButton extends StatelessWidget {
           text.toUpperCase(),
           style: Theme.of(context)
               .textTheme
-              .labelMedium
-              ?.copyWith(color: primaryColor),
+              .labelMedium!
+              .copyWith(color: primaryColor),
         ),
       ),
     );
