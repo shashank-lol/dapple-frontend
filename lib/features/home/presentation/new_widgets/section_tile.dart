@@ -24,8 +24,8 @@ class SectionTile extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           color: status == LevelStatus.locked
-              ? AppPalette.icon_bgcolor_off
-              : AppPalette.icon_bgcolor_on, // Background color
+              ? AppPalette.iconBgColorOff
+              : AppPalette.iconBgColorOn, // Background color
           shape: BoxShape.circle, // Makes the container circular
         ),
         child: Center(
@@ -46,15 +46,15 @@ class SectionTile extends StatelessWidget {
         title,
         style: Theme.of(context).textTheme.titleSmall!.copyWith(
             color: status == LevelStatus.locked
-                ? AppPalette.section_title_color_off
-                : AppPalette.section_title_color_on),
+                ? AppPalette.sectionTitleColorOff
+                : AppPalette.sectionTitleColorOn),
       ),
       subtitle: Text(
         "$xp XP",
         style: GoogleFonts.rubik(
             fontSize: 14,
             fontWeight: FontWeight.normal,
-            color: AppPalette.section_subtitle_color_off),
+            color: AppPalette.sectionSubtitleColorOff),
       ),
     );
   }

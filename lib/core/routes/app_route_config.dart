@@ -5,6 +5,7 @@ import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
+import 'package:dapple/features/question/presentation/pages/answer_report_screen.dart';
 import 'package:dapple/features/question/presentation/pages/audio_question_screen.dart';
 import 'package:dapple/features/question/presentation/pages/learning_screen.dart';
 import 'package:dapple/features/question/presentation/pages/objective_question_screen.dart';
@@ -58,7 +59,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/main-layout',
-        name: AppRouteConsts.mainlayout,
+        name: AppRouteConsts.mainLayout,
         builder: (context, state) => MainLayoutPage(),
       ),
       GoRoute(
@@ -98,6 +99,12 @@ class AppRouter {
           name: AppRouteConsts.audioQuestionScreen,
           builder: (context, state) {
             return AudioQuestionScreen();
+          }),
+      GoRoute(
+          path: '/answerReport',
+          name: AppRouteConsts.answerReportScreen,
+          builder: (context, state) {
+            return AnswerReportScreen();
           }),
     ],
   );
