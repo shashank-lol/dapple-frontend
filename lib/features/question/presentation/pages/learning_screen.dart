@@ -1,4 +1,5 @@
 import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
+import 'package:dapple/features/question/presentation/widgets/overlay_screens/success.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,8 +7,29 @@ import '../../../../core/routes/app_route_consts.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/primary_button.dart';
 
-class Learningscreen extends StatelessWidget {
-  const Learningscreen({super.key});
+class LearningScreen extends StatefulWidget {
+  const LearningScreen({super.key});
+
+  @override
+  State<LearningScreen> createState() => _LearningScreenState();
+}
+
+class _LearningScreenState extends State<LearningScreen>
+    with SingleTickerProviderStateMixin {
+  bool _showOverlay = false;
+
+  void _completeReading(context) {
+    setState(() {
+      _showOverlay = true;
+    });
+
+    // Wait for 5 seconds, then navigate to the next page
+    Future.delayed(Duration(seconds: 1), () {
+      if (_showOverlay == true) {
+        GoRouter.of(context).pushNamed(AppRouteConsts.subjectiveQuestionScreen);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +60,9 @@ class Learningscreen extends StatelessWidget {
           ),
           Column(
             children: [
-              SectionProgressBar(lightThemeBarEnabled: true,),
+              SectionProgressBar(
+                lightThemeBarEnabled: true,
+              ),
               Spacer(),
               Container(
                 // Adjust width as needed
@@ -88,8 +112,7 @@ class Learningscreen extends StatelessWidget {
                       ),
                       PrimaryButton(
                           onTap: () {
-                            GoRouter.of(context)
-                                .pushNamed(AppRouteConsts.subjectiveQuestionScreen);
+                            _completeReading(context);
                           },
                           text: "Continue",
                           primaryColor: AppPalette.white,
@@ -103,6 +126,16 @@ class Learningscreen extends StatelessWidget {
               ),
             ],
           ),
+          if (_showOverlay)
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _showOverlay = !_showOverlay;
+                  });
+                  GoRouter.of(context)
+                      .pushNamed(AppRouteConsts.subjectiveQuestionScreen);
+                },
+                child: SuccessOverlay(showOverlay: _showOverlay))
         ],
       ),
     );

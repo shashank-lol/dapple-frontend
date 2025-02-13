@@ -80,7 +80,7 @@ class AppRouter {
           path: '/learn',
           name: AppRouteConsts.learn,
           builder: (context, state) {
-            return Learningscreen();
+            return LearningScreen();
           }),
       GoRoute(
           path: '/subjectiveQuestion',

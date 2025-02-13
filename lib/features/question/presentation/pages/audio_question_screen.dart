@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../core/theme/app_palette.dart';
+import '../widgets/overlay_screens/loading.dart';
 import '../widgets/question_template_screen.dart';
 
 class AudioQuestionScreen extends StatefulWidget {
@@ -28,6 +29,18 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
   final AudioPlayer audioPlayer = AudioPlayer();
 
   late AnimationController _controller;
+  bool _showOverlay = false;
+
+  void _receivedResponse(context) {
+    setState(() {
+      _showOverlay = true;
+    });
+
+    // Wait for 5 seconds, then navigate to the next page
+    Future.delayed(Duration(seconds: 1), () {
+      if (_showOverlay == true) {}
+    });
+  }
 
   @override
   void initState() {
@@ -98,125 +111,141 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return QuestionTemplateScreen(
-      widgetTop: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-        child: Text(
-          textAlign: TextAlign.center,
-          'Write the best response for a colleague asking about your weekend.',
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: AppPalette.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w500),
-        ),
-      ),
-      widgetBottom: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          QuestionsTemplateHeader(title: 'Speak answer', action: () {}),
-          Stack(
+    return Stack(
+      children: [
+        QuestionTemplateScreen(
+          widgetTop: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+            child: Text(
+              textAlign: TextAlign.center,
+              'Write the best response for a colleague asking about your weekend.',
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: AppPalette.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          widgetBottom: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              for (int i = 0; i < 2; i++)
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 2 / 5,
-                  width: double.infinity,
-                  child: Center(
-                    child: AnimatedBuilder(
-                      animation: _controller,
-                      builder: (context, child) {
-                        double progress = (_controller.value + (i * 0.3)) % 1.0;
-                        double scale =
-                            progress * 2.5; // Start from small to big
-                        return Opacity(
-                          opacity: (1 - progress).clamp(0.0, 1.0),
-                          // Fade effect
-                          child: Container(
-                            width: 100 * scale,
-                            height: 100 * scale,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppPalette.primaryColor,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 2 / 5,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: _playPause,
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(
-                            side: BorderSide(
-                                color: AppPalette.blackColor,
-                                width: 1), // Black border
-                          ),
-                          elevation: 0,
-                          backgroundColor: Colors.white,
-                          foregroundColor: AppPalette.primaryColor // Icon color
-                          ),
-                      child: SvgPicture.asset('assets/section/headphone.svg'),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: _recordPause,
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        elevation: 0,
-                        backgroundColor: AppPalette.primaryColor,
-                        foregroundColor: AppPalette.blackColor, // Icon color
-                      ),
-                      child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: isRecording
-                            ? Padding(
-                                padding: const EdgeInsets.all(25.0),
-                                child: SvgPicture.asset(
-                                  'assets/section/stop_rec.svg',
-                                ),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: SvgPicture.asset(
-                                  'assets/section/mic.svg',
+              QuestionsTemplateHeader(title: 'Speak answer', action: () {}),
+              Stack(
+                children: [
+                  for (int i = 0; i < 2; i++)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 5,
+                      width: double.infinity,
+                      child: Center(
+                        child: AnimatedBuilder(
+                          animation: _controller,
+                          builder: (context, child) {
+                            double progress =
+                                (_controller.value + (i * 0.3)) % 1.0;
+                            double scale =
+                                progress * 2.5; // Start from small to big
+                            return Opacity(
+                              opacity: (1 - progress).clamp(0.0, 1.0),
+                              // Fade effect
+                              child: Container(
+                                width: 100 * scale,
+                                height: 100 * scale,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppPalette.primaryColor,
                                 ),
                               ),
+                            );
+                          },
+                        ),
                       ),
                     ),
-                    Spacer(),
-                    ElevatedButton(
-                        onPressed: reset,
-                        style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(
-                              side: BorderSide(
-                                  color: AppPalette.blackColor,
-                                  width: 1), // Black border
-                            ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 2 / 5,
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        ElevatedButton(
+                          onPressed: _playPause,
+                          style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(
+                                side: BorderSide(
+                                    color: AppPalette.blackColor,
+                                    width: 1), // Black border
+                              ),
+                              elevation: 0,
+                              backgroundColor: Colors.white,
+                              foregroundColor:
+                                  AppPalette.primaryColor // Icon color
+                              ),
+                          child:
+                              SvgPicture.asset('assets/section/headphone.svg'),
+                        ),
+                        Spacer(),
+                        ElevatedButton(
+                          onPressed: _recordPause,
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
                             elevation: 0,
-                            backgroundColor: AppPalette.white,
+                            backgroundColor: AppPalette.primaryColor,
                             foregroundColor:
-                                AppPalette.primaryColor // Icon color
-                            ),
-                        child: SvgPicture.asset(
-                          'assets/section/retry.svg',
-                        )),
-                    Spacer(),
-                  ],
-                ),
+                                AppPalette.blackColor, // Icon color
+                          ),
+                          child: SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: isRecording
+                                ? Padding(
+                                    padding: const EdgeInsets.all(25.0),
+                                    child: SvgPicture.asset(
+                                      'assets/section/stop_rec.svg',
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: SvgPicture.asset(
+                                      'assets/section/mic.svg',
+                                    ),
+                                  ),
+                          ),
+                        ),
+                        Spacer(),
+                        ElevatedButton(
+                            onPressed: reset,
+                            style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(
+                                  side: BorderSide(
+                                      color: AppPalette.blackColor,
+                                      width: 1), // Black border
+                                ),
+                                elevation: 0,
+                                backgroundColor: AppPalette.white,
+                                foregroundColor:
+                                    AppPalette.primaryColor // Icon color
+                                ),
+                            child: SvgPicture.asset(
+                              'assets/section/retry.svg',
+                            )),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-      onTap: () {},
-      resizeToAvoidBottomInset: false,
+          onTap: () {
+            _receivedResponse(context);
+          },
+          resizeToAvoidBottomInset: false,
+        ),
+        if (_showOverlay)
+          GestureDetector(
+              onTap: () {
+                setState(() {});
+              },
+              child: LoadingOverlay(showOverlay: _showOverlay))
+      ],
     );
   }
 }
