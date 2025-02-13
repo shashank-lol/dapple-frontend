@@ -1,4 +1,5 @@
 import 'package:dapple/core/theme/app_palette.dart';
+import 'package:dapple/features/question/presentation/widgets/overlay_screens/loading.dart';
 import 'package:dapple/features/question/presentation/widgets/question_template_screen.dart';
 import 'package:dapple/features/question/presentation/widgets/questions_template_header.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,22 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _words = '';
+
   final TextEditingController _controller = TextEditingController();
+  bool _showOverlay = false;
+
+  void _receivedResponse(context) {
+    setState(() {
+      _showOverlay = true;
+    });
+
+    // Wait for 5 seconds, then navigate to the next page
+    Future.delayed(Duration(seconds: 1), () {
+      if (_showOverlay == true) {
+        GoRouter.of(context).pushNamed(AppRouteConsts.objectiveQuestionScreen);
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -53,81 +69,96 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return QuestionTemplateScreen(
-      widgetTop: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-        child: Text(
-          textAlign: TextAlign.center,
-          'Write the best response for a colleague asking about your weekend.',
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: AppPalette.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w500),
-        ),
-      ),
-      widgetBottom: Column(
-        children: [
-          QuestionsTemplateHeader(
-            title: 'Answer',
-            action: () {},
+    return Stack(
+      children: [
+        QuestionTemplateScreen(
+          widgetTop: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+            child: Text(
+              textAlign: TextAlign.center,
+              'Write the best response for a colleague asking about your weekend.',
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: AppPalette.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Stack(
+          widgetBottom: Column(
             children: [
-              Container(
-                // padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Color(0x266A5AE0), // Light purple background
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: TextField(
-                  controller: _controller,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppPalette.blackColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                  maxLines: 10,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Type your answer or tap on the mic to speak",
-                    hintStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Color(0x660C092A),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                ),
+              QuestionsTemplateHeader(
+                title: 'Answer',
+                action: () {},
               ),
-              Positioned(
-                bottom: 10,
-                right: 0,
-                child: ElevatedButton(
-                  onPressed: _speechToText.isListening
-                      ? _stopListening
-                      : _startListening,
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    elevation: 4,
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppPalette.blackColor, // Icon color
+              SizedBox(
+                height: 10,
+              ),
+              Stack(
+                children: [
+                  Container(
+                    // padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Color(0x266A5AE0), // Light purple background
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextField(
+                      controller: _controller,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: AppPalette.blackColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                      maxLines: 10,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Type your answer or tap on the mic to speak",
+                        hintStyle:
+                            Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  color: Color(0x660C092A),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                      ),
+                    ),
                   ),
-                  child: Icon(
-                    _speechToText.isListening ? Icons.mic : Icons.mic_off,
-                    size: 25,
+                  Positioned(
+                    bottom: 10,
+                    right: 0,
+                    child: ElevatedButton(
+                      onPressed: _speechToText.isListening
+                          ? _stopListening
+                          : _startListening,
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        elevation: 4,
+                        backgroundColor: Colors.white,
+                        foregroundColor: AppPalette.blackColor, // Icon color
+                      ),
+                      child: Icon(
+                        _speechToText.isListening ? Icons.mic : Icons.mic_off,
+                        size: 25,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-      onTap: () {
-        GoRouter.of(context).pushNamed(AppRouteConsts.objectiveQuestionScreen);
-      },
-      resizeToAvoidBottomInset: false,
+          onTap: () {
+            _receivedResponse(context);
+          },
+          resizeToAvoidBottomInset: false,
+        ),
+        if (_showOverlay)
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  _showOverlay = !_showOverlay;
+                });
+                GoRouter.of(context)
+                    .pushNamed(AppRouteConsts.objectiveQuestionScreen);
+              },
+              child: LoadingOverlay(showOverlay: _showOverlay))
+      ],
     );
   }
 }

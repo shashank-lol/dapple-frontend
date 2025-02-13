@@ -9,12 +9,14 @@ class QuestionTemplateScreen extends StatelessWidget {
       required this.widgetTop,
       required this.widgetBottom,
       required this.onTap,
-      required this.resizeToAvoidBottomInset});
+      required this.resizeToAvoidBottomInset,
+      this.buttonTitle});
 
   final Widget widgetTop;
   final Widget widgetBottom;
   final void Function() onTap;
   final bool resizeToAvoidBottomInset;
+  final String? buttonTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,9 @@ class QuestionTemplateScreen extends StatelessWidget {
               )),
           Column(
             children: [
-              SectionProgressBar(lightThemeBarEnabled: true, ),
+              SectionProgressBar(
+                lightThemeBarEnabled: true,
+              ),
               Spacer(),
               widgetTop,
               Spacer(),
@@ -74,7 +78,7 @@ class QuestionTemplateScreen extends StatelessWidget {
                       ),
                       PrimaryButton(
                           onTap: onTap,
-                          text: "Continue",
+                          text: buttonTitle ?? "Continue",
                           primaryColor: AppPalette.white,
                           bgColor: AppPalette.primaryColor),
                       const SizedBox(
