@@ -2,6 +2,9 @@ import 'package:dapple/core/theme/theme.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/option/option_bloc.dart';
+import 'package:dapple/features/question/presentation/bloc/all_questions/questions_cubit.dart';
+import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
+import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';
 import 'package:dapple/init_dependencies.dart';
 
 import 'package:flutter/material.dart';
@@ -20,7 +23,11 @@ void main() async {
         BlocProvider(create: (context) => serviceLocator<OnboardingBloc>()),
         BlocProvider(create: (context) => serviceLocator<OptionBloc>()),
         BlocProvider(create: (context) => serviceLocator<AuthBloc>()),
-        BlocProvider(create: (context) => serviceLocator<LevelsCubit>())
+        BlocProvider(create: (context) => serviceLocator<LevelsCubit>()),
+        BlocProvider(create: (context) => serviceLocator<QuestionsCubit>()),
+        BlocProvider(
+            create: (context) => serviceLocator<QuestionCompleteBloc>()),
+        BlocProvider(create: (context) => serviceLocator<XpCubit>())
       ],
       child: const MyApp(),
     ),
@@ -42,6 +49,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     context.read<AuthBloc>().add(AuthCurrentUser());
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

@@ -12,7 +12,6 @@ class LevelLocalDataSourceImpl implements LevelLocalDataSource {
     return LevelSectionWrapper(
       levels: [
         LevelModel(
-          id: "1",
           name: "Level 1",
           description: "This is level 1",
           imageUrl: "",
@@ -21,7 +20,6 @@ class LevelLocalDataSourceImpl implements LevelLocalDataSource {
           ],
         ),
         LevelModel(
-          id: "1",
           name: "Level 2",
           description: "This is level 2",
           imageUrl: "",
@@ -30,7 +28,6 @@ class LevelLocalDataSourceImpl implements LevelLocalDataSource {
           ],
         ),
         LevelModel(
-          id: "1",
           name: "Level 3",
           description: "This is level 3",
           imageUrl: "",

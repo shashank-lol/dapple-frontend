@@ -11,12 +11,10 @@ class AppRouteConsts{
   static String section = 'section';
   //Question Screens
   static String learn = 'learning-screen';
-  static String subjectiveQuestionScreen = 'subjective-question-screen';
-  static String objectiveQuestionScreen = 'objective-question-screen';
-  static String audioQuestionScreen = 'audio-question-screen';
-  static String answerReportScreen = 'answer-report-screen';
-
-
+  static String subjectiveQuestion = 'subjective-question';
+  static String objectiveQuestion = 'objective-question';
+  static String audioQuestion = 'audio-question';
+  static String answerReport = 'answer-report';
 
 
 

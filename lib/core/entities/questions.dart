@@ -1,8 +1,3 @@
-List<String> options = [
-  "Procrastination",
-  "Introduction",
-  "Productivity",
-];
 List<int> ages = [
   16,
   21,

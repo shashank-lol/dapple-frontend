@@ -1,3 +1,4 @@
+import 'package:dapple/core/entities/questions.dart';
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/custom_button.dart';
 import 'package:dapple/core/widgets/custom_textfield.dart';
@@ -124,14 +125,18 @@ class _AuthPageState extends State<AuthPage> {
                                 final optionBloc = BlocProvider.of<OptionBloc>(
                                   context,
                                 );
-                                final List<int> selectedCoursesInd = optionBloc
-                                    .state.selectedOptions[0];
-                                final int age = optionBloc.state.selectedOptions[1]
-                                    .isNotEmpty
-                                    ? optionBloc.state.selectedOptions[1][0]
-                                    : 0;
+                                final int age =
+                                    optionBloc.state.selectedOptions[0][0];
+                                final int gender =
+                                    optionBloc.state.selectedOptions[1][0];
+                                final int profession =
+                                    optionBloc.state.selectedOptions[2][0];
+                                final List<int> socialChallenges =
+                                    optionBloc.state.selectedOptions[3];
+                                final List<int> socialSettings =
+                                    optionBloc.state.selectedOptions[4];
+
                                 debugPrint(age.toString());
-                                debugPrint(selectedCoursesInd.toString());
                                 if (formKey.currentState!.validate()) {
                                   if (widget.isNewUser) {
                                     BlocProvider.of<AuthBloc>(context).add(
@@ -143,8 +148,15 @@ class _AuthPageState extends State<AuthPage> {
                                         email: emailController.text.trim(),
                                         password:
                                             passwordController.text.trim(),
-                                        courses: selectedCoursesInd,
-                                        age: age,
+                                        gender: genders[gender],
+                                        age: ages[age],
+                                        profession: professions[profession],
+                                        socialChallenges: socialChallenges
+                                            .map((e) => challenges[e])
+                                            .toList(),
+                                        socialSettings: socialSettings
+                                            .map((e) => socialSituations[e])
+                                            .toList(),
                                       ),
                                     );
                                   } else {

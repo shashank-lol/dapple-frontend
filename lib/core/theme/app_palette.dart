@@ -36,6 +36,13 @@ class AppPalette{
     offset: Offset(0, 3),
   );
 
+  static BoxShadow secondaryShadow = BoxShadow(
+    color: Color(0xFF121212).withValues(alpha: 0.1),
+    spreadRadius: 2,
+    blurRadius: 14,
+    offset: Offset(2, 2),
+  );
+
   static LinearGradient primaryGradient = LinearGradient(
     colors: [Color(0xFF8B7EE7), Color(0xFF6A5AE0)],
     begin: Alignment.topCenter,

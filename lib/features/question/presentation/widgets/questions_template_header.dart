@@ -29,7 +29,7 @@ class QuestionsTemplateHeader extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Reveal Best Answer',
+                'Show Hint',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: Color(0xFF3629B7),
                       fontSize: 12,

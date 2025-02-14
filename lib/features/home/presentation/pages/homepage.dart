@@ -3,11 +3,13 @@ import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart'
 import 'package:dapple/core/widgets/lives_indicator.dart';
 import 'package:dapple/core/widgets/xp_indicator.dart';
 import 'package:dapple/features/home/presentation/new_widgets/learning_card.dart';
+import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../../../core/theme/app_palette.dart';
 import '../data/levelstatus.dart';
 import '../widgets/level_widget.dart';
@@ -31,10 +33,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final userProvider = context.read<AppUserCubit>().state as AppUserLoggedIn;
+    EncryptedSharedPreferences sharedPreferences = EncryptedSharedPreferences.getInstance();
     final deviceHeight = MediaQuery.of(context).size.height;
-    final name = "Parth";
-    final xp = 100;
+    final name = sharedPreferences.getString("userFirstName");
+    final xp = sharedPreferences.getInt("userXp");
     return Scaffold(
       backgroundColor: AppPalette.primaryColor,
       appBar: AppBar(
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomePage> {
               lightTheme: true,
             ),
             const SizedBox(width: 15),
-            XpIndicator(xp)
+            XpIndicator(xp??0)
 
             // const SizedBox(width: 8,)
           ],
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage> {
               child: GestureDetector(
                   onTap: () {
                     GoRouter.of(context)
-                        .pushNamed(AppRouteConsts.answerReportScreen);
+                        .pushNamed(AppRouteConsts.answerReport);
                   },
                   child: LearningCard()),
             ),
@@ -147,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                             currentSection:
                                 state.levelAndSection.completedSections + 1,
                             sections: sections,
+                            sectionIds: state.levelAndSection.levels[i].sections!
                           ),
                         ),
                     ],

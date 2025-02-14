@@ -26,11 +26,9 @@ class OptionBloc extends Bloc<OptionEvent, OptionState> {
         emit(OptionSelected(selectedOptions: [...state.selectedOptions]));
       }
     });
-    // on<UnSelectOption>((event, emit){
-    //   final optionIndex = event.optionIndex;
-    //   final questionIndex = event.questionIndex;
-    //   state.selectedOptions[questionIndex].remove(optionIndex);
-    //   emit(OptionSelected(selectedOptions: [...state.selectedOptions]));
-    // });
+
+    on<ResetOptions>((event, emit) {
+      emit(OptionInitial(selectedOptions: [[],[]]));
+    });
   }
 }

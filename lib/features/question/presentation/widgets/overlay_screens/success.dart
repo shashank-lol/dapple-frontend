@@ -7,9 +7,10 @@ import '../../../../../core/utils/sound.dart';
 import '../../../../../core/widgets/custom_text_rubik.dart';
 
 class SuccessOverlay extends StatelessWidget {
-  const SuccessOverlay({super.key, required this.showOverlay});
+  const SuccessOverlay({super.key, required this.showOverlay, required this.xp});
 
   final bool showOverlay;
+  final int xp;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,9 @@ class SuccessOverlay extends StatelessWidget {
               'assets/dapple-girl/jump.png', // Replace with your image
               width: 300,
             ).jumpingAnimation()
-            // .callback(
-            // duration: 0.ms,
-            // callback: (_) => SoundManager.playSuccessEffect())
+            .callback(
+            duration: 0.ms,
+            callback: (_) => SoundManager.playSuccessEffect())
             ,
             Spacer(
               flex: 2,
@@ -43,7 +44,7 @@ class SuccessOverlay extends StatelessWidget {
                 color: AppPalette.white),
             SizedBox(height: 10),
             CustomTextRubik(
-                text: '+20 XP',
+                text: '+$xp XP',
                 weight: FontWeight.w700,
                 size: 24,
                 color: AppPalette.secondaryColor),

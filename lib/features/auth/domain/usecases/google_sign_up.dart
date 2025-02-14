@@ -12,13 +12,26 @@ class SignUpWithGoogle implements UseCase<User, GoogleSignUpParams> {
 
   @override
   Future<Either<Failure, User>> call(GoogleSignUpParams params) async {
-    return await repository.signUpWithGoogle(selectedCourses: params.selectedCourses, age: params.age);
+    return await repository.signUpWithGoogle(
+        age: params.age,
+        gender: params.gender,
+        profession: params.profession,
+        socialChallenges: params.socialChallenges,
+        socialSettings: params.socialSettings);
   }
 }
 
 class GoogleSignUpParams {
-  final List<int> selectedCourses;
+  final String gender;
+  final String profession;
+  final List<String> socialChallenges;
+  final List<String> socialSettings;
   final int age;
 
-  GoogleSignUpParams({required this.selectedCourses, required this.age});
+  GoogleSignUpParams(
+      {required this.gender,
+      required this.profession,
+      required this.socialChallenges,
+      required this.socialSettings,
+      required this.age});
 }

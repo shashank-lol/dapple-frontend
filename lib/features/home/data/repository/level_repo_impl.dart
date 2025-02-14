@@ -2,6 +2,7 @@ import 'package:dapple/core/error/failure.dart';
 import 'package:dapple/features/home/data/local/level_local_data_source.dart';
 import 'package:dapple/features/home/data/models/level_section_wrapper.dart';
 import 'package:dapple/features/home/domain/repository/level_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fpdart/src/either.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -19,8 +20,10 @@ class LevelRepoImpl implements LevelRepository {
       final result = await levelDataSource.getAllLevels();
       return right(result);
     } on ServerException catch(e){
+      debugPrint(e.message);
       final localLevels = localDataSource.getAllLevels();
       return right(localLevels);
+      return left(Failure(e.message));
     }
   }
 }

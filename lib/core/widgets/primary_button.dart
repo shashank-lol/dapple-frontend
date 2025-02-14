@@ -6,12 +6,14 @@ class PrimaryButton extends StatelessWidget {
       required this.onTap,
       required this.text,
       required this.primaryColor,
-      required this.bgColor});
+      required this.bgColor,
+      this.child});
 
   final void Function() onTap;
   final String text;
   final Color primaryColor;
   final Color bgColor;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: bgColor,
             padding: EdgeInsets.symmetric(vertical: 14)),
-        child: Text(
+        child: child?? Text(
           text.toUpperCase(),
           style: Theme.of(context)
               .textTheme

@@ -114,6 +114,7 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
     return Stack(
       children: [
         QuestionTemplateScreen(
+          buttonText: "Answer",
           widgetTop: Padding(
             padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
             child: Text(

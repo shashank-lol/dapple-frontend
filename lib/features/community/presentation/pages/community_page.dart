@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/cubits/app_user/app_user_cubit.dart';
-import '../../../home/presentation/widgets/course_card.dart';
 import '../../../home/presentation/widgets/features_icon.dart';
 import '../../../home/presentation/new_widgets/learning_card.dart';
 import '../../../home/presentation/widgets/xp_icon.dart';
@@ -15,7 +14,6 @@ class CommunityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = context.read<AppUserCubit>().state as AppUserLoggedIn;
-    print(userProvider.user.enrolledCourses.toString());
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -73,22 +71,6 @@ class CommunityPage extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              GridView(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.62,
-                ),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  for (var course in userProvider.user.enrolledCourses!)
-                    CourseCard(
-                      name: course,
-                    )
-                ],
-              )
             ],
           ),
         ),

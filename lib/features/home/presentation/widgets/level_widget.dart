@@ -16,7 +16,8 @@ class LevelWidget extends StatefulWidget {
       required this.description,
       required this.level,
       required this.currentSection,
-      required this.sections});
+      required this.sections,
+      required this.sectionIds});
 
   final int currentLevel;
   final int currentSection;
@@ -25,6 +26,7 @@ class LevelWidget extends StatefulWidget {
   final LevelStatus status;
   final int level;
   final List<Section> sections;
+  final List<String> sectionIds;
 
   @override
   State<LevelWidget> createState() => _LevelWidgetState();
@@ -65,29 +67,32 @@ class _LevelWidgetState extends State<LevelWidget> {
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          LevelStatusIcon(
-                            status: widget.status,
-                            levelnumber: widget.level,
-                          ),
-                          SizedBox(
-                            height: 32,
-                          ),
-                          Text(widget.heading,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: Colors.white, fontSize: 20)),
-                          Text(widget.description,
-                              maxLines: 2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      color: Color(0xFFB3B3B3), fontSize: 12)),
-                        ],
+                      SizedBox(
+                        width: 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            LevelStatusIcon(
+                              status: widget.status,
+                              levelnumber: widget.level,
+                            ),
+                            SizedBox(
+                              height: 32,
+                            ),
+                            Text(widget.heading,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: Colors.white, fontSize: 18)),
+                            Text(widget.description,
+                                maxLines: 2,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        color: Color(0xFFB3B3B3), fontSize: 12)),
+                          ],
+                        ),
                       ),
                       Spacer(),
                       Image.asset(
@@ -122,7 +127,9 @@ class _LevelWidgetState extends State<LevelWidget> {
                                   AppRouteConsts.section,
                                   extra: Section(
                                       title: widget.sections[i].title,
-                                      sectionXp: widget.sections[i].sectionXp));
+                                      sectionXp: widget.sections[i].sectionXp),
+                                pathParameters: {'id': widget.sectionIds[i]}
+                              );
                             }
                           },
                           child: SectionTile(

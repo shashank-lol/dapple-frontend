@@ -5,28 +5,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OptionsButton extends StatefulWidget {
-  const OptionsButton({
-    super.key,
-    required this.optionText,
-    this.icon,
-    required this.questionIndex,
-    required this.optionIndex,
-    required this.maxSelection,
-  });
+  const OptionsButton(
+      {super.key,
+      required this.optionText,
+      this.icon,
+      required this.questionIndex,
+      required this.optionIndex,
+      required this.maxSelection,
+      this.isCorrect});
 
   final String optionText;
   final IconData? icon;
   final int questionIndex;
   final int optionIndex;
   final int maxSelection;
+  final bool? isCorrect;
 
   @override
   State<OptionsButton> createState() => _OptionsButtonState();
 }
 
 class _OptionsButtonState extends State<OptionsButton> {
+  Color? color;
+
   @override
   Widget build(BuildContext context) {
+    if (widget.isCorrect != null) {
+      widget.isCorrect!
+          ? color = Color(0xFF1DFF5D).withValues(alpha: 0.4)
+          : color = Color(0xFFFF1D1D).withValues(alpha: 0.4);
+    }
     final optionBloc = BlocProvider.of<OptionBloc>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -49,8 +57,10 @@ class _OptionsButtonState extends State<OptionsButton> {
                 ? AppPalette.primaryColor.withValues(alpha: 0.2)
                 : Colors.white,
             backgroundColor: isSelected
-                ? AppPalette.primaryColor.withValues(alpha: 0.2)
-                : Colors.white,
+                ? (color ?? AppPalette.primaryColor.withValues(alpha: 0.2))
+                : (widget.isCorrect != null && widget.isCorrect!)
+                    ? color
+                    : Colors.white,
             shape: ContinuousRectangleBorder(
               side: BorderSide(
                 color: AppPalette.primaryColor.withValues(alpha: 0.2),

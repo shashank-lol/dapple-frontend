@@ -1,14 +1,28 @@
 import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
 import 'package:dapple/features/question/presentation/widgets/overlay_screens/success.dart';
+import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
+import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/routes/app_route_consts.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../bloc/all_questions/questions_cubit.dart';
 
 class LearningScreen extends StatefulWidget {
-  const LearningScreen({super.key});
+  const LearningScreen(
+      {super.key,
+      this.imageUrl,
+      required this.title,
+      required this.content,
+      required this.lessonId,
+      required this.lessonXp});
+
+  final String? imageUrl;
+  final String title;
+  final List<String> content;
+  final String lessonId;
+  final int lessonXp;
 
   @override
   State<LearningScreen> createState() => _LearningScreenState();
@@ -18,15 +32,15 @@ class _LearningScreenState extends State<LearningScreen>
     with SingleTickerProviderStateMixin {
   bool _showOverlay = false;
 
-  void _completeReading(context) {
+  Future<void> _completeReading(context) async {
     setState(() {
       _showOverlay = true;
     });
 
     // Wait for 5 seconds, then navigate to the next page
-    Future.delayed(Duration(seconds: 1), () {
+    await Future.delayed(Duration(seconds: 1), () {
       if (_showOverlay == true) {
-        GoRouter.of(context).pushNamed(AppRouteConsts.subjectiveQuestionScreen);
+        _showOverlay = false;
       }
     });
   }
@@ -40,22 +54,26 @@ class _LearningScreenState extends State<LearningScreen>
           Column(
             children: [
               ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return LinearGradient(
-                    colors: [Color(0x99000000), Colors.transparent],
-                    // Dark to Transparent
-                    begin: Alignment.topCenter,
-                    // Dark on the left side
-                    end: Alignment.center, // Transparent on the right side
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.darken, // Darkening effect
-                child: Image.asset(
-                  'assets/section/learning_bg.png',
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      colors: [Color(0x99000000), Colors.transparent],
+                      // Dark to Transparent
+                      begin: Alignment.topCenter,
+                      // Dark on the left side
+                      end: Alignment.center, // Transparent on the right side
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.darken, // Darkening effect
+                  child: widget.imageUrl == null
+                      ? Image.asset(
+                          'assets/section/learning_bg.png',
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          widget.imageUrl!,
+                          fit: BoxFit.cover,
+                        )),
             ],
           ),
           Column(
@@ -82,28 +100,29 @@ class _LearningScreenState extends State<LearningScreen>
                   ),
                 ),
                 child: SafeArea(
-                  minimum: EdgeInsets.all(24),
+                  minimum: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Title',
+                        widget.title,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               color: AppPalette.learningTextColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 24,
+                              height: 1.2,
                             ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 2 / 5,
-                        child: SingleChildScrollView(
-                          child: Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry .Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when anIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged It was popular in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently versions of Lorem Ipsum.",
-                            style: GoogleFonts.rubik(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppPalette.learningTextColor),
-                          ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      SingleChildScrollView(
+                        child: Text(
+                          widget.content.join("\n"),
+                          style: GoogleFonts.rubik(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppPalette.learningTextColor),
                         ),
                       ),
                       Spacer(),
@@ -111,14 +130,30 @@ class _LearningScreenState extends State<LearningScreen>
                         height: 8,
                       ),
                       PrimaryButton(
-                          onTap: () {
-                            _completeReading(context);
+                          onTap: () async {
+                            final responseBloc =
+                                context.read<QuestionCompleteBloc>();
+                            responseBloc
+                                .add(LessonCompletedEvent(widget.lessonId));
+                            await _completeReading(context);
+                            if (responseBloc.state is LessonCompleted) {
+                              context
+                                  .read<XpCubit>()
+                                  .incrementXp(widget.lessonXp);
+                              final questionsCubit =
+                                  context.read<QuestionsCubit>();
+                              if ((questionsCubit.state is QuestionsLoaded) &&
+                                  !_showOverlay) {
+                                responseBloc.add(QuestionResetEvent());
+                                questionsCubit.getNextQuestion(context);
+                              }
+                            }
                           },
                           text: "Continue",
                           primaryColor: AppPalette.white,
                           bgColor: AppPalette.primaryColor),
                       const SizedBox(
-                        height: 8,
+                        height: 32,
                       )
                     ],
                   ),
@@ -127,15 +162,19 @@ class _LearningScreenState extends State<LearningScreen>
             ],
           ),
           if (_showOverlay)
-            GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _showOverlay = !_showOverlay;
-                  });
-                  GoRouter.of(context)
-                      .pushNamed(AppRouteConsts.subjectiveQuestionScreen);
-                },
-                child: SuccessOverlay(showOverlay: _showOverlay))
+            BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
+              builder: (context, state) {
+                return GestureDetector(
+                    onTap: () {
+                      if (state is LessonCompleted) {
+                        setState(() {
+                          _showOverlay = !_showOverlay;
+                        });
+                      }
+                    },
+                    child: SuccessOverlay(showOverlay: _showOverlay, xp: widget.lessonXp,));
+              },
+            )
         ],
       ),
     );

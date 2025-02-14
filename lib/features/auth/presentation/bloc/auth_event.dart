@@ -8,7 +8,10 @@ final class AuthSignUp extends AuthEvent {
   final String lastName;
   final String email;
   final String password;
-  final List<int> courses;
+  final String gender;
+  final String profession;
+  final List<String> socialChallenges;
+  final List<String> socialSettings;
   final int age;
 
   AuthSignUp({
@@ -16,7 +19,10 @@ final class AuthSignUp extends AuthEvent {
     required this.lastName,
     required this.email,
     required this.password,
-    required this.courses,
+    required this.gender,
+    required this.profession,
+    required this.socialChallenges,
+    required this.socialSettings,
     required this.age
   });
 }
@@ -37,11 +43,17 @@ final class AuthLogInWithGoogle extends AuthEvent {
 }
 
 final class AuthSignUpWithGoogle extends AuthEvent {
-  final List<int> courses;
+  final String gender;
+  final String profession;
+  final List<String> socialChallenges;
+  final List<String> socialSettings;
   final int age;
 
   AuthSignUpWithGoogle({
-    required this.courses,
+    required this.gender,
+    required this.profession,
+    required this.socialChallenges,
+    required this.socialSettings,
     required this.age
   });
 }

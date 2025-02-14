@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:dapple/core/entities/user.dart' as user;
 
-import '../../../../core/entities/questions.dart';
 
 class AuthRepoImpl implements AuthRepository {
   final AuthDataSource authDataSource;
@@ -51,12 +50,17 @@ class AuthRepoImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, user.User>> signUpWithEmail(
-      {required String firstName,
-      required String lastName,
-      required String email,
-      required String password,
-      required List<int> selectedCourses, required int age}) async {
+  Future<Either<Failure, user.User>> signUpWithEmail({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+    required int age,
+    required String gender,
+    required String profession,
+    required List<String> socialChallenges,
+    required List<String> socialSettings,
+  }) async {
     final error = validateEmailAndPassword(email, password);
     if (error != null) {
       return left(Failure(error));
@@ -67,8 +71,11 @@ class AuthRepoImpl implements AuthRepository {
           lastName: lastName,
           email: email,
           password: password,
-          selectedCourses: selectedCourses,
-          age: age);
+          age: age,
+          gender: gender,
+          profession: profession,
+          socialChallenges: socialChallenges,
+          socialSettings: socialSettings);
       return right(result);
     } on ServerException catch (e) {
       return left(Failure(e.message));
@@ -87,8 +94,6 @@ class AuthRepoImpl implements AuthRepository {
     }
   }
 
-
-
   @override
   Either<Failure, user.User> currentUser() {
     final user = userDataSource.getCurrentUser();
@@ -100,13 +105,20 @@ class AuthRepoImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, user.User>> signUpWithGoogle({required List<int> selectedCourses, required int age}) async {
-    List<String> courses = [];
-    for (var element in selectedCourses) {
-      courses.add(options[element]);
-    }
+  Future<Either<Failure, user.User>> signUpWithGoogle({
+    required int age,
+    required String gender,
+    required String profession,
+    required List<String> socialChallenges,
+    required List<String> socialSettings,
+  }) async {
     try {
-      final result = await authDataSource.signUpWithGoogle(selectedCourses: courses, age: ages[age]);
+      final result = await authDataSource.signUpWithGoogle(
+          age: age,
+          gender: gender,
+          profession: profession,
+          socialChallenges: socialChallenges,
+          socialSettings: socialSettings);
       return right(result);
     } on ServerException catch (e) {
       return left(Failure(e.message));

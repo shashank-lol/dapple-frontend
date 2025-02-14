@@ -27,3 +27,8 @@ final class UnSelectOption extends OptionEvent {
     required this.optionIndex,
   });
 }
+
+final class ResetOptions extends OptionEvent {
+
+  const ResetOptions({required super.maxSelection});
+}

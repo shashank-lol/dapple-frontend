@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dapple/core/error/exceptions.dart';
 import 'package:dapple/features/auth/data/local/user_data_source.dart';
 import 'package:dapple/features/auth/data/models/user_model.dart';
-import 'package:dapple/core/entities/questions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,13 +10,17 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract interface class AuthDataSource {
-  Future<UserModel> signUpWithEmail(
-      {required String firstName,
-      required String lastName,
-      required String email,
-      required String password,
-      required List<int> selectedCourses,
-      required int age});
+  Future<UserModel> signUpWithEmail({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+    required int age,
+    required String gender,
+    required String profession,
+    required List<String> socialChallenges,
+    required List<String> socialSettings,
+  });
 
   Future<UserModel> loginWithEmail({
     required String email,
@@ -28,8 +31,13 @@ abstract interface class AuthDataSource {
 
   Future<UserModel> test();
 
-  Future<UserModel> signUpWithGoogle(
-      {required List<String> selectedCourses, required int age});
+  Future<UserModel> signUpWithGoogle({
+    required int age,
+    required String gender,
+    required String profession,
+    required List<String> socialChallenges,
+    required List<String> socialSettings,
+  });
 }
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -39,7 +47,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   AuthDataSourceImpl(this.firebaseAuth, this.googleSignIn, this.userDataSource);
 
-  final serverUrl = dotenv.env['BACKEND_URL'];
+  final serverUrl = dotenv.env['BACKEND_URL']! + "/api";
 
   @override
   Future<UserModel> test() async {
@@ -55,14 +63,7 @@ class AuthDataSourceImpl implements AuthDataSource {
     print(response.body.toString());
     if (response.statusCode < 300) {
       await userDataSource.saveUserDetails(
-          json["token"],
-          json["firstName"],
-          json["xp"],
-          json["lastCompletedSection"]["level"],
-          json["lastCompletedSection"]["section"],
-          json["lastCompletedSection"]["courseName"],
-          json["courses"].map<String>((e) => e.toString()).toList());
-
+          json["token"], json["firstName"], json["xp"]);
       final user = UserModel.fromJson(json);
       return user;
     }
@@ -113,13 +114,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         debugPrint(json.toString());
         if (response.statusCode < 300) {
           await userDataSource.saveUserDetails(
-              json["token"],
-              json["firstName"],
-              json["xp"],
-              json["lastCompletedSection"]["level"],
-              json["lastCompletedSection"]["section"],
-              json["lastCompletedSection"]["courseName"],
-              json["courses"].map((e) => e.toString()).toList());
+              json["token"], json["firstName"], json["xp"]);
 
           final user = UserModel.fromJson(json);
           return user;
@@ -180,13 +175,7 @@ class AuthDataSourceImpl implements AuthDataSource {
     print(json.toString());
     if (response.statusCode < 300) {
       await userDataSource.saveUserDetails(
-          json["token"],
-          json["firstName"],
-          json["xp"],
-          json["lastCompletedSection"]["level"],
-          json["lastCompletedSection"]["section"],
-          json["lastCompletedSection"]["courseName"],
-          json["courses"].map((e) => e.toString()).toList());
+          json["token"], json["firstName"], json["xp"]);
 
       final user = UserModel.fromJson(json);
       return user;
@@ -201,8 +190,11 @@ class AuthDataSourceImpl implements AuthDataSource {
       required String lastName,
       required String email,
       required String password,
-      required List<int> selectedCourses,
-      required int age}) async {
+      required int age,
+      required String gender,
+      required String profession,
+      required List<String> socialChallenges,
+      required List<String> socialSettings}) async {
     try {
       final credential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -220,47 +212,43 @@ class AuthDataSourceImpl implements AuthDataSource {
           "An error occurred while creating the account.\n ${e.toString()}");
     }
 
-    late http.Response response;
+    late http.Response? response;
     await firebaseAuth.currentUser?.getIdToken(true).then((idToken) async {
       // Send token to your backend via HTTPS
-      List<String> courses = [];
-      for (var element in selectedCourses) {
-        courses.add(options[element]);
-      }
-      int ageNum = ages[age];
-      var bod = jsonEncode(
-        <String, Object>{
-          'firstName': firstName,
-          'lastName': lastName,
-          'email': email,
-          'firebaseToken': idToken!,
-          'courses': courses,
-          'age': ageNum,
-        },
-      );
+      debugPrint(idToken);
+
       response = await http.post(Uri.parse("$serverUrl/auth/register"),
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
           },
-          body: bod);
+          body: jsonEncode(
+            <String, Object>{
+              'firstName': firstName,
+              'lastName': lastName,
+              'email': email,
+              'firebaseToken': idToken!,
+              'age': age,
+              'gender': gender,
+              'profession': profession,
+              "socialChallenges": socialChallenges,
+              "strugglingSocialSetting": socialSettings
+            },
+          ));
     }).catchError((error) {
       // Handle error
       debugPrint("Error: $error");
       throw ServerException(error.toString());
     });
+    if (response == null) {
+      throw ServerException("An error occurred while creating the account.");
+    }
+    print(response!.body.toString());
+    var json = jsonDecode(response!.body);
 
-    var json = jsonDecode(response.body);
-    print(response.body.toString());
-    if (response.statusCode < 300) {
+    if (response!.statusCode < 300) {
       await userDataSource.saveUserDetails(
-          json["token"],
-          json["firstName"],
-          json["xp"],
-          json["lastCompletedSection"]["level"],
-          json["lastCompletedSection"]["section"],
-          json["lastCompletedSection"]["courseName"],
-          json["courses"].map((e) => e.toString()).toList());
+          json["token"], json["firstName"], json["xp"]);
 
       final user = UserModel.fromJson(json);
       return user;
@@ -270,8 +258,13 @@ class AuthDataSourceImpl implements AuthDataSource {
   }
 
   @override
-  Future<UserModel> signUpWithGoogle(
-      {required List<String> selectedCourses, required int age}) async {
+  Future<UserModel> signUpWithGoogle({
+    required int age,
+    required String gender,
+    required String profession,
+    required List<String> socialChallenges,
+    required List<String> socialSettings,
+  }) async {
     User? user;
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
@@ -307,8 +300,11 @@ class AuthDataSourceImpl implements AuthDataSource {
                   "lastName": lastName,
                   'email': user?.email ?? "",
                   'firebaseToken': idToken!,
-                  'courses': selectedCourses,
                   'age': age,
+                  'gender': gender,
+                  'profession': profession,
+                  "socialChallenges": socialChallenges,
+                  "strugglingSocialSetting": socialSettings
                 },
               ));
         }).catchError((error) {
@@ -317,13 +313,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         var json = jsonDecode(response.body);
         if (response.statusCode < 300) {
           await userDataSource.saveUserDetails(
-              json["token"],
-              json["firstName"],
-              json["xp"],
-              json["lastCompletedSection"]["level"],
-              json["lastCompletedSection"]["section"],
-              json["lastCompletedSection"]["courseName"],
-              json["courses"].map((e) => e.toString()).toList());
+              json["token"], json["firstName"], json["xp"]);
 
           final user = UserModel.fromJson(json);
           return user;

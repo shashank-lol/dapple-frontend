@@ -5,7 +5,10 @@ import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
+import 'package:dapple/features/question/domain/entities/subjective_question_answer.dart';
 import 'package:dapple/features/question/presentation/pages/answer_report_screen.dart';
+import 'package:dapple/features/question/domain/entities/objective_question.dart';
+import 'package:dapple/features/question/domain/entities/subjective_question.dart';
 import 'package:dapple/features/question/presentation/pages/audio_question_screen.dart';
 import 'package:dapple/features/question/presentation/pages/learning_screen.dart';
 import 'package:dapple/features/question/presentation/pages/objective_question_screen.dart';
@@ -16,6 +19,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/home/domain/entities/section.dart';
 import '../../features/onboarding/presentation/pages/get_started_page.dart';
+import '../../features/question/domain/entities/lesson.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
@@ -71,40 +75,59 @@ class AppRouter {
         ),
       ),
       GoRoute(
-          path: '/section',
+          path: '/section/:id',
           name: AppRouteConsts.section,
           builder: (context, state) {
-            return StartPage(state.extra as Section);
+            return StartPage(state.extra as Section,
+                sectionId: state.pathParameters["id"]!);
           }),
       GoRoute(
           path: '/learn',
           name: AppRouteConsts.learn,
           builder: (context, state) {
-            return LearningScreen();
+            final lesson = state.extra as Lesson;
+            return LearningScreen(
+              title: lesson.title!,
+              content: lesson.content,
+              imageUrl: lesson.imageUrl,
+              lessonId: lesson.questionId,
+              lessonXp: lesson.xp,
+            );
           }),
       GoRoute(
           path: '/subjectiveQuestion',
-          name: AppRouteConsts.subjectiveQuestionScreen,
+          name: AppRouteConsts.subjectiveQuestion,
           builder: (context, state) {
-            return SubjectiveQuestionScreen();
+            final question = state.extra as SubjectiveQuestion;
+            return SubjectiveQuestionScreen(
+              question: question.question!,
+              questionId: question.questionId,
+              maxXp: question.xp,
+            );
           }),
       GoRoute(
           path: '/objectiveQuestion',
-          name: AppRouteConsts.objectiveQuestionScreen,
+          name: AppRouteConsts.objectiveQuestion,
           builder: (context, state) {
-            return ObjectiveQuestionScreen();
+            final question = state.extra as ObjectiveQuestion;
+            return ObjectiveQuestionScreen(
+                options: question.options,
+                question: question.question!,
+                imageUrl: question.imageUrl,
+                questionId: question.questionId,);
           }),
       GoRoute(
           path: '/audioQuestion',
-          name: AppRouteConsts.audioQuestionScreen,
+          name: AppRouteConsts.audioQuestion,
           builder: (context, state) {
             return AudioQuestionScreen();
           }),
       GoRoute(
-          path: '/answerReport',
-          name: AppRouteConsts.answerReportScreen,
+          path: '/answerReport/:maxXp',
+          name: AppRouteConsts.answerReport,
           builder: (context, state) {
-            return AnswerReportScreen();
+            final response = state.extra as SubjectiveQuestionAnswer;
+            return AnswerReportScreen(response: response, maxXp: int.parse(state.pathParameters['maxXp']!),);
           }),
     ],
   );
