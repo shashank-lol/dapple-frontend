@@ -1,3 +1,5 @@
+import 'package:dapple/core/utils/back_button_handler.dart';
+import 'package:dapple/features/question/presentation/widgets/overlay_screens/failure.dart';
 import 'package:dapple/features/question/presentation/widgets/question_template_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,167 +37,162 @@ class _ObjectiveQuestionScreenState extends State<ObjectiveQuestionScreen> {
     setState(() {
       _showOverlay = true;
     });
-    // Wait for 5 seconds, then navigate to the next page
-    await Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _showOverlay = false;
-      });
-    });
   }
-
-  void playErrorSound() {}
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        QuestionTemplateScreen(
-          buttonText: "Answer",
-          widgetTop: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 100,
-                width: 200,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    image: DecorationImage(
-                        image: widget.imageUrl == null
-                            ? AssetImage(
-                                'assets/section/objective_img.png',
-                              )
-                            : NetworkImage(widget.imageUrl!),
-                        fit: BoxFit.fill)),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-                child: Text(
-                  textAlign: TextAlign.center,
-                  widget.question,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppPalette.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
-                ),
-              )
-            ],
-          ),
-          widgetBottom:
-              BlocListener<QuestionCompleteBloc, QuestionCompleteState>(
-            listener: (context, state) {
-              if (state is ObjectiveAnswered) {
-                if (state.isCorrect) {
-                  _receivedResponse(context);
-                } else {
-                  playErrorSound();
-                }
-              }
-            },
-            child: Column(
+    return BackButtonHandler(
+      child: Stack(
+        children: [
+          QuestionTemplateScreen(
+            buttonText: "Answer",
+            widgetTop: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < 4; i++)
-                  BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
-                    builder: (context, state) {
-                      bool? isCorrect;
-                      if (state is ObjectiveAnswered) {
-                        isCorrect =
-                            state.objectiveQuestionAnswer.correctOptionIndex ==
-                                i;
-                      }
-                      return OptionsButton(
-                          optionText: widget.options[i],
-                          questionIndex: 1,
-                          optionIndex: i,
-                          maxSelection: 1,
-                          isCorrect: isCorrect);
-                    },
+                Container(
+                  height: 100,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      image: DecorationImage(
+                          image: widget.imageUrl == null
+                              ? AssetImage(
+                                  'assets/section/objective_img.png',
+                                )
+                              : NetworkImage(widget.imageUrl!),
+                          fit: BoxFit.fill)),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    widget.question,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: AppPalette.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
                   ),
+                )
               ],
             ),
-          ),
-          onTap: () {
-            final responseBloc = context.read<QuestionCompleteBloc>();
-            if (responseBloc.state is ObjectiveAnswered) {
-              context
-                  .read<XpCubit>()
-                  .incrementXp((responseBloc.state as ObjectiveAnswered).xp);
-
-              final questionsCubit = context.read<QuestionsCubit>();
-              if (questionsCubit.state is QuestionsLoaded) {
-                responseBloc.add(QuestionResetEvent());
-                final optionsBloc = context.read<OptionBloc>();
-                optionsBloc.add(ResetOptions(maxSelection: 1));
-                questionsCubit.getNextQuestion(context);
-              }
-            } else if (responseBloc.state is CompletionLoading) {
-              // Do nothing
-            } else {
-              final optionBloc = context.read<OptionBloc>().state;
-              int selectedOption = optionBloc.selectedOptions[1][0];
-              responseBloc.add(
-                  ObjectiveAnsweredEvent(selectedOption, widget.questionId));
-            }
-          },
-          resizeToAvoidBottomInset: false,
-          buttonWidget:
-              BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
-            builder: (context, state) {
-              if (state is CompletionLoading) {
-                return Center(
-                  child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      color: AppPalette.white,
-                      strokeWidth: 2,
+            widgetBottom:
+                BlocListener<QuestionCompleteBloc, QuestionCompleteState>(
+              listener: (context, state) {
+                if (state is ObjectiveAnswered) {
+                  _receivedResponse(context);
+                }
+              },
+              child: Column(
+                children: [
+                  for (int i = 0; i < 4; i++)
+                    BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
+                      builder: (context, state) {
+                        bool? isCorrect;
+                        if (state is ObjectiveAnswered) {
+                          isCorrect = state
+                                  .objectiveQuestionAnswer.correctOptionIndex ==
+                              i;
+                        }
+                        return OptionsButton(
+                            optionText: widget.options[i],
+                            questionIndex: 1,
+                            optionIndex: i,
+                            maxSelection: 1,
+                            isCorrect: isCorrect);
+                      },
                     ),
-                  ),
-                );
-              } else if (state is ObjectiveAnswered) {
-                return Text(
-                  "continue".toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .copyWith(color: AppPalette.white),
-                );
+                ],
+              ),
+            ),
+            onTap: () {
+              final responseBloc = context.read<QuestionCompleteBloc>();
+              if (responseBloc.state is ObjectiveAnswered) {
+                context
+                    .read<XpCubit>()
+                    .incrementXp((responseBloc.state as ObjectiveAnswered).xp);
+
+                final questionsCubit = context.read<QuestionsCubit>();
+                if (questionsCubit.state is QuestionsLoaded) {
+                  responseBloc.add(QuestionResetEvent());
+                  final optionsBloc = context.read<OptionBloc>();
+                  optionsBloc.add(ResetOptions(maxSelection: 1));
+                  questionsCubit.getNextQuestion(context);
+                }
+              } else if (responseBloc.state is CompletionLoading) {
+                // Do nothing
               } else {
-                return Text(
-                  "answer".toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .copyWith(color: AppPalette.white),
-                );
+                final optionBloc = context.read<OptionBloc>().state;
+                int selectedOption = optionBloc.selectedOptions[1][0];
+                responseBloc.add(
+                    ObjectiveAnsweredEvent(selectedOption, widget.questionId));
               }
             },
+            resizeToAvoidBottomInset: false,
+            buttonWidget:
+                BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
+              builder: (context, state) {
+                if (state is CompletionLoading) {
+                  return Center(
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: AppPalette.white,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  );
+                } else if (state is ObjectiveAnswered) {
+                  return Text(
+                    "continue".toUpperCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: AppPalette.white),
+                  );
+                } else {
+                  return Text(
+                    "answer".toUpperCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: AppPalette.white),
+                  );
+                }
+              },
+            ),
           ),
-        ),
-        if (_showOverlay)
-          BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
-            builder: (context, state) {
-              if (state is ObjectiveAnswered) {
-                return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _showOverlay = !_showOverlay;
-                      });
-                    },
-                    child: SuccessOverlay(
-                      showOverlay: _showOverlay,
-                      xp: state.xp,
-                    ));
-              }
-              else{
-                return SizedBox();
-              }
-            },
-          ),
-      ],
+          if (_showOverlay)
+            BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(
+              builder: (context, state) {
+                if (state is ObjectiveAnswered) {
+                  return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _showOverlay = !_showOverlay;
+                        });
+                      },
+                      child: state.isCorrect
+                          ? SuccessOverlay(
+                              showOverlay: _showOverlay,
+                              xp: state.xp,
+                              description: "ye le description",
+                            )
+                          : FailureOverlay(
+                              showOverlay: _showOverlay,
+                              description: "ye le description",
+                            ));
+                } else {
+                  return SizedBox();
+                }
+              },
+            ),
+        ],
+      ),
     );
   }
 }

@@ -10,6 +10,38 @@ class SectionProgressBar extends StatelessWidget {
 
   final bool lightThemeBarEnabled;
 
+  Future<bool?> _showBackDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppPalette.white,
+          title: Text(
+            'Are you sure?',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppPalette.blackColor,
+            ),
+          ),
+          content: const Text(
+            'Are you sure you want to leave this page?',
+            style: TextStyle(color: AppPalette.blackColor),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Nevermind'),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            TextButton(
+              child: const Text('Leave'),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,8 +49,11 @@ class SectionProgressBar extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
+              onTap: () async {
+                final bool shouldPop = await _showBackDialog(context) ?? false;
+                if (context.mounted && shouldPop) {
+                  Navigator.pop(context);
+                }
               },
               child: SvgPicture.asset(
                 'assets/section/cross.svg',
