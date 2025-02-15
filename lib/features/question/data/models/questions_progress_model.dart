@@ -11,7 +11,7 @@ class QuestionsProgressModel extends QuestionsProgress {
     return QuestionsProgressModel(
       questions: questions,
       currentXp: 0?? json['sectionProgress']['xp'],
-      startIndex:2?? json['sectionProgress']['progress'],
+      startIndex:4?? json['sectionProgress']['progress'],
     );
   }
 

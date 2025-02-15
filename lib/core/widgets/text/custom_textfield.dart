@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../theme/app_palette.dart';
+import '../../theme/app_palette.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({super.key, required this.hintText, this.keyboardType, required this.controller});

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-import '../../../../core/theme/app_palette.dart';
-import '../../../../core/widgets/custom_text_rubik.dart';
+import '../../theme/app_palette.dart';
+import '../text/custom_text_rubik.dart';
 
 class XpArcIndicator extends StatelessWidget {
   const XpArcIndicator({super.key, required this.progress, required this.max});

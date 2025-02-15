@@ -1,4 +1,4 @@
-import 'package:dapple/core/widgets/primary_button.dart';
+import 'package:dapple/core/widgets/buttons/primary_button.dart';
 import 'package:dapple/features/home/domain/entities/section.dart';
 import 'package:dapple/features/question/presentation/bloc/all_questions/questions_cubit.dart';
 import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';

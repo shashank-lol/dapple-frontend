@@ -17,6 +17,18 @@ class SoundManager {
     }
   }
 
+  /// Play success sound
+  static Future<void> playFailureSound() async {
+    try {
+      await _audioPlayer.setAsset('assets/sound_effects/failure.mp3'); // Load sound
+      _audioPlayer.play(); // Play sound
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error playing sound: $e");
+      }
+    }
+  }
+
   /// Gradually increasing vibration
   static Future<void> vibrateGradually() async {
     if (await Vibration.hasVibrator() ?? false) {

@@ -15,6 +15,8 @@ class AppRouteConsts{
   static String objectiveQuestion = 'objective-question';
   static String audioQuestion = 'audio-question';
   static String answerReport = 'answer-report';
+  static String endPage = 'end-page';
+
 
 
 
