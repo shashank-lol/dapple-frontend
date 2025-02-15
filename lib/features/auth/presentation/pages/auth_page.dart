@@ -1,8 +1,8 @@
 import 'package:dapple/core/entities/questions.dart';
 import 'package:dapple/core/theme/app_palette.dart';
-import 'package:dapple/core/widgets/custom_button.dart';
-import 'package:dapple/core/widgets/custom_textfield.dart';
-import 'package:dapple/core/widgets/loader.dart';
+import 'package:dapple/core/widgets/buttons/custom_button.dart';
+import 'package:dapple/core/widgets/text/custom_textfield.dart';
+import 'package:dapple/core/widgets/loaders/loader.dart';
 import 'package:dapple/features/auth/presentation/widgets/google_button.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/option/option_bloc.dart';
 import 'package:flutter/material.dart';

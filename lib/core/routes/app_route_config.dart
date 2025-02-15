@@ -10,6 +10,7 @@ import 'package:dapple/features/question/presentation/pages/answer_report_screen
 import 'package:dapple/features/question/domain/entities/objective_question.dart';
 import 'package:dapple/features/question/domain/entities/subjective_question.dart';
 import 'package:dapple/features/question/presentation/pages/audio_question_screen.dart';
+import 'package:dapple/features/question/presentation/pages/end_page.dart';
 import 'package:dapple/features/question/presentation/pages/learning_screen.dart';
 import 'package:dapple/features/question/presentation/pages/objective_question_screen.dart';
 import 'package:dapple/features/question/presentation/pages/subjective_question_screen.dart';
@@ -128,6 +129,12 @@ class AppRouter {
           builder: (context, state) {
             final response = state.extra as SubjectiveQuestionAnswer;
             return AnswerReportScreen(response: response, maxXp: int.parse(state.pathParameters['maxXp']!),);
+          }),
+      GoRoute(
+          path: '/endPage',
+          name: AppRouteConsts.endPage,
+          builder: (context, state) {
+            return EndPage();
           }),
     ],
   );

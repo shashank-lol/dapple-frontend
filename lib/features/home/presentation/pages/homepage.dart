@@ -1,7 +1,7 @@
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
-import 'package:dapple/core/widgets/lives_indicator.dart';
-import 'package:dapple/core/widgets/xp_indicator.dart';
+import 'package:dapple/core/widgets/indicators/lives_indicator.dart';
+import 'package:dapple/core/widgets/indicators/xp_indicator.dart';
 import 'package:dapple/features/home/presentation/new_widgets/learning_card.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
               child: GestureDetector(
                   onTap: () {
                     GoRouter.of(context)
-                        .pushNamed(AppRouteConsts.audioQuestion);
+                        .pushNamed(AppRouteConsts.endPage);
                   },
                   child: LearningCard()),
             ),

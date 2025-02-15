@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/theme/app_palette.dart';
-import '../../../../core/widgets/custom_text_rubik.dart';
+import '../../../../core/widgets/text/custom_text_rubik.dart';
 
 class QuestionsTemplateHeader extends StatelessWidget {
   const QuestionsTemplateHeader(

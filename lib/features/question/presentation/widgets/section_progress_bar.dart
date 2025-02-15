@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/theme/app_palette.dart';
-import '../../../../core/widgets/lives_indicator.dart';
+import '../../../../core/widgets/indicators/lives_indicator.dart';
 
 class SectionProgressBar extends StatelessWidget {
-  const SectionProgressBar({super.key, required this.lightThemeBarEnabled});
+  const SectionProgressBar(
+      {super.key,
+      required this.lightThemeBarEnabled,
+      this.progressBarDisabled});
 
   final bool lightThemeBarEnabled;
+  final bool? progressBarDisabled;
 
   Future<bool?> _showBackDialog(BuildContext context) {
     return showDialog<bool>(
@@ -66,27 +70,30 @@ class SectionProgressBar extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Expanded(
-            child: BlocBuilder<QuestionsCubit, QuestionsState>(
-              builder: (context, state) {
-                final progress = (state as QuestionsLoaded).currentIndex /
-                    (state).questions.length;
-                return LinearProgressIndicator(
-                  value: progress,
-                  // 50% progress
-                  backgroundColor: AppPalette.progressBarColor,
-                  // Background color
-                  color: lightThemeBarEnabled
-                      ? AppPalette.white
-                      : AppPalette.primaryColor,
-                  // Progress color
-                  minHeight: 8,
-                  // Thickness of the bar
-                  borderRadius: BorderRadius.circular(4), // Rounded corners
-                );
-              },
-            ),
-          ),
+          progressBarDisabled == null
+              ? Expanded(
+                  child: BlocBuilder<QuestionsCubit, QuestionsState>(
+                    builder: (context, state) {
+                      final progress = (state as QuestionsLoaded).currentIndex /
+                          (state).questions.length;
+                      return LinearProgressIndicator(
+                        value: progress,
+                        // 50% progress
+                        backgroundColor: AppPalette.progressBarColor,
+                        // Background color
+                        color: lightThemeBarEnabled
+                            ? AppPalette.white
+                            : AppPalette.primaryColor,
+                        // Progress color
+                        minHeight: 8,
+                        // Thickness of the bar
+                        borderRadius:
+                            BorderRadius.circular(4), // Rounded corners
+                      );
+                    },
+                  ),
+                )
+              : Spacer(),
           SizedBox(
             width: 10,
           ),

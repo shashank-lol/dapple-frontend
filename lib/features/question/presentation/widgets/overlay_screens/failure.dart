@@ -2,7 +2,7 @@ import 'package:dapple/core/utils/sound.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_palette.dart';
-import '../../../../../core/widgets/custom_text_rubik.dart';
+import '../../../../../core/widgets/text/custom_text_rubik.dart';
 
 class FailureOverlay extends StatefulWidget {
   const FailureOverlay(

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../../core/theme/app_palette.dart';
 import '../../../../../core/utils/sound.dart';
-import '../../../../../core/widgets/custom_text_rubik.dart';
+import '../../../../../core/widgets/text/custom_text_rubik.dart';
 
 class SuccessOverlay extends StatelessWidget {
   const SuccessOverlay(

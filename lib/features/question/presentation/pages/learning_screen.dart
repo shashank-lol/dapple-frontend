@@ -1,4 +1,4 @@
-import 'package:dapple/core/utils/back_button_handler.dart';
+import 'package:dapple/core/widgets/back_button_handler.dart';
 import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
 import 'package:dapple/features/question/presentation/widgets/overlay_screens/success.dart';
 import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_palette.dart';
-import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/buttons/primary_button.dart';
 import '../bloc/all_questions/questions_cubit.dart';
 
 class LearningScreen extends StatefulWidget {
