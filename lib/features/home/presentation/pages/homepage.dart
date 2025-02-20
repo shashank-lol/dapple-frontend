@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
               child: GestureDetector(
                   onTap: () {
                     GoRouter.of(context)
-                        .pushNamed(AppRouteConsts.endPage);
+                        .pushNamed(AppRouteConsts.audioQuestion);
                   },
                   child: LearningCard()),
             ),

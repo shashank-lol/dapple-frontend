@@ -22,7 +22,7 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
     setState(() {
       audioFilePath = filePath;
     });
-    // print('\x1B[31m$filePath\x1B[0m');
+    print('\x1B[31m$filePath\x1B[0m');
   }
 
   void _receivedResponse(context) {

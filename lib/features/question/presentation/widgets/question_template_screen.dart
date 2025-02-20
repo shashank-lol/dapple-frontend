@@ -46,52 +46,57 @@ class QuestionTemplateScreen extends StatelessWidget {
                           AppPalette.primaryColor, BlendMode.color)),
                 ),
               )),
-          Column(
-            children: [
-              SectionProgressBar(
-                lightThemeBarEnabled: true,
-              ),
-              Spacer(),
-              widgetTop,
-              Spacer(),
-              Container(
-                // Adjust width as needed
-                height: MediaQuery.of(context).size.height *
-                    3 /
-                    5, // Adjust height as needed
-                decoration: BoxDecoration(
-                  color: Colors.white, // White background
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  SectionProgressBar(
+                    lightThemeBarEnabled: true,
                   ),
-                ),
-                child: SafeArea(
-                  minimum: EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      widgetBottom,
-                      Spacer(),
-                      const SizedBox(
-                        height: 8,
+                  Spacer(),
+                  widgetTop,
+                  Spacer(),
+                  Container(
+                    // Adjust width as needed
+                    height: MediaQuery.of(context).size.height *
+                        3 /
+                        5, // Adjust height as needed
+                    decoration: BoxDecoration(
+                      color: Colors.white, // White background
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
                       ),
-                      PrimaryButton(
-                        onTap: onTap,
-                        text: buttonText,
-                        primaryColor: AppPalette.white,
-                        bgColor: AppPalette.primaryColor,
-                        child: buttonWidget,
+                    ),
+                    child: SafeArea(
+                      minimum: EdgeInsets.all(24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          widgetBottom,
+                          Spacer(),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          PrimaryButton(
+                            onTap: onTap,
+                            text: buttonText,
+                            primaryColor: AppPalette.white,
+                            bgColor: AppPalette.primaryColor,
+                            child: buttonWidget,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          )
+                        ],
                       ),
-                      const SizedBox(
-                        height: 8,
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
