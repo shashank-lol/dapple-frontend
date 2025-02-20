@@ -24,46 +24,49 @@ class SuccessOverlay extends StatelessWidget {
       child: Container(
         color: Color(0xBB1B125E),
         alignment: Alignment.center,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Spacer(
-              flex: 3,
-            ),
-            Image.asset(
-              'assets/dapple-girl/jump.png', // Replace with your image
-              width: 300,
-            ).jumpingAnimation().callback(
-                duration: 0.ms,
-                callback: (_) => SoundManager.playSuccessEffect()),
-            Spacer(
-              flex: 1,
-            ),
-            description != null
-                ? CustomTextRubik(
-                    text: description!,
-                    weight: FontWeight.w500,
-                    size: 14,
-                    color: AppPalette.white)
-                : Container(),
-            Spacer(
-              flex: 1,
-            ),
-            CustomTextRubik(
-                text: 'Excellent',
-                weight: FontWeight.w800,
-                size: 40,
-                color: AppPalette.white),
-            SizedBox(height: 10),
-            CustomTextRubik(
-                text: '+$xp XP',
-                weight: FontWeight.w700,
-                size: 24,
-                color: AppPalette.secondaryColor),
-            Spacer(
-              flex: 1,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(36.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Spacer(
+                flex: 3,
+              ),
+              Image.asset(
+                'assets/dapple-girl/jump.png', // Replace with your image
+                width: 300,
+              ).jumpingAnimation().callback(
+                  duration: 0.ms,
+                  callback: (_) => SoundManager.playSuccessEffect()),
+              Spacer(
+                flex: 1,
+              ),
+              description != null
+                  ? CustomTextRubik(
+                      text: description!,
+                      weight: FontWeight.w500,
+                      size: 14,
+                      color: AppPalette.white)
+                  : Container(),
+              Spacer(
+                flex: 1,
+              ),
+              CustomTextRubik(
+                  text: 'Excellent',
+                  weight: FontWeight.w800,
+                  size: 40,
+                  color: AppPalette.white),
+              SizedBox(height: 10),
+              CustomTextRubik(
+                  text: '+$xp XP',
+                  weight: FontWeight.w700,
+                  size: 24,
+                  color: AppPalette.secondaryColor),
+              Spacer(
+                flex: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

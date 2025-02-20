@@ -30,39 +30,42 @@ class _FailureOverlayState extends State<FailureOverlay> {
       child: Container(
         color: Color(0xBB1B125E),
         alignment: Alignment.center,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Spacer(
-              flex: 2,
-            ),
-            Image.asset(
-              'assets/dapple-girl/sad.png', // Replace with your image
-              width: 300,
-            ),
-            Spacer(
-              flex: 1,
-            ),
-            widget.description != null
-                ? CustomTextRubik(
-                    text: widget.description!,
-                    weight: FontWeight.w500,
-                    size: 14,
-                    color: AppPalette.white)
-                : Container(),
-            Spacer(
-              flex: 1,
-            ),
-            Text('WRONG \nANSWER',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: AppPalette.secondaryColor,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w800)),
-            Spacer(
-              flex: 1,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Spacer(
+                flex: 2,
+              ),
+              Image.asset(
+                'assets/dapple-girl/sad.png', // Replace with your image
+                width: 300,
+              ),
+              Spacer(
+                flex: 1,
+              ),
+              widget.description != null
+                  ? CustomTextRubik(
+                      text: widget.description!,
+                      weight: FontWeight.w500,
+                      size: 14,
+                      color: AppPalette.white)
+                  : Container(),
+              Spacer(
+                flex: 1,
+              ),
+              Text('WRONG \nANSWER',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: AppPalette.secondaryColor,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w800)),
+              Spacer(
+                flex: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -14,36 +14,39 @@ class LoadingOverlay extends StatelessWidget {
       child: Container(
         color: Color(0xBB1B125E),
         alignment: Alignment.center,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Spacer(
-              flex: 3,
-            ),
-            SizedBox(
-              height: 80,
-              width: 80,
-              child: CircularProgressIndicator(
-                backgroundColor: Color(0xFFFFD7BD),
-                color: AppPalette.secondaryColor,
+        child: Padding(
+          padding: const EdgeInsets.all(36.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Spacer(
+                flex: 3,
               ),
-            ),
-            Spacer(
-              flex: 2,
-            ),
-            Text(
-              textAlign: TextAlign.center,
-              'Evaluating your answer',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: AppPalette.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w800,
-                  ),
-            ),
-            Spacer(
-              flex: 1,
-            ),
-          ],
+              SizedBox(
+                height: 80,
+                width: 80,
+                child: CircularProgressIndicator(
+                  backgroundColor: Color(0xFFFFD7BD),
+                  color: AppPalette.secondaryColor,
+                ),
+              ),
+              Spacer(
+                flex: 2,
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                'Evaluating your answer',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: AppPalette.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w800,
+                    ),
+              ),
+              Spacer(
+                flex: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );
