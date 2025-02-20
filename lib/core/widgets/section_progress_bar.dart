@@ -2,17 +2,19 @@ import 'package:dapple/features/question/presentation/bloc/all_questions/questio
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../../core/theme/app_palette.dart';
-import '../../../../core/widgets/indicators/lives_indicator.dart';
+import '../theme/app_palette.dart';
+import 'indicators/lives_indicator.dart';
 
 class SectionProgressBar extends StatelessWidget {
   const SectionProgressBar(
       {super.key,
       required this.lightThemeBarEnabled,
-      this.progressBarDisabled});
+      this.progressBarDisabled,
+      this.livesIndicatorDisabled});
 
   final bool lightThemeBarEnabled;
   final bool? progressBarDisabled;
+  final bool? livesIndicatorDisabled;
 
   Future<bool?> _showBackDialog(BuildContext context) {
     return showDialog<bool>(
@@ -97,9 +99,11 @@ class SectionProgressBar extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          LivesIndicator(
-            lightTheme: lightThemeBarEnabled,
-          ),
+          livesIndicatorDisabled == true
+              ? Container()
+              : LivesIndicator(
+                  lightTheme: lightThemeBarEnabled,
+                ),
         ],
       ),
     );

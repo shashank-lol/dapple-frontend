@@ -1,5 +1,5 @@
 import 'package:dapple/core/widgets/back_button_handler.dart';
-import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
+import 'package:dapple/core/widgets/section_progress_bar.dart';
 import 'package:dapple/features/question/presentation/widgets/overlay_screens/success.dart';
 import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
 import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';

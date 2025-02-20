@@ -100,10 +100,10 @@ class _AudioRecorderWidgetState extends State<AudioRecorderWidget>
     } else {
       if (await audioRecorder.hasPermission()) {
         final Directory appDocumentsDir = await getApplicationCacheDirectory();
-        final String filePath = p.join(appDocumentsDir.path, "recording.mp3");
+        final String filePath = p.join(appDocumentsDir.path, "recording.wav");
         await audioRecorder.start(
             RecordConfig(
-              encoder: AudioEncoder.aacLc, // AAC-LC can be converted to MP3
+              encoder: AudioEncoder.wav, // AAC-LC can be converted to MP3
               bitRate: 128000, // Adjust bit rate for better quality
               sampleRate: 44100,
             ),
