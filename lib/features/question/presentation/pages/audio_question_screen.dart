@@ -1,6 +1,7 @@
 import 'package:dapple/core/widgets/audio_recorder_widget.dart';
 import 'package:dapple/core/widgets/back_button_handler.dart';
 import 'package:dapple/features/question/presentation/widgets/questions_template_header.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../widgets/overlay_screens/loading.dart';
@@ -22,7 +23,9 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
     setState(() {
       audioFilePath = filePath;
     });
-    print('\x1B[31m$filePath\x1B[0m');
+    if (kDebugMode) {
+      print('\x1B[31m$filePath\x1B[0m');
+    }
   }
 
   void _receivedResponse(context) {
@@ -67,7 +70,7 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
             onTap: () {
               _receivedResponse(context);
             },
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: false, theme: AppPalette.primaryColor,
           ),
           if (_showOverlay)
             GestureDetector(

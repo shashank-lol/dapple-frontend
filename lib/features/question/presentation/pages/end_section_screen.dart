@@ -1,12 +1,12 @@
 import 'package:dapple/core/widgets/text/custom_text_rubik.dart';
 import 'package:dapple/features/question/presentation/widgets/data_container.dart';
-import 'package:dapple/features/question/presentation/widgets/section_progress_bar.dart';
+import 'package:dapple/core/widgets/section_progress_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/buttons/primary_button.dart';
 
-class EndPage extends StatelessWidget {
-  const EndPage({super.key});
+class EndSectionScreen extends StatelessWidget {
+  const EndSectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

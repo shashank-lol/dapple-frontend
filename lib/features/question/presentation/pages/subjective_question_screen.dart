@@ -114,8 +114,8 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
                         Dialogs.materialDialog(
                           context: context,
                           title: "Hint",
-                          msg: (responseBloc.state as SubjectiveAnswerHint)
-                              .hint,
+                          msg:
+                              (responseBloc.state as SubjectiveAnswerHint).hint,
                           actionsBuilder: (context) {
                             return [
                               TextButton(
@@ -141,14 +141,12 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
                         ),
                         child: TextField(
                           controller: _controller,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                color: AppPalette.blackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    color: AppPalette.blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                           maxLines: 10,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -205,6 +203,7 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
                 }
               },
               resizeToAvoidBottomInset: true,
+              theme: AppPalette.primaryColor,
             ),
             if (_showOverlay)
               GestureDetector(

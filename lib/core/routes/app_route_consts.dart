@@ -16,6 +16,10 @@ class AppRouteConsts{
   static String audioQuestion = 'audio-question';
   static String answerReport = 'answer-report';
   static String endPage = 'end-page';
+  //Test Screens
+  static String startTestScreen='start-test-screen';
+  static String testQuestionScreen='test-question-screen';
+
 
 
 

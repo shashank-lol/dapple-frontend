@@ -10,11 +10,13 @@ import 'package:dapple/features/question/presentation/pages/answer_report_screen
 import 'package:dapple/features/question/domain/entities/objective_question.dart';
 import 'package:dapple/features/question/domain/entities/subjective_question.dart';
 import 'package:dapple/features/question/presentation/pages/audio_question_screen.dart';
-import 'package:dapple/features/question/presentation/pages/end_page.dart';
+import 'package:dapple/features/question/presentation/pages/end_section_screen.dart';
 import 'package:dapple/features/question/presentation/pages/learning_screen.dart';
 import 'package:dapple/features/question/presentation/pages/objective_question_screen.dart';
 import 'package:dapple/features/question/presentation/pages/subjective_question_screen.dart';
-import 'package:dapple/features/question/presentation/pages/start_page.dart';
+import 'package:dapple/features/question/presentation/pages/start_section_screen.dart';
+import 'package:dapple/features/test_section/presentation/pages/start_test_screen.dart';
+import 'package:dapple/features/test_section/presentation/pages/test_question_screen.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
 
@@ -79,7 +81,7 @@ class AppRouter {
           path: '/section/:id',
           name: AppRouteConsts.section,
           builder: (context, state) {
-            return StartPage(state.extra as Section,
+            return StartSectionScreen(state.extra as Section,
                 sectionId: state.pathParameters["id"]!);
           }),
       GoRoute(
@@ -134,7 +136,19 @@ class AppRouter {
           path: '/endPage',
           name: AppRouteConsts.endPage,
           builder: (context, state) {
-            return EndPage();
+            return EndSectionScreen();
+          }),
+      GoRoute(
+          path: '/startTestScreen',
+          name: AppRouteConsts.startTestScreen,
+          builder: (context, state) {
+            return StartTestScreen();
+          }),
+      GoRoute(
+          path: '/testQuestionScreen',
+          name: AppRouteConsts.testQuestionScreen,
+          builder: (context, state) {
+            return TestQuestionScreen();
           }),
     ],
   );
