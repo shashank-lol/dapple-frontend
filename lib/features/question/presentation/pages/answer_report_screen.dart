@@ -3,7 +3,7 @@ import 'package:dapple/core/widgets/back_button_handler.dart';
 import 'package:dapple/core/widgets/text/custom_text_rubik.dart';
 import 'package:dapple/core/widgets/buttons/primary_button.dart';
 import 'package:dapple/features/question/domain/entities/subjective_question_answer.dart';
-import 'package:dapple/core/widgets/section_progress_bar.dart';
+import 'package:dapple/core/widgets/progress_bar/section_progress_bar.dart';
 import 'package:dapple/core/widgets/indicators/xp_arc_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +39,13 @@ class _AnswerReportScreenState extends State<AnswerReportScreen> {
           ),
           child: Column(
             children: [
-              SectionProgressBar(lightThemeBarEnabled: false),
+              SectionProgressBar(
+                backButtonColor: AppPalette.blackColor,
+                progressColor: AppPalette.primaryColor,
+                bgColor: AppPalette.primaryColorLight,
+                progressBar: true,
+                livesIndicator: true,
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -70,7 +76,8 @@ class _AnswerReportScreenState extends State<AnswerReportScreen> {
                                     i < widget.response.evaluations.length;
                                     i++)
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       CustomTextRubik(
@@ -207,7 +214,8 @@ class _AnswerReportScreenState extends State<AnswerReportScreen> {
                     onTap: () {
                       final questionsCubit = context.read<QuestionsCubit>();
                       if (questionsCubit.state is QuestionsLoaded) {
-                        final responseBloc = context.read<QuestionCompleteBloc>();
+                        final responseBloc =
+                            context.read<QuestionCompleteBloc>();
                         responseBloc.add(QuestionResetEvent());
                         questionsCubit.getNextQuestion(context);
                       }

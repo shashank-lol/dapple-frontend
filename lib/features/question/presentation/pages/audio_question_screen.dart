@@ -70,7 +70,7 @@ class _AudioQuestionScreenState extends State<AudioQuestionScreen>
             onTap: () {
               _receivedResponse(context);
             },
-            resizeToAvoidBottomInset: false, theme: AppPalette.primaryColor,
+            resizeToAvoidBottomInset: false,
           ),
           if (_showOverlay)
             GestureDetector(

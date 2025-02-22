@@ -164,7 +164,7 @@ class _ObjectiveQuestionScreenState extends State<ObjectiveQuestionScreen> {
                   );
                 }
               },
-            ), theme: AppPalette.primaryColor,
+            ),
           ),
           if (_showOverlay)
             BlocBuilder<QuestionCompleteBloc, QuestionCompleteState>(

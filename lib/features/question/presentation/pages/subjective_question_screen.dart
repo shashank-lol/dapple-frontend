@@ -136,7 +136,7 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
                       Container(
                         // padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Color(0x266A5AE0), // Light purple background
+                          color: AppPalette.textBoxPrimary, // Light purple background
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: TextField(
@@ -149,6 +149,7 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
                                   ),
                           maxLines: 10,
                           decoration: InputDecoration(
+                            fillColor: AppPalette.transparent,
                             border: InputBorder.none,
                             hintText:
                                 "Type your answer or tap on the mic to speak",
@@ -203,7 +204,6 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
                 }
               },
               resizeToAvoidBottomInset: true,
-              theme: AppPalette.primaryColor,
             ),
             if (_showOverlay)
               GestureDetector(

@@ -1,10 +1,10 @@
-import 'package:dapple/core/widgets/buttons/primary_button.dart';
-import 'package:dapple/core/widgets/progress_bar/section_progress_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_palette.dart';
+import '../../../../core/widgets/buttons/primary_button.dart';
+import '../../../../core/widgets/progress_bar/section_progress_bar.dart';
 
-class QuestionTemplateScreen extends StatelessWidget {
-  const QuestionTemplateScreen(
+class TestTemplateScreen extends StatelessWidget {
+  const TestTemplateScreen(
       {super.key,
       required this.widgetTop,
       required this.widgetBottom,
@@ -29,10 +29,8 @@ class QuestionTemplateScreen extends StatelessWidget {
         children: [
           ShaderMask(
               shaderCallback: (Rect bounds) {
-                return LinearGradient(
-                  colors: [Color(0x66FFFFFF), Colors.transparent],
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
+                return const LinearGradient(
+                  colors: [Colors.transparent, Colors.transparent],
                 ).createShader(bounds);
               },
               blendMode: BlendMode.lighten, // Darkening effect
@@ -41,9 +39,13 @@ class QuestionTemplateScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/image_bg.png"),
+                      image: AssetImage("assets/section/bg_image_sec.png"),
                       fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(AppPalette.primaryColor, BlendMode.color)),
+                      colorFilter: ColorFilter.mode(
+                          AppPalette.secondaryColor.withValues(
+                            alpha: 50,
+                          ),
+                          BlendMode.color)),
                 ),
               )),
           SingleChildScrollView(
@@ -54,9 +56,9 @@ class QuestionTemplateScreen extends StatelessWidget {
                   SectionProgressBar(
                     backButtonColor: AppPalette.white,
                     progressColor: AppPalette.white,
-                    bgColor: AppPalette.primaryColorLight,
+                    bgColor: AppPalette.secondaryColorLight,
                     progressBar: true,
-                    livesIndicator: true,
+                    livesIndicator: false,
                   ),
                   Spacer(),
                   widgetTop,
@@ -79,16 +81,12 @@ class QuestionTemplateScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          widgetBottom,
-                          Spacer(),
-                          const SizedBox(
-                            height: 8,
-                          ),
+                          Expanded(child: widgetBottom),
                           PrimaryButton(
                             onTap: onTap,
                             text: buttonText,
                             primaryColor: AppPalette.white,
-                            bgColor: AppPalette.primaryColor,
+                            bgColor: AppPalette.secondaryColor,
                             child: buttonWidget,
                           ),
                           const SizedBox(

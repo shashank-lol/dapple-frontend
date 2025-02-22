@@ -73,8 +73,8 @@ class AppRouter {
         path: '/lesson',
         name: AppRouteConsts.lesson,
         builder: (context, state) => LessonsPage(
-          lessonname: 'Social Communication',
-          currentlevel: 2,
+          lessonName: 'Social Communication',
+          currentLevel: 2,
         ),
       ),
       GoRoute(

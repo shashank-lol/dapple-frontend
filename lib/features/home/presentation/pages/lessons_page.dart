@@ -9,10 +9,10 @@ import '../widgets/xp_icon.dart';
 
 class LessonsPage extends StatelessWidget {
   const LessonsPage(
-      {super.key, required this.lessonname, required this.currentlevel});
+      {super.key, required this.lessonName, required this.currentLevel});
 
-  final String lessonname;
-  final int currentlevel;
+  final String lessonName;
+  final int currentLevel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class LessonsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Text(lessonname, style: Theme.of(context).textTheme.bodyMedium),
+            Text(lessonName, style: Theme.of(context).textTheme.bodyMedium),
             const Spacer(),
             XpIcon(userCubit.xp),
             // const SizedBox(width: 8,)

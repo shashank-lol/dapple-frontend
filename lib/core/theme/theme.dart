@@ -38,7 +38,7 @@ class AppTheme {
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppPalette.primaryLightColor,
+      fillColor: AppPalette.white,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: AppPalette.primaryLightColor),
         borderRadius: BorderRadius.circular(8),

@@ -2,19 +2,23 @@ import 'package:dapple/features/question/presentation/bloc/all_questions/questio
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../theme/app_palette.dart';
-import 'indicators/lives_indicator.dart';
+import '../../theme/app_palette.dart';
+import '../indicators/lives_indicator.dart';
 
 class SectionProgressBar extends StatelessWidget {
   const SectionProgressBar(
       {super.key,
-      required this.lightThemeBarEnabled,
-      this.progressBarDisabled,
-      this.livesIndicatorDisabled});
+      required this.backButtonColor,
+      required this.progressColor,
+      required this.bgColor,
+      required this.progressBar,
+      required this.livesIndicator});
 
-  final bool lightThemeBarEnabled;
-  final bool? progressBarDisabled;
-  final bool? livesIndicatorDisabled;
+  final Color backButtonColor;
+  final Color progressColor;
+  final Color bgColor;
+  final bool progressBar;
+  final bool livesIndicator;
 
   Future<bool?> _showBackDialog(BuildContext context) {
     return showDialog<bool>(
@@ -63,16 +67,12 @@ class SectionProgressBar extends StatelessWidget {
               },
               child: SvgPicture.asset(
                 'assets/section/cross.svg',
-                colorFilter: ColorFilter.mode(
-                    lightThemeBarEnabled
-                        ? AppPalette.white
-                        : AppPalette.blackColor,
-                    BlendMode.srcIn),
+                colorFilter: ColorFilter.mode(backButtonColor, BlendMode.srcIn),
               )),
           SizedBox(
             width: 10,
           ),
-          progressBarDisabled == null
+          progressBar
               ? Expanded(
                   child: BlocBuilder<QuestionsCubit, QuestionsState>(
                     builder: (context, state) {
@@ -81,11 +81,9 @@ class SectionProgressBar extends StatelessWidget {
                       return LinearProgressIndicator(
                         value: progress,
                         // 50% progress
-                        backgroundColor: AppPalette.progressBarColor,
+                        backgroundColor: bgColor,
                         // Background color
-                        color: lightThemeBarEnabled
-                            ? AppPalette.white
-                            : AppPalette.primaryColor,
+                        color: progressColor,
                         // Progress color
                         minHeight: 8,
                         // Thickness of the bar
@@ -99,11 +97,11 @@ class SectionProgressBar extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          livesIndicatorDisabled == true
-              ? Container()
-              : LivesIndicator(
-                  lightTheme: lightThemeBarEnabled,
-                ),
+          livesIndicator
+              ? LivesIndicator(
+                  textColor: backButtonColor,
+                )
+              : Container(),
         ],
       ),
     );
