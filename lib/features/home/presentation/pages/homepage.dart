@@ -33,7 +33,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    EncryptedSharedPreferences sharedPreferences = EncryptedSharedPreferences.getInstance();
+    EncryptedSharedPreferences sharedPreferences =
+        EncryptedSharedPreferences.getInstance();
     final deviceHeight = MediaQuery.of(context).size.height;
     final name = sharedPreferences.getString("userFirstName");
     final xp = sharedPreferences.getInt("userXp");
@@ -57,10 +58,10 @@ class _HomePageState extends State<HomePage> {
                     ?.copyWith(color: AppPalette.white)),
             const Spacer(),
             LivesIndicator(
-              lightTheme: true,
+              textColor: AppPalette.white,
             ),
             const SizedBox(width: 15),
-            XpIndicator(xp??0)
+            XpIndicator(xp ?? 0)
 
             // const SizedBox(width: 8,)
           ],
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
               child: GestureDetector(
                   onTap: () {
                     GoRouter.of(context)
-                        .pushNamed(AppRouteConsts.audioQuestion);
+                        .pushNamed(AppRouteConsts.startTestScreen);
                   },
                   child: LearningCard()),
             ),
@@ -139,18 +140,18 @@ class _HomePageState extends State<HomePage> {
                             color: AppPalette.white,
                           ),
                           child: LevelWidget(
-                            heading: levels[i].name,
-                            status: getLevelStatus(
-                                state.levelAndSection.completedLevels + 1, i),
-                            currentLevel:
-                                state.levelAndSection.completedLevels + 1,
-                            description: levels[i].description,
-                            level: i + 1,
-                            currentSection:
-                                state.levelAndSection.completedSections + 1,
-                            sections: sections,
-                            sectionIds: state.levelAndSection.levels[i].sections!
-                          ),
+                              heading: levels[i].name,
+                              status: getLevelStatus(
+                                  state.levelAndSection.completedLevels + 1, i),
+                              currentLevel:
+                                  state.levelAndSection.completedLevels + 1,
+                              description: levels[i].description,
+                              level: i + 1,
+                              currentSection:
+                                  state.levelAndSection.completedSections + 1,
+                              sections: sections,
+                              sectionIds:
+                                  state.levelAndSection.levels[i].sections!),
                         ),
                     ],
                   );

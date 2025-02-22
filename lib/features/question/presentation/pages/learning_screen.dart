@@ -1,5 +1,5 @@
 import 'package:dapple/core/widgets/back_button_handler.dart';
-import 'package:dapple/core/widgets/section_progress_bar.dart';
+import 'package:dapple/core/widgets/progress_bar/section_progress_bar.dart';
 import 'package:dapple/features/question/presentation/widgets/overlay_screens/success.dart';
 import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
 import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';
@@ -81,7 +81,11 @@ class _LearningScreenState extends State<LearningScreen>
             Column(
               children: [
                 SectionProgressBar(
-                  lightThemeBarEnabled: true,
+                  backButtonColor: AppPalette.white,
+                  progressColor: AppPalette.white,
+                  bgColor: AppPalette.primaryColorLight,
+                  progressBar: true,
+                  livesIndicator: true,
                 ),
                 Spacer(),
                 Container(
@@ -110,7 +114,7 @@ class _LearningScreenState extends State<LearningScreen>
                           widget.title,
                           style:
                               Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: AppPalette.learningTextColor,
+                                    color: AppPalette.blackColor,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 24,
                                     height: 1.2,
@@ -125,7 +129,7 @@ class _LearningScreenState extends State<LearningScreen>
                             style: GoogleFonts.rubik(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: AppPalette.learningTextColor),
+                                color: AppPalette.blackColor),
                           ),
                         ),
                         Spacer(),
