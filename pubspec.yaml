@@ -59,6 +59,8 @@ dependencies:
   flutter_animate: ^4.5.2
   vibration: ^3.1.2
   material_dialogs: ^1.1.5
+  camera: ^0.11.1
+  flutter_sound: ^9.23.1
 
 dev_dependencies:
   flutter_test:
