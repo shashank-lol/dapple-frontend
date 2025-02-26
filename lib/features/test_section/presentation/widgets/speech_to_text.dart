@@ -1,231 +1,136 @@
-import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
-
-import '../../../../core/theme/app_palette.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class SpeechToTextWidget extends StatefulWidget {
-  const SpeechToTextWidget({super.key, required this.onTextChanged});
-
-  final Function(String) onTextChanged;
+  const SpeechToTextWidget({super.key});
 
   @override
   State<SpeechToTextWidget> createState() => _SpeechToTextWidgetState();
 }
 
-class _SpeechToTextWidgetState extends State<SpeechToTextWidget> with SingleTickerProviderStateMixin{
-  final stt.SpeechToText _speechToText = stt.SpeechToText();
-  bool _isListening = false;
-  String _transcribedText = "";
+class _SpeechToTextWidgetState extends State<SpeechToTextWidget> {
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  bool _speechAvailable = false;
+  String _lastWords = '';
+  String _currentWords = '';
+  final String _selectedLocaleId = 'es_MX';
 
-  late AnimationController _controller;
-
+  printLocales() async {
+    var locales = await _speechToText.locales();
+    for (var local in locales) {
+      debugPrint(local.name);
+      debugPrint(local.localeId);
+    }
+  }
 
   @override
   void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2), // Duration of one full ripple
-    )..repeat();
-    // _controller.stop();
-    _controller.reset();
     super.initState();
-    _initializeSpeech();
+    _initSpeech();
   }
 
-  /// Initialize Speech-to-Text
-  Future<void> _initializeSpeech() async {
-    bool available = await _speechToText.initialize(
-      options: [
-      ],
-      onStatus: (status) {
-        if (status == "notListening" || status == "done") {
-          _isListening = false;
-          _controller.reset();
-          setState(() {});
-        }
-      },
-      onError: (error) {
-        debugPrint("Speech Error: $error");
-        _isListening = false;
-        setState(() {});
-      },
-    );
+  void errorListener(SpeechRecognitionError error) {
+    debugPrint(error.errorMsg.toString());
+  }
 
-    if (!available) {
-      debugPrint("Speech recognition not available.");
+  void statusListener(String status) async {
+    debugPrint("status $status");
+    if (status == "done" && _speechEnabled) {
+      setState(() {
+        _lastWords += " $_currentWords";
+        _currentWords = "";
+        _speechEnabled = false;
+      });
+      await _startListening();
     }
   }
 
-  /// Request microphone permission
-  Future<bool> _requestPermission() async {
-    var status = await Permission.microphone.request();
-    return status.isGranted;
+  /// This has to happen only once per app
+  void _initSpeech() async {
+    _speechAvailable = await _speechToText.initialize(
+        onError: errorListener, onStatus: statusListener);
+    setState(() {});
   }
 
-  @override
-  void dispose() {
-    _speechToText.stop();
-    _speechToText.cancel();
-    _controller.dispose();
-    super.dispose();
-  }
-
-  /// Start or Stop Speech Recognition
-  void _toggleListening() async {
-    if (!_isListening) {
-      if (!await _requestPermission()) {
-        debugPrint("Microphone permission not granted.");
-        return;
-      }
-      _controller.repeat();
-
-      setState(() => _isListening = true);
-
-      _speechToText.listen(
-        onResult: (result) {
-          if (result.finalResult && mounted) {
-            // ✅ Append only finalized results
-            setState(() {
-              _transcribedText += " ${result.recognizedWords}";
-              widget.onTextChanged(_transcribedText);
-            });
-            setState(() => _isListening = _speechToText.isListening);
-            _controller.reset();
-          }
-        },
-        listenFor: const Duration(seconds: 60),
-        // Auto-stop after 60s
-        pauseFor: const Duration(seconds: 6),
-        // Stops when silent
-        localeId: "en_US",
-        onSoundLevelChange: (level) {},
-      );
-    } else {
-      _stopListening();
-      _controller.reset();
-    }
-  }
-
-  /// Stop Listening
-  void _stopListening() {
-    _speechToText.stop();
-    if (mounted) {
-      setState(() => _isListening = false);
-    }
-  }
-
-  /// Reset Transcribed Text
-  void _resetText() {
+  /// Each time to start a speech recognition session
+  Future _startListening() async {
+    debugPrint("=================================================");
+    await _stopListening();
+    await Future.delayed(const Duration(milliseconds: 50));
+    await _speechToText.listen(
+        onResult: _onSpeechResult,
+        localeId: _selectedLocaleId,
+        listenOptions: SpeechListenOptions(
+            cancelOnError: false,
+            partialResults: true,
+            listenMode: ListenMode.dictation
+        ),
+        );
     setState(() {
-      _transcribedText = "Tap the mic to start speaking";
-      widget.onTextChanged("");
-      _controller.reset();
+      _speechEnabled = true;
+    });
+  }
+
+  /// Manually stop the active speech recognition session
+  /// Note that there are also timeouts that each platform enforces
+  /// and the SpeechToText plugin supports setting timeouts on the
+  /// listen method.
+  Future _stopListening() async {
+    setState(() {
+      _speechEnabled = false;
+    });
+    await _speechToText.stop();
+  }
+
+  /// This is the callback that the SpeechToText plugin calls when
+  /// the platform returns recognized words.
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _currentWords = result.recognizedWords;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Stack(
-        children: [
-          for (int i = 0; i < 2; i++)
-            SizedBox(
-              height: 130,
-              width: double.infinity,
-              child: Center(
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    double progress = (_controller.value + (i * 0.3)) % 1.0;
-                    double scale = progress * 2.5; // Start from small to big
-                    return Opacity(
-                      opacity: (1 - progress).clamp(0.0, 1.0),
-                      // Fade effect
-                      child: Container(
-                        width: 100 * scale,
-                        height: 100 * scale,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppPalette.secondaryColor,
-                        ),
-                      ),
-                    );
-                  },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Speech Demo'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: const Text(
+                'Recognized words:',
+                style: TextStyle(fontSize: 20.0),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  _lastWords.isNotEmpty
+                      ? '$_lastWords $_currentWords'
+                      : _speechAvailable
+                          ? 'Tap the microphone to start listening...'
+                          : 'Speech not available',
                 ),
               ),
             ),
-          SizedBox(
-            height: 130,
-            width: double.infinity,
-            child: Row(
-              children: [
-                Spacer(),
-                ElevatedButton(
-                  onPressed: _resetText,
-                  style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(
-                        side: BorderSide(
-                            color: AppPalette.blackColor,
-                            width: 1), // Black border
-                      ),
-                      elevation: 0,
-                      backgroundColor: Colors.white,
-                      foregroundColor: AppPalette.primaryColor // Icon color
-                  ),
-                  child: SvgPicture.asset('assets/section/retry.svg'),
-                ),
-                Spacer(),
-                ElevatedButton(
-                  onPressed: _toggleListening,
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    elevation: 0,
-                    backgroundColor: AppPalette.secondaryColor,
-                    foregroundColor: AppPalette.blackColor, // Icon color
-                  ),
-                  child: SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: _isListening
-                        ? Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: SvgPicture.asset(
-                        'assets/section/stop_rec.svg',
-                      ),
-                    )
-                        : Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: SvgPicture.asset(
-                        'assets/section/mic.svg',
-                      ),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                ElevatedButton(
-                    onPressed: _resetText,
-                    style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(
-                          side: BorderSide(
-                              color: AppPalette.blackColor,
-                              width: 1), // Black border
-                        ),
-                        elevation: 0,
-                        backgroundColor: AppPalette.white,
-                        foregroundColor: AppPalette.secondaryColor // Icon color
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/section/retry.svg',
-                    )),
-                Spacer(),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:
+            _speechToText.isNotListening ? _startListening : _stopListening,
+        tooltip: 'Listen',
+        child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
       ),
     );
   }

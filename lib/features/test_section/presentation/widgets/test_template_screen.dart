@@ -66,8 +66,8 @@ class TestTemplateScreen extends StatelessWidget {
                   Container(
                     // Adjust width as needed
                     height: MediaQuery.of(context).size.height *
-                        3 /
-                        5, // Adjust height as needed
+                        2 /
+                        3, // Adjust height as needed
                     decoration: BoxDecoration(
                       color: Colors.white, // White background
                       borderRadius: BorderRadius.only(
@@ -75,8 +75,8 @@ class TestTemplateScreen extends StatelessWidget {
                         topRight: Radius.circular(20),
                       ),
                     ),
-                    child: SafeArea(
-                      minimum: EdgeInsets.all(24),
+                    child: Padding(
+                      padding: EdgeInsets.all(24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

@@ -1,8 +1,7 @@
 import 'package:dapple/core/theme/app_palette.dart';
-import 'package:dapple/features/test_section/presentation/widgets/speech_to_text.dart';
+import 'package:dapple/features/test_section/presentation/widgets/video_recorder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/widgets/text/custom_text_rubik.dart';
 import '../widgets/test_template_screen.dart';
 
 class TestQuestionScreen extends StatefulWidget {
@@ -14,13 +13,16 @@ class TestQuestionScreen extends StatefulWidget {
 
 class _TestQuestionScreenState extends State<TestQuestionScreen> {
   String _answer = "";
+  String _path="";
 
-  void _onSpeechResult(String result) {
+  void _onSpeechResult(String ans,String photosPath) {
     setState(() {
-      _answer = result;
+      _answer = ans;
+      _path=photosPath;
     });
     if (kDebugMode) {
       print(_answer);
+      print(_path);
     }
   }
 
@@ -29,73 +31,19 @@ class _TestQuestionScreenState extends State<TestQuestionScreen> {
     return TestTemplateScreen(
         widgetTop: Padding(
           padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-          child: Text(
-            textAlign: TextAlign.center,
-            "Write the best response for a colleague asking about your weekend.",
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: AppPalette.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w500),
+          child: SingleChildScrollView(
+            child: Text(
+              textAlign: TextAlign.center,
+              "Write the best response for a colleague asking about your weekend.",
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: AppPalette.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
         ),
-        widgetBottom: SizedBox(
-          height: MediaQuery.of(context).size.height * 2 / 5,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextRubik(
-                  text: "Add answer",
-                  weight: FontWeight.w600,
-                  size: 20,
-                  color: AppPalette.blackColor),
-              SizedBox(
-                height: 8,
-              ),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  // padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFE1CC),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: _answer == ""
-                          ? Opacity(
-                            opacity: 0.4,
-                            child: Text(
-                                "Tap the mic to start speaking",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelSmall
-                                    ?.copyWith(
-                                      color: AppPalette.blackColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              ),
-                          )
-                          : Text(
-                              _answer,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    color: AppPalette.blackColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                            ),
-                    ),
-                  ),
-                ),
-              ),
-              SpeechToTextWidget(onTextChanged: _onSpeechResult),
-            ],
-          ),
-        ),
+        // widgetBottom: SpeechToTextWidget(onTextChanged: _onSpeechResult),
+        widgetBottom: VideoRecorder(onDataReceived: _onSpeechResult,),
         onTap: () {},
         resizeToAvoidBottomInset: false,
         buttonText: "Continue");
