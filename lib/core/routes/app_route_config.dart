@@ -16,7 +16,9 @@ import 'package:dapple/features/question/presentation/pages/objective_question_s
 import 'package:dapple/features/question/presentation/pages/subjective_question_screen.dart';
 import 'package:dapple/features/question/presentation/pages/start_section_screen.dart';
 import 'package:dapple/features/test_section/presentation/pages/start_test_screen.dart';
+import 'package:dapple/features/test_section/presentation/pages/test_question_report_screen.dart';
 import 'package:dapple/features/test_section/presentation/pages/test_question_screen.dart';
+import 'package:dapple/features/test_section/presentation/pages/test_report_screen.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
 
@@ -149,6 +151,18 @@ class AppRouter {
           name: AppRouteConsts.testQuestionScreen,
           builder: (context, state) {
             return TestQuestionScreen();
+          }),
+      GoRoute(
+          path: '/testReportScreen',
+          name: AppRouteConsts.testReportScreen,
+          builder: (context, state) {
+            return TestReportScreen();
+          }),
+      GoRoute(
+          path: '/testQuestionReportScreen',
+          name: AppRouteConsts.testQuestionReportScreen,
+          builder: (context, state) {
+            return TestQuestionReportScreen();
           }),
     ],
   );
