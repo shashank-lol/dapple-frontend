@@ -2,6 +2,8 @@ import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/features/test_section/presentation/widgets/video_recorder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/routes/app_route_consts.dart';
 import '../widgets/test_template_screen.dart';
 
 class TestQuestionScreen extends StatefulWidget {
@@ -44,7 +46,9 @@ class _TestQuestionScreenState extends State<TestQuestionScreen> {
         ),
         // widgetBottom: SpeechToTextWidget(onTextChanged: _onSpeechResult),
         widgetBottom: VideoRecorder(onDataReceived: _onSpeechResult,),
-        onTap: () {},
+        onTap: () {
+          GoRouter.of(context).pushNamed(AppRouteConsts.testReportScreen);
+        },
         resizeToAvoidBottomInset: false,
         buttonText: "Continue");
   }

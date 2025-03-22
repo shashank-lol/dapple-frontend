@@ -57,7 +57,7 @@ class _AnswerReportScreenState extends State<AnswerReportScreen> {
                           color: AppPalette.blackColor),
                       XpArcIndicator(
                         progress: widget.response.xp,
-                        max: widget.maxXp,
+                        max: widget.maxXp, color: AppPalette.primaryColorLight,
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),

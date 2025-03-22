@@ -19,6 +19,10 @@ class AppRouteConsts{
   //Test Screens
   static String startTestScreen='start-test-screen';
   static String testQuestionScreen='test-question-screen';
+  static String testReportScreen='test-report-screen';
+  static String testQuestionReportScreen='test-question-report-screen';
+
+
 
 
 

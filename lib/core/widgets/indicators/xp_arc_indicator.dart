@@ -5,9 +5,10 @@ import '../../theme/app_palette.dart';
 import '../text/custom_text_rubik.dart';
 
 class XpArcIndicator extends StatelessWidget {
-  const XpArcIndicator({super.key, required this.progress, required this.max});
+  const XpArcIndicator({super.key, required this.progress, required this.max, required this.color});
   final int progress;
   final int max;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class XpArcIndicator extends StatelessWidget {
               showTicks: false,
               pointers: <GaugePointer>[
                 RangePointer(
-                  color: AppPalette.primaryColor,
+                  color: color,
                   value: (progress*100)/max,
                   cornerStyle: CornerStyle.bothCurve,
                   width: 8,
