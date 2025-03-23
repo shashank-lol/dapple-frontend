@@ -1,11 +1,11 @@
 import 'package:dapple/core/theme/app_palette.dart';
-import 'package:dapple/features/community/presentation/pages/community_page.dart';
 import 'package:dapple/features/goal/presentation/pages/goal_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 import '../../features/Profile/presentation/pages/profilepage.dart';
+import '../../features/expert_talk/presentation/pages/expert_talk_home_screen.dart';
 import '../../features/home/presentation/pages/homepage.dart';
 
 class MainLayoutPage extends StatelessWidget {
@@ -37,7 +37,7 @@ class MainLayoutPage extends StatelessWidget {
 }
 
 List<Widget> _buildScreens() {
-  return [HomePage(), CommunityPage(),Profilepage(),GoalPage()];
+  return [HomePage(), ExpertTalkHomeScreen(),Profilepage(),GoalPage()];
 }
 
 List<PersistentBottomNavBarItem> _navBarsItems() {

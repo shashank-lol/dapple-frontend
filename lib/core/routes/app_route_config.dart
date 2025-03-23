@@ -3,6 +3,8 @@ import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/routes/stream_to_listenable.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
+import 'package:dapple/features/expert_talk/presentation/pages/appointment_details.dart';
+import 'package:dapple/features/expert_talk/presentation/pages/expert_info_screen.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
 import 'package:dapple/features/onboarding/presentation/pages/start_screen.dart';
 import 'package:dapple/features/question/domain/entities/subjective_question_answer.dart';
@@ -116,10 +118,11 @@ class AppRouter {
           builder: (context, state) {
             final question = state.extra as ObjectiveQuestion;
             return ObjectiveQuestionScreen(
-                options: question.options,
-                question: question.question!,
-                imageUrl: question.imageUrl,
-                questionId: question.questionId,);
+              options: question.options,
+              question: question.question!,
+              imageUrl: question.imageUrl,
+              questionId: question.questionId,
+            );
           }),
       GoRoute(
           path: '/audioQuestion',
@@ -132,7 +135,10 @@ class AppRouter {
           name: AppRouteConsts.answerReport,
           builder: (context, state) {
             final response = state.extra as SubjectiveQuestionAnswer;
-            return AnswerReportScreen(response: response, maxXp: int.parse(state.pathParameters['maxXp']!),);
+            return AnswerReportScreen(
+              response: response,
+              maxXp: int.parse(state.pathParameters['maxXp']!),
+            );
           }),
       GoRoute(
           path: '/endPage',
@@ -163,6 +169,18 @@ class AppRouter {
           name: AppRouteConsts.testQuestionReportScreen,
           builder: (context, state) {
             return TestQuestionReportScreen();
+          }),
+      GoRoute(
+          path: '/expertInfoScreen',
+          name: AppRouteConsts.expertInfoScreen,
+          builder: (context, state) {
+            return ExpertInfoScreen();
+          }),
+      GoRoute(
+          path: '/appointmentDetails',
+          name: AppRouteConsts.appointmentDetails,
+          builder: (context, state) {
+            return AppointmentDetails();
           }),
     ],
   );

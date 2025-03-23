@@ -21,6 +21,10 @@ class AppRouteConsts{
   static String testQuestionScreen='test-question-screen';
   static String testReportScreen='test-report-screen';
   static String testQuestionReportScreen='test-question-report-screen';
+  //expert talk screens
+  static String expertInfoScreen='expert-info-screen';
+  static String appointmentDetails='appointment-details';
+
 
 
 

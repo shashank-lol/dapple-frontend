@@ -20,7 +20,7 @@ class CustomTextRubik extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .titleMedium
-          !.copyWith(color: color, fontSize: size, fontWeight: weight),
+          !.copyWith(color: color, fontSize: size, fontWeight: weight,),
     );
   }
 }
