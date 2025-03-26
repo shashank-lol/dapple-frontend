@@ -16,8 +16,7 @@ class LevelWidget extends StatefulWidget {
       required this.description,
       required this.level,
       required this.currentSection,
-      required this.sections,
-      required this.sectionIds});
+      required this.sections});
 
   final int currentLevel;
   final int currentSection;
@@ -26,7 +25,6 @@ class LevelWidget extends StatefulWidget {
   final LevelStatus status;
   final int level;
   final List<Section> sections;
-  final List<String> sectionIds;
 
   @override
   State<LevelWidget> createState() => _LevelWidgetState();
@@ -83,14 +81,16 @@ class _LevelWidgetState extends State<LevelWidget> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
-                                    .copyWith(color: Colors.white, fontSize: 18)),
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 18)),
                             Text(widget.description,
                                 maxLines: 2,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                        color: Color(0xFFB3B3B3), fontSize: 12)),
+                                        color: Color(0xFFB3B3B3),
+                                        fontSize: 12)),
                           ],
                         ),
                       ),
@@ -123,13 +123,17 @@ class _LevelWidgetState extends State<LevelWidget> {
                             if (getSectionStatus(widget.currentLevel,
                                     widget.currentSection, i) !=
                                 LevelStatus.locked) {
-                              GoRouter.of(context).pushNamed(
+                              if (i == widget.sections.length - 1) {
+                                GoRouter.of(context).pushNamed(
+                                  AppRouteConsts.startTestScreen,
+                                  extra: widget.sections[i],
+                                );
+                              } else {
+                                GoRouter.of(context).pushNamed(
                                   AppRouteConsts.section,
-                                  extra: Section(
-                                      title: widget.sections[i].title,
-                                      sectionXp: widget.sections[i].sectionXp),
-                                pathParameters: {'id': widget.sectionIds[i]}
-                              );
+                                  extra: widget.sections[i],
+                                );
+                              }
                             }
                           },
                           child: SectionTile(

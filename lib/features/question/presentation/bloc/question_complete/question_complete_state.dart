@@ -35,3 +35,10 @@ final class SubjectiveAnswerHint extends QuestionCompleteState{
 
   SubjectiveAnswerHint(this.hint);
 }
+
+final class VoiceAnswered extends QuestionCompleteState{
+  final VoiceQuestionAnswer voiceAnswer;
+  final int maxXp;
+
+  VoiceAnswered(this.voiceAnswer, this.maxXp);
+}

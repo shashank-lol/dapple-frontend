@@ -2,7 +2,7 @@ import 'package:dapple/core/widgets/back_button_handler.dart';
 import 'package:dapple/core/widgets/progress_bar/section_progress_bar.dart';
 import 'package:dapple/features/question/presentation/widgets/overlay_screens/success.dart';
 import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
-import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';
+import '../../../../core/cubits/xp/xp_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,15 +33,24 @@ class _LearningScreenState extends State<LearningScreen>
     with SingleTickerProviderStateMixin {
   bool _showOverlay = false;
 
-  Future<void> _completeReading(context) async {
+  Future<void> _completeReading(
+      context, responseBloc, xpCubit, questionsCubit) async {
     setState(() {
       _showOverlay = true;
     });
 
     // Wait for 5 seconds, then navigate to the next page
-    await Future.delayed(Duration(seconds: 1), () {
+
+    await Future.delayed(Duration(seconds: 3), () {
       if (_showOverlay == true) {
         _showOverlay = false;
+      }
+
+      responseBloc.add(LessonCompletedEvent(widget.lessonId));
+      xpCubit.incrementXp(widget.lessonXp);
+      if (questionsCubit.state is QuestionsLoaded) {
+        responseBloc.add(QuestionResetEvent());
+        questionsCubit.getNextQuestion(context);
       }
     });
   }
@@ -140,21 +149,11 @@ class _LearningScreenState extends State<LearningScreen>
                             onTap: () async {
                               final responseBloc =
                                   context.read<QuestionCompleteBloc>();
-                              responseBloc
-                                  .add(LessonCompletedEvent(widget.lessonId));
-                              await _completeReading(context);
-                              if (responseBloc.state is LessonCompleted) {
-                                context
-                                    .read<XpCubit>()
-                                    .incrementXp(widget.lessonXp);
-                                final questionsCubit =
-                                    context.read<QuestionsCubit>();
-                                if ((questionsCubit.state is QuestionsLoaded) &&
-                                    !_showOverlay) {
-                                  responseBloc.add(QuestionResetEvent());
-                                  questionsCubit.getNextQuestion(context);
-                                }
-                              }
+                              final xpCubit = context.read<XpCubit>();
+                              final questionsCubit =
+                                  context.read<QuestionsCubit>();
+                              await _completeReading(context, responseBloc,
+                                  xpCubit, questionsCubit);
                             },
                             text: "Continue",
                             primaryColor: AppPalette.white,

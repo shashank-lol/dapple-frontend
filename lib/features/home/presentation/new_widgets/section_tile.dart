@@ -31,8 +31,8 @@ class SectionTile extends StatelessWidget {
         child: Center(
           child: status == LevelStatus.completed
               ? SvgPicture.asset(
-                  'assets/icons/tick.svg',
-                  height: 30,
+                  'assets/tick_white.svg',
+                  height: 10,
                 )
               : Text(
                   '$sectionNo',

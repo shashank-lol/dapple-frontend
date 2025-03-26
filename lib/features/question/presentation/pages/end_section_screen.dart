@@ -1,7 +1,9 @@
-import 'package:dapple/core/widgets/text/custom_text_rubik.dart';
+import 'package:dapple/core/routes/app_route_consts.dart';
+import 'package:dapple/features/question/presentation/bloc/results.dart';
 import 'package:dapple/features/question/presentation/widgets/data_container.dart';
 import 'package:dapple/core/widgets/progress_bar/section_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/buttons/primary_button.dart';
 
@@ -11,6 +13,7 @@ class EndSectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
+    final timeTaken = Results.time;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -41,12 +44,12 @@ class EndSectionScreen extends StatelessWidget {
               Center(
                   child: Image.asset(
                 "assets/dapple-girl/success.png",
-                height: deviceHeight *2/5,
+                height: deviceHeight * 2 / 5,
               )),
               Text('SECTION\nCOMPLETED',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    height: 0,
+                      height: 0,
                       color: AppPalette.white,
                       fontSize: 40,
                       fontWeight: FontWeight.w700)),
@@ -56,14 +59,15 @@ class EndSectionScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                      child:
-                          DataContainer(title: "XP GAINED", subtitle: "400")),
+                      child: DataContainer(
+                          title: "XP GAINED", subtitle: "${Results.xp}")),
                   SizedBox(
                     width: 10,
                   ),
                   Expanded(
                       child: DataContainer(
-                          title: "TIME TAKEN", subtitle: "10:02")),
+                          title: "TIME TAKEN",
+                          subtitle: "${timeTaken / 60}:${timeTaken % 60}")),
                   SizedBox(
                     width: 10,
                   ),
@@ -75,7 +79,11 @@ class EndSectionScreen extends StatelessWidget {
                 flex: 2,
               ),
               PrimaryButton(
-                  onTap: () {},
+                  onTap: () {
+                    GoRouter.of(context).pushReplacementNamed(
+                        AppRouteConsts.mainLayout,
+                        extra: true);
+                  },
                   text: "START NEXT SECTION",
                   primaryColor: AppPalette.primaryColor,
                   bgColor: Colors.white),

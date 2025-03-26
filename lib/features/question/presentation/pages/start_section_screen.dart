@@ -1,7 +1,6 @@
 import 'package:dapple/core/widgets/templates/section_start_template.dart';
 import 'package:dapple/features/home/domain/entities/section.dart';
 import 'package:dapple/features/question/presentation/bloc/all_questions/questions_cubit.dart';
-import 'package:dapple/features/question/presentation/bloc/xp/xp_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,9 +24,7 @@ class _StartSectionScreenState extends State<StartSectionScreen> {
   }
 
   Future<void> getQuestions() async {
-    int xp =
-        await context.read<QuestionsCubit>().loadQuestions(widget.sectionId);
-    context.read<XpCubit>().resetXp(xp);
+    await context.read<QuestionsCubit>().loadQuestions(widget.sectionId);
   }
 
   @override

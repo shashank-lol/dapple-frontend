@@ -1,4 +1,6 @@
+import 'package:dapple/features/test_section/presentation/bloc/test_questions/test_questions_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/buttons/primary_button.dart';
 import '../../../../core/widgets/progress_bar/section_progress_bar.dart';
@@ -59,6 +61,25 @@ class TestTemplateScreen extends StatelessWidget {
                     bgColor: AppPalette.secondaryColorLight,
                     progressBar: true,
                     livesIndicator: false,
+                    child: BlocBuilder<TestQuestionsCubit, TestQuestionsState>(
+                      builder: (context, state) {
+                        final progress =
+                            (state as TestQuestionsLoaded).currentIndex /
+                                (state).questions.length;
+                        return LinearProgressIndicator(
+                          value: progress,
+                          // 50% progress
+                          backgroundColor: AppPalette.secondaryColorLight,
+                          // Background color
+                          color: AppPalette.white,
+                          // Progress color
+                          minHeight: 8,
+                          // Thickness of the bar
+                          borderRadius:
+                              BorderRadius.circular(4), // Rounded corners
+                        );
+                      },
+                    ),
                   ),
                   Spacer(),
                   widgetTop,

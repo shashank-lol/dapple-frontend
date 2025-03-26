@@ -6,7 +6,7 @@ class ObjectiveQuestionAnswerModel extends ObjectiveQuestionAnswer {
     required super.correctOptionIndex,
     this.isCorrect,
     required super.explanation,
-    required super.xp
+    required super.xp,
   });
 
   factory ObjectiveQuestionAnswerModel.fromJson(Map<String, dynamic> json) {

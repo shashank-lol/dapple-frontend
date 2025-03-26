@@ -1,10 +1,8 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/text/custom_text_rubik.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/routes/app_route_consts.dart';
 
 class ReportTile extends StatelessWidget {
   const ReportTile(
@@ -13,19 +11,22 @@ class ReportTile extends StatelessWidget {
       required this.description,
       required this.xpGained,
       required this.totalXp,
-      required this.type});
+      required this.type, this.onTap});
 
   final String title;
   final String description;
   final int xpGained;
   final int totalXp;
   final int type;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).pushNamed(AppRouteConsts.testQuestionReportScreen);
+        if(type == 1) {
+          onTap!();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),

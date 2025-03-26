@@ -1,6 +1,9 @@
+import 'package:dapple/core/cubits/xp/xp_cubit.dart';
+import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/core/widgets/indicators/lives_indicator.dart';
 import 'package:dapple/core/widgets/indicators/xp_indicator.dart';
+import 'package:dapple/features/home/presentation/bloc/xp_server/xp_server_cubit.dart';
 import 'package:dapple/features/home/presentation/new_widgets/learning_card.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +12,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../core/routes/app_route_consts.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../data/levelstatus.dart';
 import '../widgets/level_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key, this.isSectionDone});
+
+  bool? isSectionDone;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,17 +31,24 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     if (context.read<LevelsCubit>().state is LevelsInitial) {
       context.read<LevelsCubit>().loadLevels();
+      context.read<XpCubit>().updateXpFromServer();
       debugPrint("initState");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    EncryptedSharedPreferences sharedPreferences =
-        EncryptedSharedPreferences.getInstance();
+    EncryptedSharedPreferences sharedPreferences = EncryptedSharedPreferences.getInstance();
     final deviceHeight = MediaQuery.of(context).size.height;
     final name = sharedPreferences.getString("userFirstName");
-    final xp = sharedPreferences.getInt("userXp");
+    var xp = sharedPreferences.getInt("userXp");
+    if (widget.isSectionDone ?? false) {
+      context.read<LevelsCubit>().loadLevels();
+      widget.isSectionDone = false;
+      context.read<XpServerCubit>().updateXpFromServer();
+      xp = sharedPreferences.getInt("userXp");
+      setState(() {});
+    }
     return Scaffold(
       backgroundColor: AppPalette.primaryColor,
       appBar: AppBar(
@@ -134,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else if (state is LevelsLoaded) {
                   final levels = state.levelAndSection.levels;
-                  final sections = state.levelAndSection.sections;
+                  final sections = state.levelAndSection.levels;
                   return Column(
                     children: [
                       for (int i = 0; i < levels.length; i++)
@@ -144,18 +155,17 @@ class _HomePageState extends State<HomePage> {
                             color: AppPalette.white,
                           ),
                           child: LevelWidget(
-                              heading: levels[i].name,
-                              status: getLevelStatus(
-                                  state.levelAndSection.completedLevels + 1, i),
-                              currentLevel:
-                                  state.levelAndSection.completedLevels + 1,
-                              description: levels[i].description,
-                              level: i + 1,
-                              currentSection:
-                                  state.levelAndSection.completedSections + 1,
-                              sections: sections,
-                              sectionIds:
-                                  state.levelAndSection.levels[i].sections!),
+                            heading: levels[i].name,
+                            status: getLevelStatus(
+                                state.levelAndSection.completedLevels + 1, i),
+                            currentLevel:
+                                state.levelAndSection.completedLevels + 1,
+                            description: levels[i].description,
+                            level: i + 1,
+                            currentSection:
+                                state.levelAndSection.completedSections + 1,
+                            sections: sections[i].sections!,
+                          ),
                         ),
                     ],
                   );

@@ -1,3 +1,4 @@
+import 'package:dapple/features/test_section/domain/entities/question_result.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +10,15 @@ import '../../../../core/widgets/text/custom_text_rubik.dart';
 import '../widgets/report_tile.dart';
 
 class TestQuestionReportScreen extends StatelessWidget {
-  const TestQuestionReportScreen({super.key});
+  const TestQuestionReportScreen(
+      {super.key,
+      required this.question,
+      required this.questionResult,
+      required this.maxXp});
+
+  final String question;
+  final int maxXp;
+  final QuestionResult questionResult;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +40,12 @@ class TestQuestionReportScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomTextRubik(
-                          text: 'QUESTION 1',
+                          text: 'QUESTION REPORT',
                           weight: FontWeight.w600,
                           size: 20,
                           color: AppPalette.blackColor),
                       Text(
-                        "Write the best response for a colleague asking about your weekend.",
+                        question,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.rubik(
                           fontSize: 14,
@@ -45,8 +54,8 @@ class TestQuestionReportScreen extends StatelessWidget {
                         ),
                       ),
                       XpArcIndicator(
-                        progress: 50,
-                        max: 100,
+                        progress: questionResult.obtainedXp,
+                        max: maxXp,
                         color: AppPalette.secondaryColor,
                       ),
                       Padding(
@@ -62,14 +71,15 @@ class TestQuestionReportScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                for (int i = 0; i < 2; i++)
+                                for (var evaluation
+                                    in questionResult.evaluations)
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       CustomTextRubik(
-                                          text: "✅ Best Traits",
+                                          text: evaluation.title,
                                           weight: FontWeight.w700,
                                           size: 14,
                                           color: Colors.black),
@@ -77,7 +87,7 @@ class TestQuestionReportScreen extends StatelessWidget {
                                         height: 4,
                                       ),
                                       Text(
-                                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+                                        evaluation.description,
                                         style: GoogleFonts.rubik(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -95,13 +105,14 @@ class TestQuestionReportScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      for (int i = 0; i < 5; i++)
+                      for (var summary in questionResult.summaries)
                         ReportTile(
-                            title: "Question ${i + 1}",
-                            description:
-                                "Write the best response for a colleague asking about your weekend.",
-                            xpGained: 20,
-                            totalXp: 100, type: 2,)
+                          title: summary.title,
+                          description: summary.content,
+                          xpGained: summary.userScore,
+                          totalXp: summary.totalScore,
+                          type: 2,
+                        )
                     ],
                   ),
                 ),

@@ -30,4 +30,12 @@ final class SubjectiveAnswerHintEvent extends QuestionCompleteEvent {
   SubjectiveAnswerHintEvent(this.questionId);
 }
 
+final class VoiceAnsweredEvent extends QuestionCompleteEvent {
+  final File audioFile;
+  final String questionId;
+  final int maxXp;
+
+  VoiceAnsweredEvent(this.audioFile, this.questionId, this.maxXp);
+}
+
 final class QuestionResetEvent extends QuestionCompleteEvent {}

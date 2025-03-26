@@ -1,3 +1,5 @@
+import 'package:dapple/features/home/data/local/section_descriptions.dart';
+
 import '../models/level_model.dart';
 import '../models/level_section_wrapper.dart';
 import '../models/section_model.dart';
@@ -12,50 +14,132 @@ class LevelLocalDataSourceImpl implements LevelLocalDataSource {
     return LevelSectionWrapper(
       levels: [
         LevelModel(
-          name: "Level 1",
-          description: "This is level 1",
+          name: "Networking with Confidence",
+          description: "Making connections in professional settings",
           imageUrl: "",
           sections: [
-            "Section 1",
+            SectionModel(
+                title: "Words that Work",
+                sectionXp: 480,
+                sectionId: "section1",
+                description: sectionDescriptions[0]
+            ),
+            SectionModel(
+                title: "Reading the Room",
+                sectionXp: 280,
+                sectionId: "section2",
+                description: sectionDescriptions[1]
+            ),
+            SectionModel(
+                title: "Finding Your Voice",
+                sectionXp: 560,
+                sectionId: "section3",
+                description: sectionDescriptions[2]
+            ),
+            SectionModel(
+                title: "Putting It All Together",
+                sectionXp: 800,
+                sectionId: "section4",
+                description: sectionDescriptions[3]
+            ),
           ],
         ),
         LevelModel(
-          name: "Level 2",
-          description: "This is level 2",
+          name: "The Art of Small Talk at Work",
+          description: "Engaging in casual workplace conversations",
           imageUrl: "",
           sections: [
-            "Section 1",
+            SectionModel(
+                title: "Starting Strong",
+                sectionXp: 480,
+                sectionId: "section1",
+                description: sectionDescriptions[0]
+            ),
+            SectionModel(
+                title: "Beyond Words",
+                sectionXp: 280,
+                sectionId: "section2",
+                description: sectionDescriptions[1]
+            ),
+            SectionModel(
+                title: "Tone Matters",
+                sectionXp: 560,
+                sectionId: "section3",
+                description: sectionDescriptions[2]
+            ),
+            SectionModel(
+                title: "The Real-World Test",
+                sectionXp: 800,
+                sectionId: "section4",
+                description: sectionDescriptions[3]
+            ),
           ],
         ),
         LevelModel(
-          name: "Level 3",
-          description: "This is level 3",
+          name: "Handling Difficult Conversations",
+          description: "Managing conflicts and tough discussions",
           imageUrl: "",
           sections: [
-            "Section 1",
+            SectionModel(
+                title: "Speaking with Purpose",
+                sectionXp: 480,
+                sectionId: "section1",
+                description: sectionDescriptions[0]
+            ),
+            SectionModel(
+                title: "The Social Decoder",
+                sectionXp: 280,
+                sectionId: "section2",
+                description: sectionDescriptions[1]
+            ),
+            SectionModel(
+                title: "Pace & Pause",
+                sectionXp: 560,
+                sectionId: "section3",
+                description: sectionDescriptions[2]
+            ),
+            SectionModel(
+                title: "Master the Moment",
+                sectionXp: 800,
+                sectionId: "section4",
+                description: sectionDescriptions[3]
+            ),
+          ],
+        ),
+        LevelModel(
+          name: "Speaking Up in Team Discussions",
+          description: "Contributing ideas and opinions in meetings",
+          imageUrl: "",
+          sections: [
+            SectionModel(
+                title: "Teaching What to Speak",
+                sectionXp: 480,
+                sectionId: "section1",
+                description: sectionDescriptions[0]
+            ),
+            SectionModel(
+                title: "Spot the Signal",
+                sectionXp: 280,
+                sectionId: "section2",
+                description: sectionDescriptions[1]
+            ),
+            SectionModel(
+                title: "Clear & Confident",
+                sectionXp: 560,
+                sectionId: "section3",
+                description: sectionDescriptions[2]
+            ),
+            SectionModel(
+                title: "Social Success Check",
+                sectionXp: 800,
+                sectionId: "section4",
+                description: sectionDescriptions[3]
+            ),
           ],
         ),
       ],
-      sections: [
-        SectionModel(
-          title: "What to Speak?",
-          sectionXp: 480,
-        ),
-        SectionModel(
-          title: "Understanding Social Cues",
-          sectionXp: 400,
-        ),
-        SectionModel(
-          title: "How to Speak?",
-          sectionXp: 800,
-        ),
-        SectionModel(
-          title: "Final Assessment",
-          sectionXp: 1000,
-        ),
-      ],
-      completedLevels: 0,
-      completedSections: 0,
+      completedLevels: 1,
+      completedSections: 3,
     );
   }
 }

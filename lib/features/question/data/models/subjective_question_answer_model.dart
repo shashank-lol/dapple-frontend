@@ -6,7 +6,7 @@ class SubjectiveQuestionAnswerModel extends SubjectiveQuestionAnswer {
     required super.evaluations,
     required super.bestAnswer,
     required super.xp,
-    required super.userAnswer
+    required super.userAnswer,
   });
 
   factory SubjectiveQuestionAnswerModel.fromJson(Map<String, dynamic> json) {

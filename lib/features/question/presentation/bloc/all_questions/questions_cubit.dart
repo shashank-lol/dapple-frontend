@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/routes/app_route_consts.dart';
 import '../../../domain/entities/lesson.dart';
 import '../../../domain/entities/subjective_question.dart';
+import '../../../domain/entities/voice_question.dart';
 
 part 'questions_state.dart';
 
@@ -31,6 +32,12 @@ class QuestionsCubit extends Cubit<QuestionsState> {
 
   void getNextQuestion(BuildContext context) {
     print((state as QuestionsLoaded).questions);
+    print((state as QuestionsLoaded).currentIndex);
+    if ((state as QuestionsLoaded).currentIndex ==
+        (state as QuestionsLoaded).questions.length) {
+      GoRouter.of(context).pushReplacementNamed(AppRouteConsts.endPage);
+      return;
+    }
     final question = (state as QuestionsLoaded)
         .questions[(state as QuestionsLoaded).currentIndex];
     if (question.hashCode == Lesson.empty().hashCode) {
@@ -56,7 +63,16 @@ class QuestionsCubit extends Cubit<QuestionsState> {
       emit(QuestionsLoaded((state as QuestionsLoaded).questions,
           (state as QuestionsLoaded).currentIndex + 1));
       return;
-    } else {
+    } else if(question.hashCode == VoiceQuestion.empty().hashCode) {
+      final VoiceQuestion voiceQuestion = question;
+      GoRouter.of(context).pushReplacementNamed(
+          AppRouteConsts.audioQuestion,
+          extra: voiceQuestion);
+      emit(QuestionsLoaded((state as QuestionsLoaded).questions,
+          (state as QuestionsLoaded).currentIndex + 1));
+      return;
+    }
+    else {
       debugPrint(question.runtimeType.toString());
     }
   }

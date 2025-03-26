@@ -12,13 +12,15 @@ class SectionProgressBar extends StatelessWidget {
       required this.progressColor,
       required this.bgColor,
       required this.progressBar,
-      required this.livesIndicator});
+      required this.livesIndicator,
+      this.child});
 
   final Color backButtonColor;
   final Color progressColor;
   final Color bgColor;
   final bool progressBar;
   final bool livesIndicator;
+  final Widget? child;
 
   Future<bool?> _showBackDialog(BuildContext context) {
     return showDialog<bool>(
@@ -74,24 +76,26 @@ class SectionProgressBar extends StatelessWidget {
           ),
           progressBar
               ? Expanded(
-                  child: BlocBuilder<QuestionsCubit, QuestionsState>(
-                    builder: (context, state) {
-                      final progress = (state as QuestionsLoaded).currentIndex /
-                          (state).questions.length;
-                      return LinearProgressIndicator(
-                        value: progress,
-                        // 50% progress
-                        backgroundColor: bgColor,
-                        // Background color
-                        color: progressColor,
-                        // Progress color
-                        minHeight: 8,
-                        // Thickness of the bar
-                        borderRadius:
-                            BorderRadius.circular(4), // Rounded corners
-                      );
-                    },
-                  ),
+                  child: child ??
+                      BlocBuilder<QuestionsCubit, QuestionsState>(
+                        builder: (context, state) {
+                          final progress =
+                              (state as QuestionsLoaded).currentIndex /
+                                  (state).questions.length;
+                          return LinearProgressIndicator(
+                            value: progress,
+                            // 50% progress
+                            backgroundColor: bgColor,
+                            // Background color
+                            color: progressColor,
+                            // Progress color
+                            minHeight: 8,
+                            // Thickness of the bar
+                            borderRadius:
+                                BorderRadius.circular(4), // Rounded corners
+                          );
+                        },
+                      ),
                 )
               : Spacer(),
           SizedBox(

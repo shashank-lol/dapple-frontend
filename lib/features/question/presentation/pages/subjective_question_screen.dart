@@ -12,7 +12,7 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../bloc/question_complete/question_complete_bloc.dart';
-import '../bloc/xp/xp_cubit.dart';
+import '../../../../core/cubits/xp/xp_cubit.dart';
 
 class SubjectiveQuestionScreen extends StatefulWidget {
   const SubjectiveQuestionScreen(
@@ -86,6 +86,24 @@ class _SubjectiveQuestionScreenState extends State<SubjectiveQuestionScreen> {
           GoRouter.of(context).pushReplacementNamed(AppRouteConsts.answerReport,
               extra: state.subjectiveQuestionAnswer,
               pathParameters: {'maxXp': widget.maxXp.toString()});
+        }
+        else if(state is QuestionCompleteError){
+          setState(() {
+            _showOverlay = false;
+          });
+          Dialogs.materialDialog(
+            context: context,
+            title: "Error",
+            msg: state.message,
+            actionsBuilder: (context) => [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
         }
       },
       child: BackButtonHandler(

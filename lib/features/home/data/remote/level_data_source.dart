@@ -14,7 +14,7 @@ abstract interface class LevelDataSource {
 
 class LevelDataSourceImpl implements LevelDataSource {
   final serverUrl = dotenv.env['BACKEND_URL']! + "/api";
-  final testUrl = "https://dummyjson.com/c/5153-86a3-4081-aef";
+  final testUrl = "https://dummyjson.com/c/ad66-e89d-46fb-9bd8";
   EncryptedSharedPreferences encryptedSharedPreferences;
 
   LevelDataSourceImpl(this.encryptedSharedPreferences);
@@ -22,15 +22,19 @@ class LevelDataSourceImpl implements LevelDataSource {
   @override
   Future<LevelSectionWrapper> getAllLevels() async {
     final String? token = encryptedSharedPreferences.getString("token");
-    if(token == null) {
+    if (token == null) {
       throw ServerException("Token not found");
     }
     try {
-      http.Response response = await http.get(headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      }, Uri.parse("$serverUrl/user-course"));
+      http.Response response = await http.get(
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        Uri.parse("$serverUrl/user-course"),
+          // Uri.parse(testUrl)
+      );
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {
         debugPrint(json.toString());

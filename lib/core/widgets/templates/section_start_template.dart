@@ -10,7 +10,8 @@ class SectionStartTemplate extends StatelessWidget {
       required this.sectionXp,
       required this.onTap,
       required this.bgColor,
-      required this.imagePath,});
+      required this.imagePath,
+      this.child});
 
   final String title;
   final Color bgColor;
@@ -18,6 +19,7 @@ class SectionStartTemplate extends StatelessWidget {
   final int sectionXp;
   final void Function() onTap;
   final String imagePath;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +40,19 @@ class SectionStartTemplate extends StatelessWidget {
               colorFilter: ColorFilter.mode(bgColor, BlendMode.color)),
         ),
         child: SafeArea(
-          minimum: EdgeInsets.all(24),
+          minimum: EdgeInsets.all(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: deviceHeight / 7,
+                height: deviceHeight / 8,
               ),
               Center(
                   child: Image.asset(
                 imagePath,
                 height: deviceHeight / 3,
               )),
-              const SizedBox(height: 60),
+              const SizedBox(height: 36),
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -69,10 +71,12 @@ class SectionStartTemplate extends StatelessWidget {
               ),
               const Spacer(),
               PrimaryButton(
-                  onTap: onTap,
-                  text: "Start +$sectionXp XP",
-                  primaryColor: bgColor,
-                  bgColor: Colors.white),
+                onTap: onTap,
+                text: "Start +$sectionXp XP",
+                primaryColor: bgColor,
+                bgColor: Colors.white,
+                child: child,
+              ),
               const SizedBox(
                 height: 8,
               )

@@ -9,7 +9,7 @@ import '../../../onboarding/presentation/bloc/option/option_bloc.dart';
 import '../../../onboarding/presentation/widgets/options_button.dart';
 import '../bloc/all_questions/questions_cubit.dart';
 import '../bloc/question_complete/question_complete_bloc.dart';
-import '../bloc/xp/xp_cubit.dart';
+import '../../../../core/cubits/xp/xp_cubit.dart';
 import '../widgets/overlay_screens/success.dart';
 
 class ObjectiveQuestionScreen extends StatefulWidget {
@@ -49,20 +49,18 @@ class _ObjectiveQuestionScreenState extends State<ObjectiveQuestionScreen> {
             widgetTop: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 100,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      image: DecorationImage(
-                          image: widget.imageUrl == null
-                              ? AssetImage(
-                                  'assets/section/objective_img.png',
-                                )
-                              : NetworkImage(widget.imageUrl!),
-                          fit: BoxFit.fill)),
-                ),
+                (widget.imageUrl == null || widget.imageUrl!.isEmpty)
+                    ? SizedBox()
+                    : Container(
+                        height: 100,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            image: DecorationImage(
+                                image: NetworkImage(widget.imageUrl!),
+                                fit: BoxFit.fill)),
+                      ),
                 SizedBox(
                   height: 15,
                 ),
@@ -180,11 +178,15 @@ class _ObjectiveQuestionScreenState extends State<ObjectiveQuestionScreen> {
                           ? SuccessOverlay(
                               showOverlay: _showOverlay,
                               xp: state.xp,
-                              description: "ye le description",
+                              description: state
+                                  .objectiveQuestionAnswer.explanation
+                                  .join("\n"),
                             )
                           : FailureOverlay(
                               showOverlay: _showOverlay,
-                              description: "ye le description",
+                              description: state
+                                  .objectiveQuestionAnswer.explanation
+                                  .join("\n"),
                             ));
                 } else {
                   return SizedBox();

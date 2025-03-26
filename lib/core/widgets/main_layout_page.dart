@@ -9,7 +9,9 @@ import '../../features/expert_talk/presentation/pages/expert_talk_home_screen.da
 import '../../features/home/presentation/pages/homepage.dart';
 
 class MainLayoutPage extends StatelessWidget {
-  MainLayoutPage({super.key});
+  MainLayoutPage({super.key, this.isSectionDone});
+
+  final bool? isSectionDone;
 
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
@@ -19,7 +21,7 @@ class MainLayoutPage extends StatelessWidget {
     return PersistentTabView(
       context,
       controller: _controller,
-      screens: _buildScreens(),
+      screens: _buildScreens(isSectionDone?? false),
       items: _navBarsItems(),
       navBarHeight: 70,
       padding: const EdgeInsets.only(top: 8),
@@ -36,7 +38,7 @@ class MainLayoutPage extends StatelessWidget {
   }
 }
 
-List<Widget> _buildScreens() {
+List<Widget> _buildScreens(bool isSectionDone) {
   return [HomePage(), ExpertTalkHomeScreen(),Profilepage(),GoalPage()];
 }
 

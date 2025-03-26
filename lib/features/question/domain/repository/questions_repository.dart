@@ -3,9 +3,11 @@ import 'package:dapple/features/question/domain/entities/questions_progress.dart
 import 'package:dapple/features/question/domain/entities/subjective_question_answer.dart';
 import 'package:dapple/features/question/domain/usecases/answer_objective_question.dart';
 import 'package:dapple/features/question/domain/usecases/answer_subjective_question.dart';
+import 'package:dapple/features/question/domain/usecases/answer_voice_question.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/failure.dart';
+import '../entities/voice_question_answer.dart';
 
 abstract interface class QuestionsRepository {
   Future<Either<Failure, QuestionsProgress>> getQuestions(String sectionId);
@@ -13,6 +15,7 @@ abstract interface class QuestionsRepository {
 
   Future<Either<Failure,ObjectiveQuestionAnswer>> answerObjectiveQuestion(AnswerObjectiveQuestionParams question);
   Future<Either<Failure, SubjectiveQuestionAnswer>> answerSubjectiveQuestion(AnswerSubjectiveQuestionParams question);
+  Future<Either<Failure, VoiceQuestionAnswer>> answerVoiceQuestion(AnswerVoiceQuestionParams question);
 
   Future<Either<Failure,String>> getSubjectiveHint(String questionId);
 }

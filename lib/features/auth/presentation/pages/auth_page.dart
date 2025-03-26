@@ -122,23 +122,22 @@ class _AuthPageState extends State<AuthPage> {
                             SizedBox(height: 36),
                             CustomButton(
                               onTap: () {
-                                final optionBloc = BlocProvider.of<OptionBloc>(
-                                  context,
-                                );
-                                final int age =
-                                    optionBloc.state.selectedOptions[0][0];
-                                final int gender =
-                                    optionBloc.state.selectedOptions[1][0];
-                                final int profession =
-                                    optionBloc.state.selectedOptions[2][0];
-                                final List<int> socialChallenges =
-                                    optionBloc.state.selectedOptions[3];
-                                final List<int> socialSettings =
-                                    optionBloc.state.selectedOptions[4];
-
-                                debugPrint(age.toString());
                                 if (formKey.currentState!.validate()) {
                                   if (widget.isNewUser) {
+                                    final optionBloc =
+                                        BlocProvider.of<OptionBloc>(
+                                      context,
+                                    );
+                                    final int age =
+                                        optionBloc.state.selectedOptions[0][0];
+                                    final int gender =
+                                        optionBloc.state.selectedOptions[1][0];
+                                    final int profession =
+                                        optionBloc.state.selectedOptions[2][0];
+                                    final List<int> socialChallenges =
+                                        optionBloc.state.selectedOptions[3];
+                                    final List<int> socialSettings =
+                                        optionBloc.state.selectedOptions[4];
                                     BlocProvider.of<AuthBloc>(context).add(
                                       AuthSignUp(
                                         firstName:

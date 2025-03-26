@@ -10,8 +10,8 @@ class QuestionsProgressModel extends QuestionsProgress {
   factory QuestionsProgressModel.fromJson(Map<String, dynamic> json, List<dynamic> questions) {
     return QuestionsProgressModel(
       questions: questions,
-      currentXp: 0?? json['sectionProgress']['xp'],
-      startIndex:4?? json['sectionProgress']['progress'],
+      currentXp:  json['sectionProgress']['xp'],
+      startIndex: json['sectionProgress']['progress'],
     );
   }
 
