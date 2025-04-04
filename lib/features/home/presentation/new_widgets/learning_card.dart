@@ -1,7 +1,6 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 
-
 class LearningCard extends StatelessWidget {
   const LearningCard({super.key});
 
@@ -36,8 +35,9 @@ class LearningCard extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: Image.asset("assets/icons/goal.png",
-                            ),
+                        child: Image.asset(
+                          "assets/icons/goal.png",
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -62,8 +62,8 @@ class LearningCard extends StatelessWidget {
                               child: SizedBox(
                                 width: 200,
                                 child: Text(
+                                    "Confidence comes with practice! Today’s challenge pushes you beyond your comfort zone to strengthen problem-solving skills.",
                                     softWrap: true,
-                                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!

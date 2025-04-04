@@ -17,6 +17,7 @@ import 'package:mime/mime.dart';
 
 
 import '../../../../core/error/exceptions.dart';
+import '../../../home/data/models/level_section_wrapper.dart';
 import '../models/objective_question_model.dart';
 import '../models/subjective_question_model.dart';
 
@@ -152,16 +153,17 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
       print(response.body);
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        if (json['timeTaken'] != null) {
-          Results.time = json['timeTaken'];
+        if (json['totalTimeTaken'] != null) {
+          Results.time = json['totalTimeTaken'];
         }
-        if(json['totalXp'] != null){
-          Results.xp = json['totalXp'];
+        if(json['totalXP'] != null){
+          Results.xp = json['totalXP'];
         }
         ObjectiveQuestionAnswerModel answerModel =
             ObjectiveQuestionAnswerModel.fromJson(json);
         answerModel.isCorrect =
             answerModel.correctOptionIndex == selectedOption;
+
         return answerModel;
       } else {
         throw ServerException(json["error"]);
@@ -191,11 +193,11 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
       debugPrint(response.body);
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        if (json['timeTaken'] != null) {
-          Results.time = json['timeTaken'];
+        if (json['totalTimeTaken'] != null) {
+          Results.time = json['totalTimeTaken'];
         }
-        if(json['totalXp'] != null){
-          Results.xp = json['totalXp'];
+        if(json['totalXP'] != null){
+          Results.xp = json['totalXP'];
         }
         return SubjectiveQuestionAnswerModel.fromJson(json);
       } else {
@@ -276,11 +278,11 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
       debugPrint(responseString);
       final json = jsonDecode(responseString);
       if (response.statusCode == 200) {
-        if (json['timeTaken'] != null) {
-          Results.time = json['timeTaken'];
+        if (json['totalTimeTaken'] != null) {
+          Results.time = json['totalTimeTaken'];
         }
-        if(json['totalXp'] != null){
-          Results.xp = json['totalXp'];
+        if(json['totalXP'] != null){
+          Results.xp = json['totalXP'];
         }
         return VoiceQuestionAnswerModel.fromJson(json);
       } else {

@@ -8,7 +8,14 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/app_route_consts.dart';
 
 class ExpertCard extends StatelessWidget {
-  const ExpertCard({super.key});
+  const ExpertCard({super.key, required this.name, required this.rating, required this.date, required this.minXP, required this.experience, required this.imageUrl});
+
+  final String name;
+  final String rating;
+  final String date;
+  final int minXP;
+  final int experience;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +39,7 @@ class ExpertCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage("assets/dapple-girl/hi.png"),
+                      image: AssetImage(imageUrl),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -46,7 +53,7 @@ class ExpertCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Jennifer Miller",
+                        name,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -60,7 +67,7 @@ class ExpertCard extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        "5+ Yrs Experience",
+                        "$experience+ Yrs Experience",
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -74,7 +81,7 @@ class ExpertCard extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                RatingIndicator(),
+                RatingIndicator(rating: rating,),
               ],
             ),
             SizedBox(
@@ -83,7 +90,7 @@ class ExpertCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "Available on 25 Dec".toUpperCase(),
+                  "Available on $date".toUpperCase(),
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: AppPalette.primaryColor,
                       fontSize: 12,
@@ -91,7 +98,7 @@ class ExpertCard extends StatelessWidget {
                       height: 1.4),
                 ),
                 Spacer(),
-                Transform.scale(scale: 0.8, child: XpIndicatorOrange(1200))
+                Transform.scale(scale: 0.8, child: XpIndicatorOrange(minXP))
               ],
             ),
             SizedBox(

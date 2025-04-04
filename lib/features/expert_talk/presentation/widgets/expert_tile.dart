@@ -5,7 +5,11 @@ import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/indicators/rating_indicator.dart';
 
 class ExpertTile extends StatelessWidget {
-  const ExpertTile({super.key});
+  const ExpertTile({super.key, required this.name, required this.rating, required this.experience});
+
+  final String name;
+  final String rating;
+  final int experience;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class ExpertTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Jennifer Miller",
+                        name,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -57,7 +61,7 @@ class ExpertTile extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        "5+ Yrs Experience",
+                        "$experience+ Yrs Experience",
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -71,7 +75,7 @@ class ExpertTile extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                RatingIndicator(),
+                RatingIndicator(rating: rating,),
               ],
             ),
           ],

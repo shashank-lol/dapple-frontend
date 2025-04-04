@@ -6,7 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_palette.dart';
 
 class AppointmentDetails extends StatefulWidget {
-  const AppointmentDetails({super.key});
+  const AppointmentDetails({super.key, required this.name, required this.rating, required this.experience});
+  final String name;
+  final String rating;
+  final int experience;
 
   @override
   State<AppointmentDetails> createState() => _AppointmentDetailsState();
@@ -42,7 +45,11 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ExpertTile(),
+            ExpertTile(
+              name: widget.name,
+              rating: widget.rating,
+              experience: widget.experience,
+            ),
             SizedBox(
               height: 15,
             ),

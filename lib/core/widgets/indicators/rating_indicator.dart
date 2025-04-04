@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RatingIndicator extends StatelessWidget {
-  const RatingIndicator({super.key});
+  const RatingIndicator({super.key, required this.rating});
+  final String rating ;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class RatingIndicator extends StatelessWidget {
               SvgPicture.asset("assets/icons/starwhite.svg",height: 15,width: 15,),
               SizedBox(width: 5,),
               Text(
-                "4.8",
+                rating,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!

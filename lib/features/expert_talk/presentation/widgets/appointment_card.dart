@@ -6,7 +6,14 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/app_route_consts.dart';
 
 class AppointmentCard extends StatelessWidget {
-  const AppointmentCard({super.key});
+  const AppointmentCard({super.key, required this.name, required this.rating, required this.date, required this.time, required this.imageUrl});
+
+  final String name;
+  final String rating;
+  final String date;
+  final String time;
+  final String imageUrl;
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +43,7 @@ class AppointmentCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 1),
                         image: DecorationImage(
-                          image: AssetImage("assets/dapple-girl/hi.png"),
+                          image: AssetImage(imageUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -50,7 +57,7 @@ class AppointmentCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Jason Smith",
+                            name,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -67,7 +74,7 @@ class AppointmentCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "4.2",
+                                rating,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
@@ -115,7 +122,7 @@ class AppointmentCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      "5 Oct",
+                      date,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Color(0xFFC0D4FB),
                           fontSize: 14,
@@ -132,7 +139,7 @@ class AppointmentCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      "10:30pm",
+                      time,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Color(0xFFC0D4FB),
                           fontSize: 14,

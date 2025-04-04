@@ -1,4 +1,5 @@
 import 'package:dapple/core/cubits/app_user/app_user_cubit.dart';
+import 'package:dapple/core/error/under_construction.dart';
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/routes/stream_to_listenable.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
@@ -24,6 +25,7 @@ import 'package:dapple/features/test_section/presentation/pages/test_question_sc
 import 'package:dapple/features/test_section/presentation/pages/test_report_screen.dart';
 import 'package:dapple/init_dependencies.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/domain/entities/section.dart';
@@ -33,26 +35,31 @@ import '../../features/question/presentation/pages/start_page.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    // initialLocation: '/onboarding',
-    initialLocation: '/main-layout',
+    initialLocation: '/onboarding',
+    // initialLocation: '/main-layout',
     refreshListenable:
         StreamToListenable([serviceLocator<AppUserCubit>().stream]),
-    // redirect: (context, state) {
-    //   final isAuthenticated =
-    //       context.read<AppUserCubit>().state is AppUserLoggedIn;
-    //   if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
-    //     return '/onboarding';
-    //   } else if (isAuthenticated &&
-    //       state.matchedLocation.contains('/onboarding')) {
-    //     return '/main-layout';
-    //   }
-    //   return null;
-    // },
+    redirect: (context, state) {
+      final isAuthenticated =
+          context.read<AppUserCubit>().state is AppUserLoggedIn;
+      if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
+        return '/onboarding';
+      } else if (isAuthenticated &&
+          state.matchedLocation.contains('/onboarding')) {
+        return '/main-layout';
+      }
+      return null;
+    },
     routes: <RouteBase>[
       GoRoute(
         name: AppRouteConsts.onboarding,
         path: '/onboarding',
         builder: (context, state) => StartScreen(),
+      ),
+      GoRoute(
+        name: AppRouteConsts.underConstruction,
+        path: '/under-construction',
+        builder: (context, state) => UnderConstruction(),
       ),
       GoRoute(
         path: '/get-started/:index',
@@ -214,7 +221,10 @@ class AppRouter {
           path: '/appointmentDetails',
           name: AppRouteConsts.appointmentDetails,
           builder: (context, state) {
-            return AppointmentDetails();
+            String name = 'Dr. John Doe';
+            String rating = '4.5';
+            int experience = 5;
+            return AppointmentDetails(name: name, rating: rating, experience: experience,);
           }),
     ],
   );
