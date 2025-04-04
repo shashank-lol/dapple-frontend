@@ -1,4 +1,5 @@
 
+import 'package:dapple/core/utils/show_snackbar.dart';
 import 'package:dapple/features/expert_talk/presentation/widgets/timeslot_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -276,7 +277,9 @@ class _ExpertInfoScreenState extends State<ExpertInfoScreen> {
                     TimeslotSelector(),
                     Spacer(),
                     CustomButton(
-                      onTap: () {},
+                      onTap: () {
+                        showSnackBar(context, "Appointment booked successfully");
+                      },
                       buttonText: 'Book Now',
                     ),
                   ],

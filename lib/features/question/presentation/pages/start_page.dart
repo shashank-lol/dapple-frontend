@@ -3,7 +3,6 @@ import 'package:dapple/features/home/domain/entities/section.dart';
 import 'package:dapple/features/question/presentation/bloc/all_questions/questions_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/theme/app_palette.dart';
 
 class StartPage extends StatefulWidget {
@@ -85,6 +84,8 @@ class _StartPageState extends State<StartPage> {
                 ),
                 Text(
                   widget.section.description,
+                  maxLines: 5,
+                  softWrap: true,
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: AppPalette.white.withValues(alpha: 0.5),
                       fontWeight: FontWeight.w300),

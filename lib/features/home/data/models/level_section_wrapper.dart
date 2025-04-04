@@ -17,4 +17,27 @@ class LevelSectionWrapper {
       completedSections: json['userProgress']['completedSections'],
     );
   }
+
+  /// Updates completed levels and sections when a level is completed
+  LevelSectionWrapper levelCompleted() {
+    int newCompletedLevels = completedLevels + 1;
+    int newCompletedSections = 0;
+    return LevelSectionWrapper(
+      levels: levels,
+      completedLevels: newCompletedLevels,
+      completedSections: newCompletedSections,
+    );
+  }
+
+  /// Updates completed levels and sections when a section is completed
+  LevelSectionWrapper sectionCompleted() {
+    int newCompletedLevels = completedLevels ;
+    int newCompletedSections = completedSections + 1;
+    return LevelSectionWrapper(
+      levels: levels,
+      completedLevels: newCompletedLevels,
+      completedSections: newCompletedSections,
+    );
+  }
+
 }

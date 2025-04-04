@@ -67,7 +67,7 @@ class EndSectionScreen extends StatelessWidget {
                   Expanded(
                       child: DataContainer(
                           title: "TIME TAKEN",
-                          subtitle: "${timeTaken / 60}:${timeTaken % 60}")),
+                          subtitle: "${(timeTaken / 60).toInt()}:${timeTaken % 60}")),
                   SizedBox(
                     width: 10,
                   ),

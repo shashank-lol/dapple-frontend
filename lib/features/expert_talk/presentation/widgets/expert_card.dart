@@ -101,7 +101,7 @@ class ExpertCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "Available on 25 Dec".toUpperCase(),
+                  "Available on $date".toUpperCase(),
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: AppPalette.primaryColor,
                       fontSize: 12,

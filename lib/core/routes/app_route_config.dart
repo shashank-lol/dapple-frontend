@@ -1,4 +1,5 @@
 import 'package:dapple/core/cubits/app_user/app_user_cubit.dart';
+import 'package:dapple/core/error/under_construction.dart';
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/routes/stream_to_listenable.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
@@ -23,6 +24,7 @@ import 'package:dapple/features/test_section/presentation/pages/test_question_re
 import 'package:dapple/features/test_section/presentation/pages/test_question_screen.dart';
 import 'package:dapple/features/test_section/presentation/pages/test_report_screen.dart';
 import 'package:dapple/init_dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +57,11 @@ class AppRouter {
         name: AppRouteConsts.onboarding,
         path: '/onboarding',
         builder: (context, state) => StartScreen(),
+      ),
+      GoRoute(
+        name: AppRouteConsts.underConstruction,
+        path: '/under-construction',
+        builder: (context, state) => UnderConstruction(),
       ),
       GoRoute(
         path: '/get-started/:index',

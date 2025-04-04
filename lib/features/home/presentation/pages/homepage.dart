@@ -1,4 +1,5 @@
 import 'package:dapple/core/cubits/xp/xp_cubit.dart';
+import 'package:dapple/core/error/under_construction.dart';
 import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/core/widgets/indicators/lives_indicator.dart';
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               textColor: AppPalette.white,
             ),
             const SizedBox(width: 15),
-            XpIndicator(xp ?? 0)
+            XpIndicator(xp ?? 1469)
 
             // const SizedBox(width: 8,)
           ],
@@ -86,12 +87,12 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(18.0),
               child: GestureDetector(
                   onTap: () {
-                    GoRouter.of(context)
-                        .pushNamed(AppRouteConsts.startTestScreen);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const SpeechToTextWidget()),
-                    // );
+                    // GoRouter.of(context)
+                    //     .pushNamed(AppRouteConsts.underConstruction);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const UnderConstruction()),
+                    );
                   },
                   child: LearningCard()),
             ),

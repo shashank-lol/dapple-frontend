@@ -18,7 +18,8 @@ class VideoRecorder extends StatefulWidget {
       required this.onDataReceived,
       required this.questionId,
       required this.sessionId,
-      this.reload = false, required this.child});
+      this.reload = false,
+      required this.child});
 
   final Function(String) onDataReceived;
   final String questionId;
@@ -64,7 +65,7 @@ class _VideoRecorderState extends State<VideoRecorder> {
       _stopCapture();
       _stopListening();
       setState(() {
-      _answer = "$_lastWords $_currentWords";
+        _answer = "$_lastWords $_currentWords";
       });
       widget.onDataReceived(_answer);
       setState(() {
@@ -293,8 +294,7 @@ class _VideoRecorderState extends State<VideoRecorder> {
               //       color: Colors.black, // Black screen when not capturing
               //     ),
               //   ),
-              if(!isCapturing)
-                widget.child
+              if (!isCapturing) widget.child
             ],
           ),
           Column(
@@ -319,8 +319,6 @@ class _VideoRecorderState extends State<VideoRecorder> {
                                   content: Text("Socket not connected"),
                                 ));
                               }
-                              _toggleCapture(
-                                  widget.questionId, widget.sessionId);
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: AppPalette.secondaryColor,
@@ -343,10 +341,9 @@ class _VideoRecorderState extends State<VideoRecorder> {
                     ),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: (){
-                          context
-                              .read<SocketBloc>()
-                              .add(AnswerRetryEvent(widget.questionId, widget.sessionId));
+                        onPressed: () {
+                          context.read<SocketBloc>().add(AnswerRetryEvent(
+                              widget.questionId, widget.sessionId));
                           _retry();
                         },
                         style: ElevatedButton.styleFrom(

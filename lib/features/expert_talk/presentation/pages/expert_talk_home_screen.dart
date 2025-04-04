@@ -1,3 +1,4 @@
+import 'package:dapple/core/assets/professionals.dart';
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/indicators/xp_indicator_orange.dart';
 import 'package:dapple/core/widgets/text/custom_text_rubik.dart';
