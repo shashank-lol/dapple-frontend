@@ -1,9 +1,11 @@
-
 import 'package:dapple/core/utils/show_snackbar.dart';
+import 'package:dapple/features/expert_talk/presentation/widgets/date_picker.dart';
 import 'package:dapple/features/expert_talk/presentation/widgets/timeslot_selector.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weekly_date_picker/weekly_date_picker.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/buttons/custom_button.dart';
 import '../widgets/custom_dropdown.dart';
@@ -16,19 +18,15 @@ class ExpertInfoScreen extends StatefulWidget {
 }
 
 class _ExpertInfoScreenState extends State<ExpertInfoScreen> {
-  String? selectedDay;
-  String? selectedMonth;
+  DateTime _selectedDay = DateTime.now();
 
-  void updateDay(String? day) {
+  void _onDateSelected(DateTime selectedDate) {
     setState(() {
-      selectedDay = day;
+      _selectedDay = selectedDate;
     });
-  }
-
-  void updateMonth(String? month) {
-    setState(() {
-      selectedMonth = month;
-    });
+    if (kDebugMode) {
+      print(_selectedDay);
+    }
   }
 
   @override
@@ -228,37 +226,21 @@ class _ExpertInfoScreenState extends State<ExpertInfoScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: CustomDropdown(
-                          hint: "Day",
-                          items: List.generate(
-                              31, (index) => (index + 1).toString()),
-                          onChanged: updateDay,
-                        )),
-                        SizedBox(width: 10),
-                        Expanded(
-                            child: CustomDropdown(
-                          hint: "Month",
-                          items: [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec"
-                          ],
-                          onChanged: updateMonth,
-                        )),
-                      ],
+                    // WeeklyDatePicker(
+                    //   backgroundColor: AppPalette.white,
+                    //   selectedDay: _selectedDay,
+                    //   changeDay: (value) => setState(() {
+                    //     _selectedDay = value;
+                    //   }),
+                    //   enableWeeknumberText: false,
+                    //   weekdays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+                    //   selectedDigitBackgroundColor: Color(0xFFECEAFB),
+                    //   selectedDigitColor: AppPalette.primaryColor,
+                    //
+                    // ),
+                    DatePickerWidget(
+                      maxDate: DateTime.now().add(Duration(days: 15)),
+                      onDateSelected: _onDateSelected,
                     ),
                     SizedBox(
                       height: 15,
@@ -278,7 +260,8 @@ class _ExpertInfoScreenState extends State<ExpertInfoScreen> {
                     Spacer(),
                     CustomButton(
                       onTap: () {
-                        showSnackBar(context, "Appointment booked successfully");
+                        showSnackBar(
+                            context, "Appointment booked successfully");
                       },
                       buttonText: 'Book Now',
                     ),

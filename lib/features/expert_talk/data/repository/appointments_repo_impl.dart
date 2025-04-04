@@ -17,8 +17,12 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   @override
   Future<Either<Failure, List<Appointment>>> getAppointments() async {
     try {
-      final appointments = await remoteDataSource.getAllAppointments();
-      return Right(appointments);
+      // TODO: Uncomment the remote data source call when available
+      final appointments = appointmentLocalDataSource.getAppointments();
+      return Right(
+          await Future.delayed(Duration.zero, () => appointments));
+      // final appointments = await remoteDataSource.getAllAppointments();
+      // return Right(appointments);
     } catch (e) {
       // Show local appointments if remote call fails
       final localAppointments = appointmentLocalDataSource.getAppointments();

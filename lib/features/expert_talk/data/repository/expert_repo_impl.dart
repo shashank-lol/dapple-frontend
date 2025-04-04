@@ -16,8 +16,11 @@ class ExpertRepositoryImpl implements ExpertRepository {
   @override
   Future<Either<Failure, List<ExpertModel>>> getExperts() async {
     try {
-      final experts = await remoteDataSource.getExperts();
-      return Right(experts);
+      //TODO: Uncomment the remote data source call when available
+      final localExperts = expertLocalDataSource.getExperts();
+      return Right(await Future.delayed(Duration.zero, () => localExperts));
+      // final experts = await remoteDataSource.getExperts();
+      // return Right(experts);
     } catch (e) {
       // Show local experts if remote call fails
       final localExperts = expertLocalDataSource.getExperts();

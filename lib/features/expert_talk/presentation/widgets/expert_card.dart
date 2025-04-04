@@ -54,62 +54,54 @@ class ExpertCard extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                color: AppPalette.blackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                height: 1.4),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        width: 180,
-                        child: Text(
-                          description,
-                          maxLines: 2,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
                               .copyWith(
-                                  color: Color(0x33384B66),
-                                  fontSize: 12,
+                                  color: AppPalette.blackColor,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   height: 1.4),
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                          width: 180,
+                          child: Text(
+                            description,
+                            maxLines: 2,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    color: Color(0x33384B66),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.4),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                Spacer(),
-                RatingIndicator(rating),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Available on $date".toUpperCase(),
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: AppPalette.primaryColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      height: 1.4),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    RatingIndicator(rating),
+                    SizedBox(height: 15,),
+                    Transform.scale(scale: 0.8, child: XpIndicatorOrange(xp))
+
+                  ],
                 ),
-                Spacer(),
-                Transform.scale(scale: 0.8, child: XpIndicatorOrange(xp))
               ],
             ),
             SizedBox(
