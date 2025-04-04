@@ -26,6 +26,7 @@ class TestDataSourceImpl implements TestDataSource {
   @override
   Future<TestSectionDataModel> getTestQuestions(String sectionId) async {
     final token = sharedPreferences.getString('token');
+    debugPrint(token);
     print("Request Recvd");
     try {
       final response = await http.get(

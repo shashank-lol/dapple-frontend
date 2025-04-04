@@ -1,4 +1,5 @@
 import 'package:dapple/core/error/failure.dart';
+import 'package:dapple/features/question/data/local/dummy_questions_data.dart';
 import 'package:dapple/features/question/data/models/questions_progress_model.dart';
 import 'package:dapple/features/question/data/models/voice_question_answer_model.dart';
 import 'package:dapple/features/question/data/remote/questions_remote_data_source.dart';
@@ -9,11 +10,13 @@ import 'package:dapple/features/question/domain/usecases/answer_objective_questi
 import 'package:dapple/features/question/domain/usecases/answer_subjective_question.dart';
 import 'package:dapple/features/question/domain/usecases/answer_voice_question.dart';
 import 'package:fpdart/src/either.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/error/exceptions.dart';
 
 class QuestionsRepoImpl implements QuestionsRepository {
   QuestionsRemoteDataSource questionsRemoteDataSource;
+  LocalQuestionsDataSource questionsDataSource = LocalQuestionsDataSourceImpl();
 
   QuestionsRepoImpl(this.questionsRemoteDataSource);
 
@@ -24,6 +27,9 @@ class QuestionsRepoImpl implements QuestionsRepository {
       final questions = await questionsRemoteDataSource.getQuestions(sectionId);
       return right(questions);
     } on ServerException catch (e) {
+      debugPrint("Local Data, Server Exception $e");
+      final localQuestions = await questionsDataSource.getQuestions();
+      return right(localQuestions);
       return left(Failure(e.message));
     }
   }

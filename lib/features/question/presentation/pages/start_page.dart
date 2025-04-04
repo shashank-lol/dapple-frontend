@@ -64,14 +64,14 @@ class _StartPageState extends State<StartPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: deviceHeight / 7,
+                  height: deviceHeight / 10,
                 ),
                 Center(
                     child: Image.asset(
                   "assets/dapple-girl/jump.png",
                   height: deviceHeight / 3,
                 )),
-                const SizedBox(height: 60),
+                const SizedBox(height: 24),
                 Text(
                   widget.section.title,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(

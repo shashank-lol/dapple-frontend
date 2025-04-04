@@ -1,4 +1,5 @@
 import 'package:dapple/core/widgets/buttons/custom_button.dart';
+import 'package:dapple/features/expert_talk/domain/entities/appointment.dart';
 import 'package:dapple/features/expert_talk/presentation/widgets/expert_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,10 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_palette.dart';
 
 class AppointmentDetails extends StatefulWidget {
-  const AppointmentDetails({super.key, required this.name, required this.rating, required this.experience});
-  final String name;
-  final String rating;
-  final int experience;
+  const AppointmentDetails({super.key, required this.appointment});
+
+  final Appointment appointment;
 
   @override
   State<AppointmentDetails> createState() => _AppointmentDetailsState();
@@ -46,9 +46,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ExpertTile(
-              name: widget.name,
-              rating: widget.rating,
-              experience: widget.experience,
+              rating: widget.appointment.expertRating,
+              name: widget.appointment.expertName,
+              description: widget.appointment.expertDescription,
+              imageUrl: widget.appointment.imageUrl,
             ),
             SizedBox(
               height: 15,
@@ -79,7 +80,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                       child: Column(
                         children: [
                           Text(
-                            "8 October, Sun",
+                            widget.appointment.date,
                             style: GoogleFonts.rubik(
                                 color: AppPalette.blackColor,
                                 fontSize: 14,
@@ -90,7 +91,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                             height: 5,
                           ),
                           Text(
-                            "DATE".toUpperCase(),
+                            "DATE",
                             style: GoogleFonts.rubik(
                                 color: Color(0xFF7D8A95),
                                 fontSize: 14,
@@ -118,10 +119,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                       child: Column(
                         children: [
                           Text(
-                            "2:30PM-3:30PM",
+                            "${widget.appointment.startTime}-${widget.appointment.endTime}",
                             style: GoogleFonts.rubik(
                                 color: AppPalette.blackColor,
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 height: 1.4),
                           ),
@@ -129,7 +130,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                             height: 5,
                           ),
                           Text(
-                            "TIME".toUpperCase(),
+                            "TIME",
                             style: GoogleFonts.rubik(
                                 color: Color(0xFF7D8A95),
                                 fontSize: 14,
@@ -183,7 +184,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
               ),
             ),
             Spacer(),
-            CustomButton(onTap: () {}, buttonText: "Continue")
+            CustomButton(onTap: () {}, buttonText: "show in calendar")
           ],
         ),
       ),

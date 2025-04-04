@@ -27,7 +27,9 @@ import 'package:dapple/init_dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 
+import '../../features/expert_talk/domain/entities/appointment.dart';
 import '../../features/home/domain/entities/section.dart';
 import '../../features/onboarding/presentation/pages/get_started_page.dart';
 import '../../features/question/domain/entities/lesson.dart';
@@ -221,10 +223,8 @@ class AppRouter {
           path: '/appointmentDetails',
           name: AppRouteConsts.appointmentDetails,
           builder: (context, state) {
-            String name = 'Dr. John Doe';
-            String rating = '4.5';
-            int experience = 5;
-            return AppointmentDetails(name: name, rating: rating, experience: experience,);
+            final appointment = state.extra as Appointment;
+            return AppointmentDetails(appointment: appointment,);
           }),
     ],
   );

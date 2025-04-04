@@ -1,5 +1,7 @@
 import 'package:dapple/core/theme/theme.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:dapple/features/expert_talk/presentation/bloc/appointments/appointments_cubit.dart';
+import 'package:dapple/features/expert_talk/presentation/bloc/experts/experts_cubit.dart';
 import 'package:dapple/features/home/presentation/bloc/levels/levels_cubit.dart';
 import 'package:dapple/features/home/presentation/bloc/xp_server/xp_server_cubit.dart';
 import 'package:dapple/features/onboarding/presentation/bloc/option/option_bloc.dart';
@@ -36,6 +38,8 @@ void main() async {
         BlocProvider(create: (context) => serviceLocator<TestQuestionsCubit>()),
         BlocProvider(create: (context) => serviceLocator<SocketBloc>()),
         BlocProvider(create: (context) => serviceLocator<ResultCubit>()),
+        BlocProvider(create: (context) => serviceLocator<ExpertsCubit>()),
+        BlocProvider(create: (context) => serviceLocator<AppointmentsCubit>()),
       ],
       child: const MyApp(),
     ),
