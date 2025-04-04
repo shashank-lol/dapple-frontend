@@ -7,6 +7,11 @@ import 'package:dapple/features/auth/domain/usecases/google_sign_in.dart';
 import 'package:dapple/features/auth/domain/usecases/user_log_in_email.dart';
 import 'package:dapple/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:dapple/features/expert_talk/data/remote/expert_remote_data_source.dart';
+import 'package:dapple/features/expert_talk/data/repository/expert_repo_impl.dart';
+import 'package:dapple/features/expert_talk/domain/repository/expert_repository.dart';
+import 'package:dapple/features/expert_talk/domain/usecases/get_experts.dart';
+import 'package:dapple/features/expert_talk/presentation/bloc/experts/experts_cubit.dart';
 import 'package:dapple/features/home/data/remote/level_data_source.dart';
 import 'package:dapple/features/home/data/remote/xp_data_source.dart';
 import 'package:dapple/features/home/data/repository/level_repo_impl.dart';
@@ -51,6 +56,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'features/auth/domain/usecases/current_user.dart';
 import 'features/auth/domain/usecases/google_sign_up.dart';
+import 'features/expert_talk/data/remote/appointment_remote_data_source.dart';
+import 'features/expert_talk/data/repository/appointments_repo_impl.dart';
+import 'features/expert_talk/domain/repository/appointments_repository.dart';
+import 'features/expert_talk/domain/usecases/get_appointments.dart';
+import 'features/expert_talk/presentation/bloc/appointments/appointments_cubit.dart';
 import 'features/home/data/local/level_local_data_source.dart';
 import 'features/home/data/local/user_local_data.dart';
 import 'features/home/domain/usecases/get_all_levels.dart';
@@ -89,6 +99,27 @@ Future<void> initDependencies() async {
   _initQuestions();
   _initSection();
   _initTest();
+  _initExpertTalk();
+}
+
+void _initExpertTalk() {
+  serviceLocator
+    ..registerFactory<ExpertRemoteDataSource>(
+        () => ExpertRemoteDataSourceImpl())
+    ..registerFactory<ExpertRepository>(
+        () => ExpertRepositoryImpl(serviceLocator()))
+    ..registerFactory(() => GetAllExperts(serviceLocator()))
+    ..registerLazySingleton(
+        () => ExpertsCubit(getAllExperts: serviceLocator()));
+
+  serviceLocator
+    ..registerFactory<AppointmentRemoteDataSource>(
+        () => AppointmentRemoteDataSourceImpl())
+    ..registerFactory<AppointmentRepository>(
+        () => AppointmentRepositoryImpl(serviceLocator()))
+    ..registerFactory(() => GetAllAppointments(serviceLocator()))
+    ..registerLazySingleton(
+        () => AppointmentsCubit(getAllAppointments: serviceLocator()));
 }
 
 void _initTest() {

@@ -139,7 +139,7 @@ class LevelLocalDataSourceImpl implements LevelLocalDataSource {
         ),
       ],
       completedLevels: 1,
-      completedSections: 3,
+      completedSections: 0,
     );
   }
 }

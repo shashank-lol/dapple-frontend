@@ -38,6 +38,8 @@ class TestQuestionsRepoImpl implements TestRepository {
       final result = await testQuestionsDataSource.getTestResult(sessionId,sectionId);
       return right(result);
     } on ServerException catch(e){
+      final localResult = testQuestionsLocal.getTestResults();
+      return right(localResult);
       return left(Failure(e.message));
     }
   }

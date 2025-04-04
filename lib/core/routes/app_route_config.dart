@@ -23,9 +23,11 @@ import 'package:dapple/features/test_section/presentation/pages/test_question_re
 import 'package:dapple/features/test_section/presentation/pages/test_question_screen.dart';
 import 'package:dapple/features/test_section/presentation/pages/test_report_screen.dart';
 import 'package:dapple/init_dependencies.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 
+import '../../features/expert_talk/domain/entities/appointment.dart';
 import '../../features/home/domain/entities/section.dart';
 import '../../features/onboarding/presentation/pages/get_started_page.dart';
 import '../../features/question/domain/entities/lesson.dart';
@@ -33,21 +35,21 @@ import '../../features/question/presentation/pages/start_page.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    // initialLocation: '/onboarding',
-    initialLocation: '/main-layout',
+    initialLocation: '/onboarding',
+    // initialLocation: '/main-layout',
     refreshListenable:
         StreamToListenable([serviceLocator<AppUserCubit>().stream]),
-    // redirect: (context, state) {
-    //   final isAuthenticated =
-    //       context.read<AppUserCubit>().state is AppUserLoggedIn;
-    //   if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
-    //     return '/onboarding';
-    //   } else if (isAuthenticated &&
-    //       state.matchedLocation.contains('/onboarding')) {
-    //     return '/main-layout';
-    //   }
-    //   return null;
-    // },
+    redirect: (context, state) {
+      final isAuthenticated =
+          context.read<AppUserCubit>().state is AppUserLoggedIn;
+      if (state.matchedLocation.contains('/main-layout') && !isAuthenticated) {
+        return '/onboarding';
+      } else if (isAuthenticated &&
+          state.matchedLocation.contains('/onboarding')) {
+        return '/main-layout';
+      }
+      return null;
+    },
     routes: <RouteBase>[
       GoRoute(
         name: AppRouteConsts.onboarding,
@@ -214,7 +216,8 @@ class AppRouter {
           path: '/appointmentDetails',
           name: AppRouteConsts.appointmentDetails,
           builder: (context, state) {
-            return AppointmentDetails();
+            final appointment = state.extra as Appointment;
+            return AppointmentDetails(appointment: appointment,);
           }),
     ],
   );

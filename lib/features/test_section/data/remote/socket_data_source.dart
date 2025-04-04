@@ -29,7 +29,7 @@ class SocketDataSourceImpl implements SocketDataSource {
     final token = sharedPreferences.getString('token');
 
     try {
-      debugPrint("Starting WebSocket Connection...");
+      debugPrint("Starting WebSocket Connection... at $serverUrl");
       _channel = IOWebSocketChannel.connect(
         Uri.parse(serverUrl),
         headers: {'Authorization': 'Bearer $token'},
@@ -55,6 +55,7 @@ class SocketDataSourceImpl implements SocketDataSource {
   Future<bool> _waitForAck() async {
     try {
       final message = await _channel!.stream.first.timeout(Duration(seconds: 5));
+      debugPrint(message.toString());
       final decoded = jsonDecode(message);
       if (decoded['status'] == 'success') {
         return true;
@@ -85,6 +86,8 @@ class SocketDataSourceImpl implements SocketDataSource {
 
   @override
   Future<void> sendAnswer(String answer, String questionId, String sessionId) async {
+    debugPrint("$sessionId");
+    debugPrint("===================");
     if (_channel == null) throw ServerException("WebSocket is not connected!");
     final data = {
       'type': 'answer',

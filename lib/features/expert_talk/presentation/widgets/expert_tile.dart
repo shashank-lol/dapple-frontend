@@ -5,7 +5,17 @@ import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/indicators/rating_indicator.dart';
 
 class ExpertTile extends StatelessWidget {
-  const ExpertTile({super.key});
+  const ExpertTile(
+      {super.key,
+      required this.rating,
+      required this.name,
+      required this.description,
+      this.imageUrl});
+
+  final double rating;
+  final String name;
+  final String description;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +39,9 @@ class ExpertTile extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage("assets/dapple-girl/hi.png"),
+                      image: imageUrl != null
+                          ? NetworkImage(imageUrl!)
+                          : AssetImage("assets/dapple-girl/hi.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -43,7 +55,7 @@ class ExpertTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Jennifer Miller",
+                        name,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -56,22 +68,26 @@ class ExpertTile extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        "5+ Yrs Experience",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                color: Color(0x33384B66),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                height: 1.4),
+                      SizedBox(
+                        width: 160,
+                        child: Text(
+                          description,
+                          maxLines: 2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: Color(0x33384B66),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.4),
+                        ),
                       )
                     ],
                   ),
                 ),
                 Spacer(),
-                RatingIndicator(),
+                RatingIndicator(rating),
               ],
             ),
           ],

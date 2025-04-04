@@ -8,7 +8,19 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/app_route_consts.dart';
 
 class ExpertCard extends StatelessWidget {
-  const ExpertCard({super.key});
+  const ExpertCard(
+      {super.key,
+      required this.name,
+      required this.description,
+      required this.rating,
+      required this.xp,
+      required this.imageUrl});
+
+  final String name;
+  final String description;
+  final double rating;
+  final int xp;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +44,9 @@ class ExpertCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage("assets/dapple-girl/hi.png"),
+                      image: imageUrl != null
+                          ? NetworkImage(imageUrl!)
+                          : AssetImage("assets/dapple-girl/hi.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -46,7 +60,7 @@ class ExpertCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Jennifer Miller",
+                        name,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -59,22 +73,26 @@ class ExpertCard extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        "5+ Yrs Experience",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                color: Color(0x33384B66),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                height: 1.4),
+                      SizedBox(
+                        width: 180,
+                        child: Text(
+                          description,
+                          maxLines: 2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: Color(0x33384B66),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.4),
+                        ),
                       )
                     ],
                   ),
                 ),
                 Spacer(),
-                RatingIndicator(),
+                RatingIndicator(rating),
               ],
             ),
             SizedBox(
@@ -91,7 +109,7 @@ class ExpertCard extends StatelessWidget {
                       height: 1.4),
                 ),
                 Spacer(),
-                Transform.scale(scale: 0.8, child: XpIndicatorOrange(1200))
+                Transform.scale(scale: 0.8, child: XpIndicatorOrange(xp))
               ],
             ),
             SizedBox(

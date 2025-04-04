@@ -109,7 +109,9 @@ class _TestReportScreenState extends State<TestReportScreen> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: PrimaryButton(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         text: 'CONTINUE',
                         primaryColor: AppPalette.white,
                         bgColor: AppPalette.secondaryColor),

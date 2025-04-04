@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
-
 import '../../../../core/error/exceptions.dart';
 import '../models/objective_question_model.dart';
 import '../models/subjective_question_model.dart';
@@ -48,36 +47,42 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
 
   @override
   Future<QuestionsProgressModel> getQuestions(String sectionId) async {
-    final token = encryptedSharedPreferences.getString("token");
-    print(token);
-    String requestUrl = '$serverUrl/section/$sectionId';
-    // requestUrl = testUrl;
-    final response = await http.get(
-      Uri.parse(requestUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    debugPrint(response.body);
-    List<dynamic> questionList = [];
-    if (response.statusCode == 200) {
-      final res = jsonDecode(response.body) as Map<String, dynamic>;
-      for (var question in (res["data"] as List<dynamic>)) {
-        if (question['type'] == null) {
-          questionList.add(LessonsModel.fromJson(question));
-        } else if (question['type'] == 'objective') {
-          questionList.add(ObjectiveQuestionModel.fromJson(question));
-        } else if (question['type'] == 'voice') {
-          questionList.add(VoiceQuestionModel.fromJson(question));
-        } else {
-          questionList.add(SubjectiveQuestionModel.fromJson(question));
+    try {
+      final token = encryptedSharedPreferences.getString("token");
+      print(token);
+      String requestUrl = '$serverUrl/section/$sectionId';
+      // requestUrl = testUrl;
+      final response = await http.get(
+        Uri.parse(requestUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      debugPrint(response.body);
+      List<dynamic> questionList = [];
+      if (response.statusCode == 200) {
+        final res = jsonDecode(response.body) as Map<String, dynamic>;
+        for (var question in (res["data"] as List<dynamic>)) {
+          if (question['type'] == null) {
+            questionList.add(LessonsModel.fromJson(question));
+          } else if (question['type'] == 'objective') {
+            questionList.add(ObjectiveQuestionModel.fromJson(question));
+          } else if (question['type'] == 'voice') {
+            questionList.add(VoiceQuestionModel.fromJson(question));
+          } else {
+            questionList.add(SubjectiveQuestionModel.fromJson(question));
+          }
         }
+        return QuestionsProgressModel.fromJson(res, questionList);
+      } else {
+        throw ServerException(jsonDecode(response.body)["error"]);
       }
-      return QuestionsProgressModel.fromJson(res, questionList);
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      throw ServerException(e.toString());
     }
-    throw ServerException(jsonDecode(response.body)["error"]);
   }
 
   // @override
@@ -155,7 +160,7 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
         if (json['timeTaken'] != null) {
           Results.time = json['timeTaken'];
         }
-        if(json['totalXp'] != null){
+        if (json['totalXp'] != null) {
           Results.xp = json['totalXp'];
         }
         ObjectiveQuestionAnswerModel answerModel =
@@ -178,6 +183,7 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
     try {
       final http.Response response = await http.post(
         Uri.parse('$serverUrl/question/evaluate-answer/subjective'),
+        // Uri.parse('https://dummyjson.com/c/5ab8-377f-4088-a199'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -194,7 +200,7 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
         if (json['timeTaken'] != null) {
           Results.time = json['timeTaken'];
         }
-        if(json['totalXp'] != null){
+        if (json['totalXp'] != null) {
           Results.xp = json['totalXp'];
         }
         return SubjectiveQuestionAnswerModel.fromJson(json);
@@ -279,7 +285,7 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
         if (json['timeTaken'] != null) {
           Results.time = json['timeTaken'];
         }
-        if(json['totalXp'] != null){
+        if (json['totalXp'] != null) {
           Results.xp = json['totalXp'];
         }
         return VoiceQuestionAnswerModel.fromJson(json);
