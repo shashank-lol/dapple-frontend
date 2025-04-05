@@ -1,4 +1,3 @@
-import 'package:dapple/core/assets/professionals.dart';
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/indicators/xp_indicator_orange.dart';
 import 'package:dapple/core/widgets/text/custom_text_rubik.dart';
@@ -78,56 +77,56 @@ class _ExpertTalkHomeScreenState extends State<ExpertTalkHomeScreen> {
                       fontWeight: FontWeight.w600,
                       height: 1.4),
                 )),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 10),
-            //   child: SizedBox(
-            //     height: 120,
-            //     child: Expanded(
-            //       child: BlocBuilder<AppointmentsCubit, AppointmentsState>(
-            //         builder: (context, state) {
-            //           return ListView(
-            //             scrollDirection: Axis.horizontal,
-            //             children: [
-            //               if (state is AppointmentsLoading)
-            //                 for (var i = 0; i < 3; i++)
-            //                   Padding(
-            //                     padding: const EdgeInsets.only(left: 20),
-            //                     child: Shimmer.fromColors(
-            //                       baseColor: Colors.grey[300]!,
-            //                       highlightColor: Colors.grey[100]!,
-            //                       child: Container(
-            //                         width: 200,
-            //                         height: 120,
-            //                         decoration: BoxDecoration(
-            //                           color: Colors.white,
-            //                           borderRadius: BorderRadius.circular(10),
-            //                         ),
-            //                       ),
-            //                     ),
-            //                   )
-            //               else if (state is AppointmentsLoaded)
-            //                 for (var appointment in state.appointments)
-            //                   Padding(
-            //                     padding: const EdgeInsets.only(left: 20),
-            //                     child: AppointmentCard(
-            //                       appointment: appointment
-            //                     ),
-            //                   )
-            //               else if (state is AppointmentsError)
-            //                 Padding(
-            //                   padding:
-            //                       const EdgeInsets.symmetric(horizontal: 20.0),
-            //                   child: Center(
-            //                     child: Text("Error loading appointments"),
-            //                   ),
-            //                 )
-            //             ],
-            //           );
-            //         },
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: SizedBox(
+                height: 120,
+                child: Expanded(
+                  child: BlocBuilder<AppointmentsCubit, AppointmentsState>(
+                    builder: (context, state) {
+                      return ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          if (state is AppointmentsLoading)
+                            for (var i = 0; i < 3; i++)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(
+                                    width: 200,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              )
+                          else if (state is AppointmentsLoaded)
+                            for (var appointment in state.appointments)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: AppointmentCard(
+                                  appointment: appointment
+                                ),
+                              )
+                          else if (state is AppointmentsError)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Center(
+                                child: Text("Error loading appointments"),
+                              ),
+                            )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
             NoAppointments(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),

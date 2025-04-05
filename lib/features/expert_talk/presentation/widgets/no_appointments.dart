@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class NoAppointments extends StatelessWidget {
   const NoAppointments({super.key});
@@ -7,12 +6,11 @@ class NoAppointments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         Image.asset("assets/icons/heartratelk.png"),
         Center(
-          child:Padding(
-            padding: const EdgeInsets.only(top: 45),
-            child: Text("No Upcoming Appointments"),),
+          child:Text("No Upcoming Appointments"),
           ),
       ],
     );
