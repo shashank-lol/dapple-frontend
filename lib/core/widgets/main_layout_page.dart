@@ -1,4 +1,5 @@
 import 'package:dapple/core/theme/app_palette.dart';
+import 'package:dapple/features/ai_talk_dapple/presentation/pages/ai_talk_homescreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
@@ -38,7 +39,7 @@ class MainLayoutPage extends StatelessWidget {
 }
 
 List<Widget> _buildScreens(bool isSectionDone) {
-  return [HomePage(), ExpertTalkHomeScreen(),AITalkHomeScreen(),GoalPage()];
+  return [HomePage(), ExpertTalkHomeScreen(),AiTalkHomeScreen(),GoalPage()];
 }
 
 List<PersistentBottomNavBarItem> _navBarsItems() {

@@ -1,25 +1,17 @@
 import 'dart:convert';
-
-import 'package:dapple/core/error/under_construction.dart';
 import 'package:dapple/core/theme/app_palette.dart';
-import 'package:encrypt_shared_preferences/provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-import '../../../../core/cubits/app_user/app_user_cubit.dart';
 
-class AITalkHomeScreen extends StatefulWidget {
-  const AITalkHomeScreen({super.key});
+class AITalkHome extends StatefulWidget {
+  const AITalkHome({super.key});
 
   @override
-  State<AITalkHomeScreen> createState() => _AITalkHomeScreenState();
+  State<AITalkHome> createState() => _AITalkHomeState();
 }
 
-class _AITalkHomeScreenState extends State<AITalkHomeScreen> {
+class _AITalkHomeState extends State<AITalkHome> {
   bool isPaused = true;
   final String phoneNumber = "+918262958707";
   final String API_BASE_URL = 'http://65.0.97.51:5120';
