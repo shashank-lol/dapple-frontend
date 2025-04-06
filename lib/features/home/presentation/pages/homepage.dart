@@ -69,10 +69,6 @@ class _HomePageState extends State<HomePage> {
                     .bodyMedium
                     ?.copyWith(color: AppPalette.white)),
             const Spacer(),
-            LivesIndicator(
-              textColor: AppPalette.white,
-            ),
-            const SizedBox(width: 15),
             XpIndicator(xp ?? 1469)
 
             // const SizedBox(width: 8,)
