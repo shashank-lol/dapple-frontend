@@ -29,7 +29,7 @@ abstract interface class AuthDataSource {
 
   Future<UserModel> loginWithGoogle();
 
-  Future<UserModel> test();
+  // Future<UserModel> test();
 
   Future<UserModel> signUpWithGoogle({
     required int age,
@@ -49,26 +49,26 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   final serverUrl = dotenv.env['BACKEND_URL']! + "/api";
 
-  @override
-  Future<UserModel> test() async {
-    http.Response response = await http.get(
-      Uri.parse("https://dummyjson.com/c/9f0b-4cbf-4f3e-bb9c"),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
-
-    var json = jsonDecode(response.body);
-    print(response.body.toString());
-    if (response.statusCode < 300) {
-      await userDataSource.saveUserDetails(
-          json["token"], json["firstName"], json["xp"]);
-      final user = UserModel.fromJson(json);
-      return user;
-    }
-    return UserModel.empty();
-  }
+  // @override
+  // Future<UserModel> test() async {
+  //   http.Response response = await http.get(
+  //     Uri.parse("https://dummyjson.com/c/9f0b-4cbf-4f3e-bb9c"),
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //       'Accept': 'application/json',
+  //     },
+  //   );
+  //
+  //   var json = jsonDecode(response.body);
+  //   print(response.body.toString());
+  //   if (response.statusCode < 300) {
+  //     await userDataSource.saveUserDetails(
+  //         json["token"], json["firstName"], json["xp"]);
+  //     final user = UserModel.fromJson(json);
+  //     return user;
+  //   }
+  //   return UserModel.empty();
+  // }
 
   @override
   Future<UserModel> loginWithGoogle() async {
@@ -114,10 +114,10 @@ class AuthDataSourceImpl implements AuthDataSource {
         debugPrint(json.toString());
         if (response.statusCode < 300) {
           await userDataSource.saveUserDetails(
-              json["token"], json["firstName"], json["xp"]);
+              json["token"], json["firstName"], json["xp"], user?.email ?? "");
 
-          final user = UserModel.fromJson(json);
-          return user;
+          final user1 = UserModel.fromJson(json);
+          return user1;
         } else {
           throw ServerException(json["error"]);
         }
@@ -175,7 +175,7 @@ class AuthDataSourceImpl implements AuthDataSource {
     print(json.toString());
     if (response.statusCode < 300) {
       await userDataSource.saveUserDetails(
-          json["token"], json["firstName"], json["xp"]);
+          json["token"], json["firstName"], json["xp"], email);
 
       final user = UserModel.fromJson(json);
       return user;
@@ -248,7 +248,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
     if (response!.statusCode < 300) {
       await userDataSource.saveUserDetails(
-          json["token"], json["firstName"], json["xp"]);
+          json["token"], json["firstName"], json["xp"], email);
 
       final user = UserModel.fromJson(json);
       return user;
@@ -313,10 +313,10 @@ class AuthDataSourceImpl implements AuthDataSource {
         var json = jsonDecode(response.body);
         if (response.statusCode < 300) {
           await userDataSource.saveUserDetails(
-              json["token"], json["firstName"], json["xp"]);
+              json["token"], json["firstName"], json["xp"], user?.email ?? "");
 
-          final user = UserModel.fromJson(json);
-          return user;
+          final user1 = UserModel.fromJson(json);
+          return user1;
         } else {
           throw ServerException(json["error"]);
         }

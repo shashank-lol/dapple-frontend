@@ -1,6 +1,7 @@
 import 'package:dapple/core/cubits/app_user/app_user_cubit.dart';
 import 'package:dapple/features/profile/presentation/widgets/contact_tile.dart';
 import 'package:dapple/features/profile/presentation/widgets/options_tile.dart';
+import 'package:dapple/init_dependencies.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_palette.dart';
-import '../../../../core/widgets/indicators/xp_indicator_orange.dart';
 import '../../../../core/widgets/text/custom_text_rubik.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -19,6 +19,11 @@ class ProfileScreen extends StatelessWidget {
     // return ElevatedButton(onPressed: (){
     //
     // }, child: Text("Log Out"));
+
+    EncryptedSharedPreferences sharedPreferences = serviceLocator();
+    int xp = sharedPreferences.getInt("userXp") ?? 0;
+    String name = sharedPreferences.getString("userFirstName") ?? "Parth";
+    String email = sharedPreferences.getString("userEmail") ?? "parthrevanwar@gmail.com";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppPalette.transparent,
@@ -55,10 +60,10 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     ContactTile(
                         iconUrl: "assets/profile_page_icons/profile.svg",
-                        contact: "Parth Revanwar"),
+                        contact: name),
                     ContactTile(
                         iconUrl: "assets/profile_page_icons/email.svg",
-                        contact: "parthrevanwar@gmail.com"),
+                        contact: email),
                   ],
                 )
               ],
@@ -77,15 +82,16 @@ class ProfileScreen extends StatelessWidget {
                   Image.asset(
                     'assets/icons/xp.png',
                     height: 30,
+                    color: AppPalette.white,
                   ),
                   SizedBox(
                     width: 2,
                   ),
                   CustomTextRubik(
-                      text: "100 XP",
+                      text: xp.toString(),
                       weight: FontWeight.w700,
                       size: 16,
-                      color: AppPalette.secondaryColor),
+                      color: AppPalette.white),
                   Spacer(),
                 ],
               ),
@@ -127,9 +133,10 @@ class ProfileScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 // Log out
-                EncryptedSharedPreferences.getInstance().remove("token");
+                sharedPreferences.remove("token");
                 final authCubit =
                     BlocProvider.of<AppUserCubit>(context).updateUser(null);
+
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),

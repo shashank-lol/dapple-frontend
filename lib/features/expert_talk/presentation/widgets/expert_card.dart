@@ -1,6 +1,7 @@
 import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/core/widgets/indicators/rating_indicator.dart';
 import 'package:dapple/core/widgets/indicators/xp_indicator_orange.dart';
+import 'package:dapple/features/expert_talk/domain/entities/expert.dart';
 import 'package:dapple/features/expert_talk/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,19 +9,12 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/app_route_consts.dart';
 
 class ExpertCard extends StatelessWidget {
-  const ExpertCard(
-      {super.key,
-      required this.name,
-      required this.description,
-      required this.rating,
-      required this.xp,
-      required this.imageUrl});
+  const ExpertCard({
+    super.key,
+    required this.expert,
+  });
 
-  final String name;
-  final String description;
-  final double rating;
-  final int xp;
-  final String? imageUrl;
+  final Expert expert;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +38,8 @@ class ExpertCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: imageUrl != null
-                          ? NetworkImage(imageUrl!)
+                      image: expert.image != null
+                          ? NetworkImage(expert.image!)
                           : AssetImage("assets/dapple-girl/hi.png"),
                       fit: BoxFit.cover,
                     ),
@@ -61,7 +55,7 @@ class ExpertCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          expert.name,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
@@ -77,7 +71,7 @@ class ExpertCard extends StatelessWidget {
                         SizedBox(
                           width: 180,
                           child: Text(
-                            description,
+                            expert.description,
                             maxLines: 2,
                             style: Theme.of(context)
                                 .textTheme
@@ -96,10 +90,12 @@ class ExpertCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    RatingIndicator(rating),
-                    SizedBox(height: 15,),
-                    Transform.scale(scale: 0.8, child: XpIndicatorOrange(xp))
-
+                    RatingIndicator(expert.rating),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Transform.scale(
+                        scale: 0.8, child: XpIndicatorOrange(expert.xp))
                   ],
                 ),
               ],
@@ -109,7 +105,8 @@ class ExpertCard extends StatelessWidget {
             ),
             CustomButtonExpert(
               onTap: () {
-                GoRouter.of(context).pushNamed(AppRouteConsts.expertInfoScreen);
+                GoRouter.of(context)
+                    .pushNamed(AppRouteConsts.expertInfoScreen, extra: expert);
               },
               bgColor: Color(0xFFD4D0F6),
               titleColor: AppPalette.primaryColor,

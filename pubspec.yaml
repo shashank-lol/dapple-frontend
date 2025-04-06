@@ -66,6 +66,8 @@ dependencies:
   web_socket_channel: ^3.0.2
   url_launcher: ^6.3.1
   weekly_date_picker: ^1.4.2
+  intl: ^0.20.2
+  flutter_image_compress: ^2.4.0
 
 dev_dependencies:
   flutter_test:

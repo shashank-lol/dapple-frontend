@@ -24,6 +24,7 @@ class AppRouteConsts{
   //expert talk screens
   static String expertInfoScreen='expert-info-screen';
   static String appointmentDetails='appointment-details';
+  static String appointmentBooked='appointment-booked';
   //under construction
   static String underConstruction = 'under-construction';
 

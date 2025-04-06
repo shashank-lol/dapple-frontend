@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:dapple/core/usecase/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/usecases/close_socket.dart';
 import '../../../domain/usecases/init_socket.dart';
 import '../../../domain/usecases/send_answer.dart';
 import '../../../domain/usecases/send_image.dart';
@@ -20,19 +19,19 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   final InitSocket _initSocket;
   final SendImage _sendImage;
   final SendAnswer _sendAnswer;
-  final CloseSocket _closeSocket;
+  // final CloseSocket _closeSocket;
   final RetryAnswer _retryAnswer;
 
   SocketBloc(
       {required InitSocket initSocket,
       required SendImage sendImage,
       required SendAnswer sendAnswer,
-      required CloseSocket closeSocket,
+      // required CloseSocket closeSocket,
       required RetryAnswer retryAnswer})
       : _initSocket = initSocket,
         _sendImage = sendImage,
         _sendAnswer = sendAnswer,
-        _closeSocket = closeSocket,
+        // _closeSocket = closeSocket,
         _retryAnswer = retryAnswer,
         super(SocketInitial()) {
     on<InitSocketEvent>((event, emit) async {
@@ -48,6 +47,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       emit(SocketLoading());
       List<int> imageBytes = await event.image.readAsBytes();
       String base64Image = base64Encode(imageBytes);
+      print("base64Image: $base64Image");
       final res = await _sendImage(
           SendImageParams(base64Image, event.questionId, event.sessionId));
       res.fold(
@@ -62,19 +62,25 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
           SendAnswerParams(event.answer, event.questionId, event.sessionId));
       res.fold(
         (failure) => emit(SocketError(failure.message)),
-        (_) => emit(SocketMessageReceived()),
+        (_) => emit(SocketMessageReceived(questionIndex: event.questionIndex)),
       );
     });
 
-    on<CloseSocketEvent>((event, emit) async {
-      final res = await _closeSocket(NoParams());
-      res.fold(
-        (failure) => emit(SocketError(failure.message)),
-        (_) => emit(SocketClosed()),
-      );
-    });
+    // void generateResult(){
+    //   context
+    //       .read<ResultCubit>()
+    //       .calculateResult(widget.sessionId, widget.sectionId);
+    // }
+
+    // on<CloseSocketEvent>((event, emit) async {
+    //   final res = await _closeSocket(NoParams());
+    //   res.fold(
+    //     (failure) => emit(SocketError(failure.message)),
+    //     (_) => emit(SocketClosed()),
+    //   );
+    // });
     on<AnswerRetryEvent>((event, emit) async {
-      emit(SocketLoading());
+      // emit(SocketLoading());
       final res = await _retryAnswer(
           RetryAnswerParams(event.questionId, event.sessionId));
       res.fold(

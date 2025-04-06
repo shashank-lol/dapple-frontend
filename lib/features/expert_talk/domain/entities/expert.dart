@@ -5,6 +5,8 @@ class Expert{
   final String description;
   final int xp;
   final double rating;
+  final String experience;
+  final String patientsTreated;
 
   const Expert({
     required this.expertId,
@@ -13,5 +15,7 @@ class Expert{
     required this.description,
     required this.xp,
     required this.rating,
+    required this.experience,
+    required this.patientsTreated,
   });
 }

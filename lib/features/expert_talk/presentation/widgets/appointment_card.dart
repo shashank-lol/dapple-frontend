@@ -3,6 +3,7 @@ import 'package:dapple/features/expert_talk/domain/entities/appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/routes/app_route_consts.dart';
 
@@ -119,7 +120,7 @@ class AppointmentCard extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    appointment.date,
+                    DateFormat('d MMMM').format(appointment.date),
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color: Color(0xFFC0D4FB),
                         fontSize: 14,
@@ -136,7 +137,7 @@ class AppointmentCard extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    appointment.startTime,
+                    DateFormat('HH:mm').format(appointment.startTime),
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color: Color(0xFFC0D4FB),
                         fontSize: 14,

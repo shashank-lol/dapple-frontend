@@ -4,6 +4,7 @@ import 'package:dapple/features/expert_talk/presentation/widgets/expert_tile.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/theme/app_palette.dart';
 
 class AppointmentDetails extends StatefulWidget {
@@ -80,7 +81,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                       child: Column(
                         children: [
                           Text(
-                            widget.appointment.date,
+                            DateFormat('MMMM d, EEEE')
+                                .format(widget.appointment.date),
                             style: GoogleFonts.rubik(
                                 color: AppPalette.blackColor,
                                 fontSize: 14,
@@ -119,7 +121,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                       child: Column(
                         children: [
                           Text(
-                            "${widget.appointment.startTime}-${widget.appointment.endTime}",
+                            "${DateFormat('HH:mm').format(widget.appointment.startTime)}-${DateFormat('HH:mm').format(widget.appointment.endTime)}",
                             style: GoogleFonts.rubik(
                                 color: AppPalette.blackColor,
                                 fontSize: 12,

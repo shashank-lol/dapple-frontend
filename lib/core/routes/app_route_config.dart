@@ -4,6 +4,8 @@ import 'package:dapple/core/routes/app_route_consts.dart';
 import 'package:dapple/core/routes/stream_to_listenable.dart';
 import 'package:dapple/features/auth/presentation/pages/auth_page.dart';
 import 'package:dapple/core/widgets/main_layout_page.dart';
+import 'package:dapple/features/expert_talk/domain/entities/expert.dart';
+import 'package:dapple/features/expert_talk/presentation/pages/appointment_booked.dart';
 import 'package:dapple/features/expert_talk/presentation/pages/appointment_details.dart';
 import 'package:dapple/features/expert_talk/presentation/pages/expert_info_screen.dart';
 import 'package:dapple/features/home/presentation/pages/lessons_page.dart';
@@ -217,7 +219,7 @@ class AppRouter {
           path: '/expertInfoScreen',
           name: AppRouteConsts.expertInfoScreen,
           builder: (context, state) {
-            return ExpertInfoScreen();
+            return ExpertInfoScreen(expert: (state.extra as Expert),);
           }),
       GoRoute(
           path: '/appointmentDetails',
@@ -226,6 +228,12 @@ class AppRouter {
             final appointment = state.extra as Appointment;
             return AppointmentDetails(appointment: appointment,);
           }),
+      GoRoute(path: "/appointmentBooked/:calendarLink",
+      name: AppRouteConsts.appointmentBooked,
+      builder: (context,state){
+        final link = state.pathParameters["calendarLink"]!;
+        return AppointmentBookedPage(calendarLink: link);
+      })
     ],
   );
 }

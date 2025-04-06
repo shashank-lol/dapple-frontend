@@ -20,7 +20,7 @@ class XpDataSourceImpl implements XpDataSource {
   Future<int> getUserXp() async {
     final String? token = encryptedSharedPreferences.getString("token");
     try {
-      http.Response response = await http.get(Uri.parse("$serverUrl/user-xp"),
+      http.Response response = await http.get(Uri.parse("$serverUrl/user/xp"),
         headers: {
           'Content-type': 'application/json',
           'Accept': 'application/json',

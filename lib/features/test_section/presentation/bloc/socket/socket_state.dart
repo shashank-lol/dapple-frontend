@@ -7,7 +7,11 @@ final class SocketInitial extends SocketState {}
 
 class SocketConnected extends SocketState {}
 
-class SocketMessageReceived extends SocketState {}
+class SocketMessageReceived extends SocketState {
+  final int? questionIndex;
+
+  SocketMessageReceived({this.questionIndex});
+}
 
 class SocketError extends SocketState {
   final String error;

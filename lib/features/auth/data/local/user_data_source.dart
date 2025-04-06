@@ -3,7 +3,8 @@ import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 
 abstract interface class UserDataSource {
-  Future<void> saveUserDetails(String token, String firstName, int xp);
+  Future<void> saveUserDetails(
+      String token, String firstName, int xp, String emailId);
 
   UserModel? getCurrentUser();
 }
@@ -15,13 +16,11 @@ class UserDataSourceImpl implements UserDataSource {
 
   @override
   Future<void> saveUserDetails(
-    String token,
-    String firstName,
-    int xp,
-  ) async {
+      String token, String firstName, int xp, String emailId) async {
     await sharedPref.setString("token", token);
     await sharedPref.setString("userFirstName", firstName);
     await sharedPref.setInt("userXp", xp);
+    await sharedPref.setString("userEmail", emailId);
   }
 
   @override

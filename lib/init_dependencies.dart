@@ -10,7 +10,11 @@ import 'package:dapple/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:dapple/features/expert_talk/data/remote/expert_remote_data_source.dart';
 import 'package:dapple/features/expert_talk/data/repository/expert_repo_impl.dart';
 import 'package:dapple/features/expert_talk/domain/repository/expert_repository.dart';
+import 'package:dapple/features/expert_talk/domain/usecases/book_appointment.dart';
+import 'package:dapple/features/expert_talk/domain/usecases/get_expert_schedule.dart';
 import 'package:dapple/features/expert_talk/domain/usecases/get_experts.dart';
+import 'package:dapple/features/expert_talk/presentation/bloc/book_appointment/book_appointment_cubit.dart';
+import 'package:dapple/features/expert_talk/presentation/bloc/book_appointment/expert_schedule_cubit.dart';
 import 'package:dapple/features/expert_talk/presentation/bloc/experts/experts_cubit.dart';
 import 'package:dapple/features/home/data/remote/level_data_source.dart';
 import 'package:dapple/features/home/data/remote/xp_data_source.dart';
@@ -33,6 +37,7 @@ import 'package:dapple/features/question/domain/usecases/get_all_questions.dart'
 import 'package:dapple/features/question/domain/usecases/mark_lesson_completed.dart';
 import 'package:dapple/features/question/presentation/bloc/all_questions/questions_cubit.dart';
 import 'package:dapple/features/question/presentation/bloc/question_complete/question_complete_bloc.dart';
+import 'package:dapple/features/test_section/data/remote/normal_data_source.dart';
 import 'package:dapple/features/test_section/data/remote/socket_data_source.dart';
 import 'package:dapple/features/test_section/data/remote/test_data_source.dart';
 import 'package:dapple/features/test_section/data/repository/socket_repo_impl.dart';
@@ -68,7 +73,6 @@ import 'features/question/domain/usecases/answer_subjective_question.dart';
 import 'features/question/domain/usecases/answer_voice_question.dart';
 import 'features/question/domain/usecases/subjective_hint.dart';
 import 'features/test_section/data/local/local_test_questions.dart';
-import 'features/test_section/domain/usecases/close_socket.dart';
 import 'features/test_section/domain/usecases/retry_answer.dart';
 import 'features/test_section/domain/usecases/send_answer.dart';
 import 'features/test_section/presentation/bloc/result/result_cubit.dart';
@@ -120,10 +124,21 @@ void _initExpertTalk() {
     ..registerFactory(() => GetAllAppointments(serviceLocator()))
     ..registerLazySingleton(
         () => AppointmentsCubit(getAllAppointments: serviceLocator()));
+
+  serviceLocator
+    ..registerFactory(() => GetExpertSchedule(repository: serviceLocator()))
+    ..registerLazySingleton(
+        () => ExpertScheduleCubit(getExpertSchedule: serviceLocator()));
+
+  serviceLocator
+    ..registerFactory(() => BookAppointment(serviceLocator()))
+    ..registerLazySingleton(
+        () => BookAppointmentCubit(bookAppointment: serviceLocator()));
 }
 
 void _initTest() {
   serviceLocator
+    ..registerFactory<NormalDataSource>(() => NormalDataSourceImpl())
     ..registerFactory<TestDataSource>(
         () => TestDataSourceImpl(serviceLocator()))
     ..registerFactory<TestQuestionsLocal>(() => TestQuestionsLocalImpl())
@@ -140,13 +155,13 @@ void _initTest() {
     ..registerFactory(() => InitSocket(serviceLocator()))
     ..registerFactory(() => SendImage(serviceLocator()))
     ..registerFactory(() => SendAnswer(serviceLocator()))
-    ..registerFactory(() => CloseSocket(serviceLocator()))
+    // ..registerFactory(() => CloseSocket(serviceLocator()))
     ..registerFactory(() => RetryAnswer(serviceLocator()))
     ..registerLazySingleton(() => SocketBloc(
         initSocket: serviceLocator(),
         sendImage: serviceLocator(),
         sendAnswer: serviceLocator(),
-        closeSocket: serviceLocator(),
+        // closeSocket: serviceLocator(),
         retryAnswer: serviceLocator()))
     ..registerFactory(() => GetTestResult(serviceLocator()))
     ..registerLazySingleton(() => ResultCubit(serviceLocator()));

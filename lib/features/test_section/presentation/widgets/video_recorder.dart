@@ -5,6 +5,7 @@ import 'package:dapple/core/theme/app_palette.dart';
 import 'package:dapple/features/test_section/presentation/bloc/socket/socket_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -18,8 +19,7 @@ class VideoRecorder extends StatefulWidget {
       required this.onDataReceived,
       required this.questionId,
       required this.sessionId,
-      this.reload = false,
-      required this.child});
+      this.reload = false, required this.child});
 
   final Function(String) onDataReceived;
   final String questionId;
@@ -65,7 +65,7 @@ class _VideoRecorderState extends State<VideoRecorder> {
       _stopCapture();
       _stopListening();
       setState(() {
-        _answer = "$_lastWords $_currentWords";
+      _answer = "$_lastWords $_currentWords";
       });
       widget.onDataReceived(_answer);
       setState(() {
@@ -81,12 +81,14 @@ class _VideoRecorderState extends State<VideoRecorder> {
 
   void _startCapture(String questionId, String sessionId) {
     setState(() => isCapturing = true);
+    final bloc = context.read<SocketBloc>();
     _timer = Timer.periodic(Duration(seconds: 2), (timer) async {
       await _takePhoto().then((path) {
         if (path.isNotEmpty) {
-          context
-              .read<SocketBloc>()
+          debugPrint("Image Sending");
+          bloc
               .add(SendImageEvent(File(path), questionId, sessionId));
+          debugPrint("Image Sent");
         }
       });
     });
@@ -98,16 +100,30 @@ class _VideoRecorderState extends State<VideoRecorder> {
     // _loadCapturedPhotos();
   }
 
+
   Future<String> _takePhoto() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       final file = await _cameraController!.takePicture();
-      final path =
-          "${_photoDir!.path}/${DateTime.now().millisecondsSinceEpoch}.jpg";
-      await file.saveTo(path);
+      final originalPath = file.path;
+
+      // Create destination path for compressed image
+      final path = "${_photoDir!.path}/${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+      // Compress the image
+      final compressedFile = await FlutterImageCompress.compressAndGetFile(
+        originalPath,  // source file path
+        path,          // destination file path
+        quality: 85,   // compression quality (0-100)
+        minWidth: 1000, // minimum width
+        minHeight: 1000, // minimum height
+      );
+
       setState(() {
-        capturedPhotos.add(File(path));
+        capturedPhotos.add(File(compressedFile!.path));
       });
-      return path;
+
+      print("Compressed photo saved to $path");
+      return compressedFile!.path;
     } else {
       return "";
     }
@@ -188,7 +204,7 @@ class _VideoRecorderState extends State<VideoRecorder> {
 
   /// Each time to start a speech recognition session
   Future _startListening() async {
-    debugPrint("=================================================");
+    // debugPrint("=================================================");
     await _stopListening();
     await Future.delayed(const Duration(milliseconds: 50));
     await _speechToText.listen(
@@ -294,7 +310,8 @@ class _VideoRecorderState extends State<VideoRecorder> {
               //       color: Colors.black, // Black screen when not capturing
               //     ),
               //   ),
-              if (!isCapturing) widget.child
+              if(!isCapturing)
+                widget.child
             ],
           ),
           Column(
@@ -310,15 +327,19 @@ class _VideoRecorderState extends State<VideoRecorder> {
                         builder: (context, state) {
                           return ElevatedButton(
                             onPressed: () {
-                              if (state is SocketConnected) {
+                              // if (state is SocketConnected || state is SocketMessageReceived || state is SocketInitial) {
                                 _toggleCapture(
                                     widget.questionId, widget.sessionId);
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text("Socket not connected"),
-                                ));
-                              }
+                              // }
+                              // else {
+                              //   debugPrint("====================\n${(state as SocketError).error}");
+                              //   ScaffoldMessenger.of(context)
+                              //       .showSnackBar(SnackBar(
+                              //     content: Text("Socket not connected"),
+                              //   ));
+                              // }
+                              // _toggleCapture(
+                              //     widget.questionId, widget.sessionId);
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: AppPalette.secondaryColor,

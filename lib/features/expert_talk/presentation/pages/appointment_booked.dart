@@ -1,12 +1,29 @@
 import 'package:dapple/core/widgets/buttons/custom_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/app_palette.dart';
 
-class AppointmentBooked extends StatelessWidget {
-  const AppointmentBooked({super.key});
+class AppointmentBookedPage extends StatefulWidget {
+  const AppointmentBookedPage({super.key, required this.calendarLink});
+  final String calendarLink;
+
+  @override
+  State<AppointmentBookedPage> createState() => _AppointmentBookedPageState();
+}
+
+class _AppointmentBookedPageState extends State<AppointmentBookedPage> {
+
+  Future<void> openGoogleCalendar(String calendarLink) async {
+    final Uri url = Uri.parse(calendarLink);
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $calendarLink';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +46,9 @@ class AppointmentBooked extends StatelessWidget {
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: CustomButton(onTap: () {}, buttonText: "Go to Calendar"),
+              child: CustomButton(onTap: () async {
+                await openGoogleCalendar(widget.calendarLink);
+              }, buttonText: "Go to Calendar"),
             )
           ],
         ),

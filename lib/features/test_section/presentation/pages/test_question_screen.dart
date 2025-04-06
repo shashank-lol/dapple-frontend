@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/app_route_consts.dart';
 import '../widgets/test_template_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../socket.dart';
 
 class TestQuestionScreen extends StatefulWidget {
   const TestQuestionScreen(
@@ -23,6 +24,7 @@ class TestQuestionScreen extends StatefulWidget {
 }
 
 class _TestQuestionScreenState extends State<TestQuestionScreen> {
+  SocketService socketService = SocketService();
   String _answer = "";
   String _path = "";
 
@@ -38,7 +40,8 @@ class _TestQuestionScreenState extends State<TestQuestionScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<SocketBloc>().add(InitSocketEvent());
+    // context.read<SocketBloc>().add(InitSocketEvent());
+    // socketService.initSocket();
   }
 
   bool reload = false;
@@ -100,10 +103,10 @@ class _TestQuestionScreenState extends State<TestQuestionScreen> {
               _answer = "";
             });
           });
-          context.read<SocketBloc>().add(SendAnswerEvent(
-              _answer, widget.question.questionId, widget.sessionId));
           final questionsCubit = context.read<TestQuestionsCubit>();
           int index = questionsCubit.getNextQuestionIndex();
+          context.read<SocketBloc>().add(SendAnswerEvent(
+              _answer, widget.question.questionId, widget.sessionId, index));
           if (index ==
               (questionsCubit.state as TestQuestionsLoaded).questions.length -
                   1) {

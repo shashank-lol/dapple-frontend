@@ -6,10 +6,12 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.buttonText,
+    this.child,
   });
 
   final void Function() onTap;
   final String buttonText;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +23,13 @@ class CustomButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Center(
-            child: Text(
-              buttonText.toUpperCase(),
-              style: Theme.of(
-                context,
-              ).textTheme.labelMedium!.copyWith(color: Colors.white),
-            ),
+            child: child ??
+                Text(
+                  buttonText.toUpperCase(),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                ),
           ),
         ),
       ),

@@ -1,11 +1,12 @@
 class Appointment{
   final String expertName;
-  final String date;
-  final String startTime;
-  final String endTime;
+  final DateTime date;
+  final DateTime startTime;
+  final DateTime endTime;
   final double expertRating;
   final String? imageUrl;
   final String expertDescription;
+
 
   const Appointment({
     required this.expertName,
@@ -14,6 +15,6 @@ class Appointment{
     required this.endTime,
     required this.expertRating,
     required this.imageUrl,
-    required this.expertDescription
+    required this.expertDescription,
   });
 }

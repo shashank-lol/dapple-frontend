@@ -16,6 +16,8 @@ class ExpertLocalDataSourceImpl implements ExpertLocalDataSource {
         description: 'Experienced Neurologist with 10 years of practice',
         xp: 1000, // Experience points or years of experience
         rating: 4.9,
+        patientsTreated: "50+",
+        experience: "10 years",
       ),
       ExpertModel(
         expertId: '2',
@@ -24,6 +26,8 @@ class ExpertLocalDataSourceImpl implements ExpertLocalDataSource {
         description: 'Orthopedic Surgeon specializing in joint replacements',
         xp: 800,
         rating: 4.7,
+        patientsTreated: "50+",
+        experience: "10 years",
       ),
       ExpertModel(
         expertId: '3',
@@ -32,6 +36,8 @@ class ExpertLocalDataSourceImpl implements ExpertLocalDataSource {
         description: 'Pediatrician with a focus on child development',
         xp: 600,
         rating: 4.5,
+        patientsTreated: "50+",
+        experience: "10 years",
       ),
     ];
 

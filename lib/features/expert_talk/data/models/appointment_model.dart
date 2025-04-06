@@ -13,13 +13,13 @@ class AppointmentModel extends Appointment {
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
     return AppointmentModel(
-      expertName: json['name'],
-      date: json['date'],
-      startTime: json['startTime'],
-      endTime: json['endTime'],
+      expertName: json['expertName'],
+      date: DateTime.parse(json['date']).toLocal(),
+      startTime: DateTime.parse(json['startTime']).toLocal(),
+      endTime: DateTime.parse(json['endTime']).toLocal(),
       expertRating: json['rating'],
       imageUrl: json['imageUrl'],
-      expertDescription: json['description'],
+      expertDescription: json['bio'],
     );
   }
 

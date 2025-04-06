@@ -8,6 +8,8 @@ class ExpertModel extends Expert{
     required super.description,
     required super.rating,
     required super.xp,
+    required super.patientsTreated,
+    required super.experience
   });
 
   factory ExpertModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,8 @@ class ExpertModel extends Expert{
       description: json['bio'],
       xp: json['xpRequired'],
       rating: json['rating'],
+      patientsTreated: json['patientsTreated'],
+      experience: json['experience'],
     );
   }
 }

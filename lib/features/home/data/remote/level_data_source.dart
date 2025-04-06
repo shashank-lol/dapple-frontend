@@ -33,11 +33,11 @@ class LevelDataSourceImpl implements LevelDataSource {
           'Authorization': 'Bearer $token',
         },
         Uri.parse("$serverUrl/user-course"),
-          // Uri.parse(testUrl)
+        // Uri.parse(testUrl)
       );
       final json = jsonDecode(response.body);
+      debugPrint(json.toString());
       if (response.statusCode == 200) {
-        debugPrint(json.toString());
         return LevelSectionWrapper.fromJson(json);
       } else {
         throw ServerException(json["error"]);

@@ -1,12 +1,12 @@
 import 'package:dapple/core/error/exceptions.dart';
+import 'package:dapple/features/test_section/data/remote/normal_data_source.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../domain/repository/socket_repository.dart';
-import '../remote/socket_data_source.dart';
 
 class SocketRepositoryImpl implements SocketRepository {
-  final SocketDataSource dataSource;
+  final NormalDataSource dataSource;
 
   SocketRepositoryImpl(this.dataSource);
 
@@ -40,15 +40,15 @@ class SocketRepositoryImpl implements SocketRepository {
     }
   }
 
-  @override
-  Future<Either<Failure,void>> closeConnection() async {
-    try {
-      await dataSource.closeConnection();
-      return Future.value(right(null));
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure,void>> closeConnection() async {
+  //   try {
+  //     await dataSource.closeConnection();
+  //     return Future.value(right(null));
+  //   } on ServerException catch (e) {
+  //     return left(Failure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, void>> retryAnswer(String questionId, String sessionId) async {

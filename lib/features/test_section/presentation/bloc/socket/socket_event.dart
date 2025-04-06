@@ -17,8 +17,9 @@ class SendAnswerEvent extends SocketEvent {
   final String answer;
   final String questionId;
   final String sessionId;
+  final int questionIndex;
 
-  SendAnswerEvent(this.answer, this.questionId, this.sessionId);
+  SendAnswerEvent(this.answer, this.questionId, this.sessionId, this.questionIndex);
 }
 
 class AnswerRetryEvent extends SocketEvent {

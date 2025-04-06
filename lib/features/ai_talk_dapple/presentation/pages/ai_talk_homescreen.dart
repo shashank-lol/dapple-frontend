@@ -1,11 +1,13 @@
 import 'package:dapple/core/widgets/buttons/custom_button.dart';
 import 'package:dapple/features/ai_talk_dapple/presentation/widgets/role_selector.dart';
 import 'package:dapple/features/ai_talk_dapple/presentation/widgets/suggestions_tile.dart';
+import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/indicators/xp_indicator_orange.dart';
 import '../../../../core/widgets/text/custom_text_rubik.dart';
+import '../../../../init_dependencies.dart';
 
 class AiTalkHomeScreen extends StatefulWidget {
   const AiTalkHomeScreen({super.key});
@@ -82,6 +84,8 @@ class _AiTalkHomeScreenState extends State<AiTalkHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    EncryptedSharedPreferences sharedPreferences = serviceLocator();
+    int xp = sharedPreferences.getInt("userXp") ?? 0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppPalette.transparent,
@@ -96,7 +100,7 @@ class _AiTalkHomeScreenState extends State<AiTalkHomeScreen> {
                 size: 20,
                 color: AppPalette.blackColor),
             Spacer(),
-            XpIndicatorOrange(100)
+            XpIndicatorOrange(xp)
           ],
         ),
       ),

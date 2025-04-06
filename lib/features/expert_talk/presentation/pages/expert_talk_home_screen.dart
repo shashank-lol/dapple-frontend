@@ -105,12 +105,19 @@ class _ExpertTalkHomeScreenState extends State<ExpertTalkHomeScreen> {
                                 ),
                               )
                           else if (state is AppointmentsLoaded)
-                            for (var appointment in state.appointments)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: AppointmentCard(
-                                  appointment: appointment
-                                ),
+                            if (state.appointments.isEmpty)
+                              NoAppointments()
+                            else
+                              Row(
+                                children: [
+                                  for (var appointment in state.appointments)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: AppointmentCard(
+                                          appointment: appointment
+                                      ),
+                                    ),
+                                ],
                               )
                           else if (state is AppointmentsError)
                             Padding(
@@ -127,7 +134,7 @@ class _ExpertTalkHomeScreenState extends State<ExpertTalkHomeScreen> {
                 ),
               ),
             ),
-            NoAppointments(),
+
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: Row(
@@ -234,11 +241,7 @@ class _ExpertTalkHomeScreenState extends State<ExpertTalkHomeScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 6),
                           child: ExpertCard(
-                            name: expert.name,
-                            description: expert.description,
-                            rating: expert.rating,
-                            xp: expert.xp,
-                            imageUrl: expert.image,
+                            expert: expert,
                           ),
                         ),
                       // SizedBox(
