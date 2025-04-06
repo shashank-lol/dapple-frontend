@@ -20,6 +20,7 @@ class SuggestionsTile extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       child: Container(
         width: 150,
+        height: 180,
         decoration: BoxDecoration(
           color: AppPalette.white,
           borderRadius: BorderRadius.circular(10),
@@ -45,6 +46,7 @@ class SuggestionsTile extends StatelessWidget {
               ),
               Text(
                 title,
+                maxLines: 1,
                 style: GoogleFonts.inter(
                     color: Color(0xE6000000),
                     fontSize: 14,
@@ -53,6 +55,8 @@ class SuggestionsTile extends StatelessWidget {
               ),
               Text(
                 description,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
                     color: Color(0xE6000000),
                     fontSize: 10,
