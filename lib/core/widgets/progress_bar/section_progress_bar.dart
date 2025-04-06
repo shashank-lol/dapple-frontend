@@ -98,14 +98,11 @@ class SectionProgressBar extends StatelessWidget {
                       ),
                 )
               : Spacer(),
-          SizedBox(
-            width: 10,
-          ),
-          livesIndicator
-              ? LivesIndicator(
-                  textColor: backButtonColor,
-                )
-              : Container(),
+          // livesIndicator
+          //     ? LivesIndicator(
+          //         textColor: backButtonColor,
+          //       )
+          //     : Container(),
         ],
       ),
     );

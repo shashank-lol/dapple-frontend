@@ -3,10 +3,9 @@ import 'package:dapple/features/ai_talk_dapple/presentation/pages/ai_talk_homesc
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import '../../features/ai_talk_dapple/presentation/pages/ai_talk_home.dart';
 import '../../features/expert_talk/presentation/pages/expert_talk_home_screen.dart';
-import '../../features/goal/presentation/pages/goal.dart';
 import '../../features/home/presentation/pages/homepage.dart';
+import '../../features/profile/presentation/pages/profileScreen.dart';
 
 class MainLayoutPage extends StatelessWidget {
   MainLayoutPage({super.key, this.isSectionDone});
@@ -39,7 +38,7 @@ class MainLayoutPage extends StatelessWidget {
 }
 
 List<Widget> _buildScreens(bool isSectionDone) {
-  return [HomePage(), ExpertTalkHomeScreen(),AiTalkHomeScreen(),GoalPage()];
+  return [HomePage(), ExpertTalkHomeScreen(),AiTalkHomeScreen(),ProfileScreen()];
 }
 
 List<PersistentBottomNavBarItem> _navBarsItems() {
