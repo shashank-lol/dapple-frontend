@@ -124,7 +124,7 @@
 
 <img src="./assets/thumbnail.png" alt="Alt Text" width="960" height="540" onclick="window.location.href='https://youtu.be/_3E_bZpoIVI';" style="cursor: pointer;">
 
-<p>See the complete video demo on Youtube</p>
+<p>See the complete video demo on <a href="https://youtu.be/_3E_bZpoIVI">Youtube</a></p>
 
 </div>
 
